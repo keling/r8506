@@ -15,26 +15,26 @@ class Importform extends Component {
                         <FormGroup row>
                             <Col xs="3">
                                 <FormGroup>
-                                <Label htmlFor="e0">E0</Label>
-                                <Input type="text" id="e0" placeholder="" />
+                                    <Label htmlFor="e0">E0</Label>
+                                    <Input type="text" id="e0" placeholder="" />
                                 </FormGroup>
                             </Col>
                             <Col xs="3">
                                 <FormGroup>
-                                <Label htmlFor="pe0">PE0</Label>
-                                <Input type="text" id="pe0" placeholder="" />
+                                    <Label htmlFor="pe0">PE0</Label>
+                                    <Input type="text" id="pe0" placeholder="" />
                                 </FormGroup>
                             </Col>
                             <Col xs="3">
                                 <FormGroup>
-                                <Label htmlFor="e1">E1</Label>
-                                <Input type="text" id="e1" placeholder="" />
+                                    <Label htmlFor="e1">E1</Label>
+                                    <Input type="text" id="e1" placeholder="" />
                                 </FormGroup>
                             </Col>
                             <Col xs="3">
                                 <FormGroup>
-                                <Label htmlFor="pe1">PE1</Label>
-                                <Input type="text" id="pe1" placeholder="" />
+                                    <Label htmlFor="pe1">PE1</Label>
+                                    <Input type="text" id="pe1" placeholder="" />
                                 </FormGroup>
                             </Col>
                         </FormGroup>
@@ -44,14 +44,14 @@ class Importform extends Component {
                         <FormGroup row>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                <Label htmlFor="e0">ชื่อผู้ป่วย</Label>
-                                <Input type="text" id="e0" placeholder="" />
+                                    <Label htmlFor="e0">ชื่อผู้ป่วย</Label>
+                                    <Input type="text" id="e0" placeholder="" />
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                <Label htmlFor="pe0">ชื่อผู้ปกครอง</Label>
-                                <Input type="text" id="pe0" placeholder="" />
+                                    <Label htmlFor="pe0">ชื่อผู้ปกครอง</Label>
+                                    <Input type="text" id="pe0" placeholder="" />
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="3">
@@ -66,22 +66,22 @@ class Importform extends Component {
                             </Col>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                <Label htmlFor="pe1">อายุ (ปี)</Label>
-                                <Input type="text" id="pe1" placeholder="" />
+                                    <Label htmlFor="pe1">อายุ (ปี)</Label>
+                                    <Input type="text" id="pe1" placeholder="" />
                                 </FormGroup>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                <Label htmlFor="e0">อายุ (เดือน)</Label>
-                                <Input type="text" id="e0" placeholder="" />
+                                    <Label htmlFor="e0">อายุ (เดือน)</Label>
+                                    <Input type="text" id="e0" placeholder="" />
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                <Label htmlFor="pe0">อายุ (วัน)</Label>
-                                <Input type="text" id="pe0" placeholder="" />
+                                    <Label htmlFor="pe0">อายุ (วัน)</Label>
+                                    <Input type="text" id="pe0" placeholder="" />
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="3">
@@ -423,13 +423,13 @@ class Importform extends Component {
                                     <Input type="text" id="pe0" placeholder="" disabled />
                                 </FormGroup>
                             </Col>
-                            <Col xs="12" md="2">
+                            <Col xs="12" md="3">
                                 <FormGroup>
                                     <Label htmlFor="pe0">วันที่เปลี่ยนสถานะของเคส *</Label>
                                     <Input type="text" id="pe0" placeholder="" disabled />
                                 </FormGroup>
                             </Col>
-                            <Col xs="12" md="2">
+                            <Col xs="12" md="3">
                                 <FormGroup>
                                     <Label htmlFor="pe0">วันที่ได้รับผลการยินยันจากแพทย์</Label>
                                     <Input type="text" id="pe0" placeholder="" />
