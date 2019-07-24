@@ -548,7 +548,7 @@ class Dashboard extends Component {
                     </DropdownMenu>
                   </Dropdown>
                 </ButtonGroup>
-                <div className="text-value">9.823333333</div>
+                <div className="text-value">9.823</div>
                 <div>Members online</div>
               </CardBody>
               <div className="chart-wrapper" style={{ height: '70px' }}>
