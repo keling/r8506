@@ -488,7 +488,7 @@ class Dashboard extends Component {
             <h3>ไข้เลือดออก</h3>
           </Col>
           <Col xs="12" sm="6" lg="3">
-            <Card className="text-white bg-info">
+            <Card className="text-white bg-warning">
               <CardBody className="pb-0">
                 <ButtonGroup className="float-right">
                   <ButtonDropdown id='card1' isOpen={this.state.card1} toggle={() => { this.setState({ card1: !this.state.card1 }); }}>
@@ -504,7 +504,7 @@ class Dashboard extends Component {
                   </ButtonDropdown>
                 </ButtonGroup>
                 <div className="text-value">700</div>
-                <div>ไข้เลือดออก</div>
+                <div>รอตรวจสอบ</div>
               </CardBody>
               <div className="chart-wrapper mx-3" style={{ height: '30px' }}>
                 <Line data={cardChartData2} options={cardChartOpts2} height={70} />
@@ -513,7 +513,7 @@ class Dashboard extends Component {
           </Col>
 
           <Col xs="12" sm="6" lg="3">
-            <Card className="text-white bg-primary">
+            <Card className="text-white bg-success">
               <CardBody className="pb-0">
                 <ButtonGroup className="float-right">
                   <Dropdown id='card2' isOpen={this.state.card2} toggle={() => { this.setState({ card2: !this.state.card2 }); }}>
@@ -528,7 +528,7 @@ class Dashboard extends Component {
                   </Dropdown>
                 </ButtonGroup>
                 <div className="text-value">85</div>
-                <div>ไข้เลือดออกช็อก</div>
+                <div>รอ รพ. สรุปผล</div>
               </CardBody>
               <div className="chart-wrapper mx-3" style={{ height: '30px' }}>
                 <Line data={cardChartData1} options={cardChartOpts1} height={70} />
@@ -537,7 +537,7 @@ class Dashboard extends Component {
           </Col>
 
           <Col xs="12" sm="6" lg="3">
-            <Card className="text-white bg-warning">
+            <Card className="text-white bg-primary">
               <CardBody className="pb-0">
                 <ButtonGroup className="float-right">
                   <Dropdown id='card3' isOpen={this.state.card3} toggle={() => { this.setState({ card3: !this.state.card3 }); }}>
@@ -552,7 +552,7 @@ class Dashboard extends Component {
                   </Dropdown>
                 </ButtonGroup>
                 <div className="text-value">0</div>
-                <div>ไข้เด็งกี่</div>
+                <div>ผู้ป่วยทั้งหมด</div>
               </CardBody>
               <div className="chart-wrapper" style={{ height: '30px' }}>
                 <Line data={cardChartData3} options={cardChartOpts3} height={70} />
@@ -576,7 +576,7 @@ class Dashboard extends Component {
                   </ButtonDropdown>
                 </ButtonGroup>
                 <div className="text-value">32</div>
-                <div>ท้องร่วง</div>
+                <div>ไม่พบ</div>
               </CardBody>
               <div className="chart-wrapper mx-3" style={{ height: '30px' }}>
                 <Bar data={cardChartData4} options={cardChartOpts4} height={70} />
