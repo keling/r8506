@@ -15,10 +15,10 @@ class Importfile extends Component {
             <Row>
               <Col xs="12">
                 <FormGroup row>
-                  <Col md="2">
+                  <Col md="3">
                     <Label>ประเภทไฟล์ที่นำเข้าสู่ระบบ</Label>
                   </Col>
-                  <Col md="10">
+                  <Col md="9">
                       <FormGroup check className="radio">
                         <Input className="form-check-input" type="radio" id="radio1" name="radios" value="option1" checked />
                         <Label check className="form-check-label" htmlFor="radio1">R506</Label>
@@ -30,10 +30,10 @@ class Importfile extends Component {
                     </Col>
                 </FormGroup>
                 <FormGroup row>
-                    <Col md="2">
+                    <Col md="3">
                       <Label htmlFor="file-input">เลือกไฟล์</Label>
                     </Col>
-                    <Col xs="12" md="10">
+                    <Col xs="12" md="9">
                       <Input type="file" id="file-input" name="file-input" />
                     </Col>
                   </FormGroup>

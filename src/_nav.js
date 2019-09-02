@@ -23,6 +23,11 @@ export default {
           name: 'นำเข้าจากการ KeyIn',
           url: '/imports/importform',
           icon: 'icon-note',
+        },
+        {
+          name: 'Loopback Import',
+          url: '/imports/importloopback',
+          icon: 'icon-note',
         }
       ]
     },

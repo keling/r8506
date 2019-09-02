@@ -38,6 +38,7 @@ const User = React.lazy(() => import('./views/Users/User'));
 
 const Importfile = React.lazy(() => import('./views/Imports/Importfile'));
 const Importform = React.lazy(() => import('./views/Imports/Importform'));
+const Importloopback = React.lazy(() => import('./views/Imports/Importloopback'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -85,6 +86,7 @@ const routes = [
 
   { path: '/imports/importfile', exact: true,  name: 'นำเข้าจากไฟล์', component: Importfile },
   { path: '/imports/importform', exact: true,  name: 'นำเข้าจากฟอร์ม', component: Importform },
+  { path: '/imports/importloopback', exact: true,  name: 'นำเข้าจาก Loopback', component: Importloopback },
 ];
 
 export default routes;
