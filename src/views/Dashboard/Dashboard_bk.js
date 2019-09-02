@@ -484,9 +484,6 @@ class Dashboard extends Component {
     return (
       <div className="animated fadeIn">
         <Row>
-          <Col xs="12" sm="12" lg="12">
-            <h3>ไข้เลือดออก</h3>
-          </Col>
           <Col xs="12" sm="6" lg="3">
             <Card className="text-white bg-info">
               <CardBody className="pb-0">
@@ -530,7 +527,7 @@ class Dashboard extends Component {
                 <div className="text-value">85</div>
                 <div>ไข้เลือดออกช็อก</div>
               </CardBody>
-              <div className="chart-wrapper mx-3" style={{ height: '30px' }}>
+              <div className="chart-wrapper mx-3" style={{ height: '70px' }}>
                 <Line data={cardChartData1} options={cardChartOpts1} height={70} />
               </div>
             </Card>
@@ -554,7 +551,7 @@ class Dashboard extends Component {
                 <div className="text-value">0</div>
                 <div>ไข้เด็งกี่</div>
               </CardBody>
-              <div className="chart-wrapper" style={{ height: '30px' }}>
+              <div className="chart-wrapper" style={{ height: '70px' }}>
                 <Line data={cardChartData3} options={cardChartOpts3} height={70} />
               </div>
             </Card>
@@ -578,13 +575,13 @@ class Dashboard extends Component {
                 <div className="text-value">32</div>
                 <div>ท้องร่วง</div>
               </CardBody>
-              <div className="chart-wrapper mx-3" style={{ height: '30px' }}>
+              <div className="chart-wrapper mx-3" style={{ height: '70px' }}>
                 <Bar data={cardChartData4} options={cardChartOpts4} height={70} />
               </div>
             </Card>
           </Col>
         </Row>
-        {/* <Row>
+        <Row>
           <Col>
             <Card>
               <CardBody>
@@ -1123,7 +1120,7 @@ class Dashboard extends Component {
               </CardBody>
             </Card>
           </Col>
-        </Row> */}
+        </Row>
       </div>
     );
   }
