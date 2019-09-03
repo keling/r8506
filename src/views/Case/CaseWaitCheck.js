@@ -15,13 +15,13 @@ import {
   Table
 } from "reactstrap";
 
-class Importloopback extends Component {
+class CaseWaitCheck extends Component {
   constructor() {
     super();
     this.state = {
       AuthString:
         "oIIyHE7tDnjM9zW0iTkiZvYiSSEor8su1E7r2T4XnYX1dx8vlzn2Z8OaExNYEfsQ",
-      patients: [],
+      cases: [],
       isLoading: true
     };
   }
@@ -32,13 +32,13 @@ class Importloopback extends Component {
 
   getData() {
     axios
-      .get("http://203.157.168.91:3000/api/vr506s", {
+      .get("http://203.157.168.91:3000/api/Races?filter[limit]=1&filter[skip]=1", {
         headers: { Authorization: this.state.AuthString }
       })
       .then(response => {
-console.log(response.data);        
+console.log(response);        
         this.setState({
-          patients: response.data,
+          cases: response.data,
           isLoading: false
         });
       })
@@ -47,14 +47,14 @@ console.log(response.data);
       });
   }
   render() {
-    const { isLoading, patients } = this.state;
+    const { isLoading, cases } = this.state;
     return (
       <React.Fragment>
         <Row>
           <Col xs="12" lg="12">
             <Card>
               <CardHeader>
-                <i className="fa fa-align-justify" /> Data From Loopback
+                <i className="fa fa-align-justify" /> Case รอตรวจสอบ
               </CardHeader>
               <CardBody>
                 <Table responsive>
@@ -69,12 +69,12 @@ console.log(response.data);
                   </thead>
                   <tbody>
                     {!isLoading ? (
-                      patients.map(patient => {
-                        const { id, hn, pname, fname, lname, vstdate, pdx } = patient;
+                      cases.map(thisCase => {
+                        const { idrace,name, vstdate, pdx} = thisCase;
                         return (
                           <tr>
-                            <td>{hn}</td>
-                            <td>{pname}{fname} {lname}</td>
+                            <td>{idrace}</td>
+                            <td>{name}</td>
                             <td>{vstdate}</td>
                             <td>{pdx}</td>
                             <td><Button block color="warning" size="xs" className="btn-pill">Import</Button></td>
@@ -97,4 +97,4 @@ console.log(response.data);
   }
 }
 
-export default Importloopback;
+export default CaseWaitCheck;
