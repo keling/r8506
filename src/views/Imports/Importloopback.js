@@ -32,7 +32,7 @@ class Importloopback extends Component {
 
   getData() {
     axios
-      .get("http://localhost:3000/api/vr506s", {
+      .get("http://203.157.168.91:3000/api/vr506s", {
         headers: { Authorization: this.state.AuthString }
       })
       .then(response => {
