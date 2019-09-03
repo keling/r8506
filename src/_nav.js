@@ -20,7 +20,7 @@ export default {
           icon: 'icon-folder-alt',
         },
         {
-          name: 'นำเข้าจากการ KeyIn',
+          name: 'นำเข้าจากการ KeyIn นะ',
           url: '/imports/importform',
           icon: 'icon-note',
         },
