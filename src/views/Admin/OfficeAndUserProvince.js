@@ -102,7 +102,7 @@ console.log(response);
                       className={classnames({ active: this.state.activeTab === '1' })}
                       onClick={() => { this.toggle('1'); }}
                     >
-                      จังหวัด
+                      อำเภอ
                     </NavLink>
                   </NavItem>
                   <NavItem>
@@ -119,21 +119,22 @@ console.log(response);
                   <TabPane tabId="1">
                     <Row>
                       <Col sm="12">
-                        <h4>รายชื่อจังหวัด</h4>
+                        <h4>รายชื่ออำเภอ</h4>
                         {!isLoading ? (
                           <Table>
                           <thead>
                             <tr style={{backgroundColor:'#7FD9FF'}}>
                               <th>รหัส</th>
-                              <th>ชื่อจังหวัด</th>
+                              <th>ชื่ออำเภอ</th>
                             </tr>
                           </thead>
                           <tbody>
                             {Docs.map((thisData,index) => {
-                              const { idprovince,name} = thisData;
+                              const { id,name} = thisData;
+                              console.log(thisData);
                               return (
                                 <tr key={index}>
-                                <th scope="row">{idprovince}</th>
+                                <th scope="row">{id}</th>
                                 <td>{name}</td>
                                 </tr>
                               );
