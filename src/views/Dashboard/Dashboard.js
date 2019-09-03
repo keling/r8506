@@ -452,6 +452,9 @@ const mainChartOpts = {
   },
 };
 
+const diseaseName = ['ไข้เลือดออก', 'ไข้เลือดออกช็อค', 'ไข้เดงกี่', 'อุจจาระร่วง', 'อาหารเป็นพิษ', 'พิษสุนัขบ้า', 'โรคซึมเศร้า']
+const items = []
+
 class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -481,11 +484,12 @@ class Dashboard extends Component {
 
   render() {
 
-    return (
-      <div className="animated fadeIn">
+    //const { diseaseName } = this.state;
+    for (const [index, value] of diseaseName.entries()) {
+      items.push(
         <Row>
           <Col xs="12" sm="12" lg="12">
-            <h3>ไข้เลือดออก</h3>
+            <h3 id={index}>{value}</h3>
           </Col>
           <Col xs="12" sm="6" lg="3">
             <Card className="text-white bg-warning">
@@ -507,7 +511,7 @@ class Dashboard extends Component {
                 <div>รอตรวจสอบ</div>
               </CardBody>
               <div className="chart-wrapper mx-3" style={{ height: '30px' }}>
-                <Line data={cardChartData2} options={cardChartOpts2} height={70} />
+                {/* <Line data={cardChartData2} options={cardChartOpts2} height={70} /> */}
               </div>
             </Card>
           </Col>
@@ -531,7 +535,7 @@ class Dashboard extends Component {
                 <div>รอ รพ. สรุปผล</div>
               </CardBody>
               <div className="chart-wrapper mx-3" style={{ height: '30px' }}>
-                <Line data={cardChartData1} options={cardChartOpts1} height={70} />
+                {/* <Line data={cardChartData1} options={cardChartOpts1} height={70} /> */}
               </div>
             </Card>
           </Col>
@@ -555,7 +559,7 @@ class Dashboard extends Component {
                 <div>ผู้ป่วยทั้งหมด</div>
               </CardBody>
               <div className="chart-wrapper" style={{ height: '30px' }}>
-                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+                {/* <Line data={cardChartData3} options={cardChartOpts3} height={70} /> */}
               </div>
             </Card>
           </Col>
@@ -579,12 +583,17 @@ class Dashboard extends Component {
                 <div>ไม่พบ</div>
               </CardBody>
               <div className="chart-wrapper mx-3" style={{ height: '30px' }}>
-                <Bar data={cardChartData4} options={cardChartOpts4} height={70} />
+                {/* <Bar data={cardChartData4} options={cardChartOpts4} height={70} /> */}
               </div>
             </Card>
           </Col>
+          <hr />
         </Row>
-        {/* <Row>
+      )
+      return (
+        <div className="animated fadeIn">
+          {items}
+          {/* <Row>
           <Col>
             <Card>
               <CardBody>
@@ -1124,8 +1133,9 @@ class Dashboard extends Component {
             </Card>
           </Col>
         </Row> */}
-      </div>
-    );
+        </div>
+      );
+    }
   }
 }
 
