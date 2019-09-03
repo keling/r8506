@@ -43,6 +43,8 @@ const Importform = React.lazy(() => import('./views/Imports/Importform'));
 const Importloopback = React.lazy(() => import('./views/Imports/Importloopback'));
 
 const CaseWaitCheck = React.lazy(() => import('./views/Case/CaseWaitCheck'));
+const OfficeAndUser = React.lazy(() => import('./views/Admin/OfficeAndUser'));
+const OfficeAndUserProvince = React.lazy(() => import('./views/Admin/OfficeAndUserProvince'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -92,6 +94,8 @@ const routes = [
   { path: '/imports/importform', exact: true,  name: 'นำเข้าจากฟอร์ม', component: Importform },
   { path: '/imports/importloopback', exact: true,  name: 'นำเข้าจาก Loopback', component: Importloopback },
   { path: '/case/waitCheck', exact: true,  name: 'รอตรวจสอบ', component: CaseWaitCheck },
+  { path: '/admin/officeUser', exact: true,  name: 'ตั้งค่าหน่วยงานและผู้ใช้', component: OfficeAndUser },
+  { path: '/admin/officeUserProv', exact: true,  name: 'ตั้งค่าหน่วยงานและผู้ใช้', component: OfficeAndUserProvince },
 ];
 
 export default routes;

@@ -83,6 +83,11 @@ export default {
           url: '/theme/colors',
           icon: 'cui-tags',
         },
+        {
+          name: 'หน่วยงานและผู้ใช้',
+          url: '/admin/officeUser',
+          icon: 'cui-tags',
+        },
       ],
     },
     {
