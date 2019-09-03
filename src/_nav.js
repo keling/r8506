@@ -42,6 +42,11 @@ export default {
           icon: 'icon-doc',
         },
         {
+          name: 'รายงานการ E0',
+          url: '/report/reporte0',
+          icon: 'icon-doc',
+        },
+        {
           name: 'รายงานกิจกรรมอื่นๆ',
           url: '/theme/colors',
           icon: 'icon-doc',

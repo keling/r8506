@@ -43,6 +43,7 @@ const Importform = React.lazy(() => import('./views/Imports/Importform'));
 const Importloopback = React.lazy(() => import('./views/Imports/Importloopback'));
 
 const CaseWaitCheck = React.lazy(() => import('./views/Case/CaseWaitCheck'));
+const Reporte0 = React.lazy(() => import('./views/Report/ReportE0'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -85,13 +86,14 @@ const routes = [
   { path: '/notifications/modals', name: 'Modals', component: Modals },
   { path: '/widgets', name: 'Widgets', component: Widgets },
   { path: '/charts', name: 'Charts', component: Charts },
-  { path: '/users', exact: true,  name: 'Users', component: Users },
+  { path: '/users', exact: true, name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
 
-  { path: '/imports/importfile', exact: true,  name: 'นำเข้าจากไฟล์', component: Importfile },
-  { path: '/imports/importform', exact: true,  name: 'นำเข้าจากฟอร์ม', component: Importform },
-  { path: '/imports/importloopback', exact: true,  name: 'นำเข้าจาก Loopback', component: Importloopback },
-  { path: '/case/waitCheck', exact: true,  name: 'รอตรวจสอบ', component: CaseWaitCheck },
+  { path: '/imports/importfile', exact: true, name: 'นำเข้าจากไฟล์', component: Importfile },
+  { path: '/imports/importform', exact: true, name: 'นำเข้าจากฟอร์ม', component: Importform },
+  { path: '/imports/importloopback', exact: true, name: 'นำเข้าจาก Loopback', component: Importloopback },
+  { path: '/case/waitCheck', exact: true, name: 'รอตรวจสอบ', component: CaseWaitCheck },
+  { path: '/report/reporte0', exact: true, name: 'รายงาน E0', component: Reporte0 },
 ];
 
 export default routes;
