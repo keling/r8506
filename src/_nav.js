@@ -37,7 +37,7 @@ export default {
       icon: 'icon-chart',
       children: [
         {
-          name: 'รายงานการตรวจสอบเคส222222',
+          name: 'รายงานการตรวจสอบเคส',
           url: '/theme/colors',
           icon: 'icon-doc',
         },
@@ -65,7 +65,7 @@ export default {
       children: [
         {
           name: 'เจ้าหน้าที่',
-          url: '/theme/colors',
+          url: '/users',
           icon: 'icon-user',
         },
         {

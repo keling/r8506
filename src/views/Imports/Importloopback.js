@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import ReactDOM from "react-dom";
-import classNames from "classnames";
 import {
   Row,
   Col,
@@ -9,9 +7,6 @@ import {
   Card,
   CardBody,
   CardHeader,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
   Table
 } from "reactstrap";
 
@@ -19,8 +14,8 @@ class Importloopback extends Component {
   constructor() {
     super();
     this.state = {
-      AuthString:
-        "oIIyHE7tDnjM9zW0iTkiZvYiSSEor8su1E7r2T4XnYX1dx8vlzn2Z8OaExNYEfsQ",
+      AuthStringGet:
+        "L5IbeKHeFi9HF9kHK1wZRMwtKmY0FJpcRgV9itHEYsnjqw9nfRNnckLIJqO1ddTZ",
       patients: [],
       isLoading: true
     };
@@ -32,8 +27,13 @@ class Importloopback extends Component {
 
   getData() {
     axios
-      .get("http://localhost:3000/api/vr506s", {
-        headers: { Authorization: this.state.AuthString }
+      .get("http://110.164.182.42:3000/api/R8506s", {
+        headers: { Authorization: this.state.AuthStringGet },
+        params: {
+          filter: {
+            where: { datedefine: { between: ["2019-09-02", "2019-09-02"] } }
+          }
+        }
       })
       .then(response => {
         this.setState({
@@ -45,6 +45,32 @@ class Importloopback extends Component {
         console.log("error " + error);
       });
   }
+
+  importData(patient) {
+    /*axios({
+      method: "post",
+      url: "http://203.157.168.91:3000/api/Cases",
+      headers: { Authorization: this.state.AuthString },
+      data: {
+        idcase: "",
+        e0: "0",
+        e1: "0",
+        pe0: "0",
+        pe1: "0",
+        name: patient.name,
+        hn: patient.hn,
+        icd10: patient.icd10
+      }
+    });*/
+    console.log(patient.name);
+  }
+
+  importAllData() {
+    this.state.patients.map(patient => {
+      console.log(patient.name);
+    });
+  }
+
   render() {
     const { isLoading, patients } = this.state;
     return (
@@ -54,6 +80,20 @@ class Importloopback extends Component {
             <Card>
               <CardHeader>
                 <i className="fa fa-align-justify" /> Data From Loopback
+                <div className="card-header-actions">
+                  <Col col="6" sm="4" md="2" xl className="mb-3 mb-xl-0">
+                    <Button
+                      active
+                      block
+                      color="success"
+                      className="btn-pill"
+                      aria-pressed="true"
+                      onClick={e => this.importAllData()}
+                    >
+                      นำเข้าทั้งหมด
+                    </Button>
+                  </Col>
+                </div>
               </CardHeader>
               <CardBody>
                 <Table responsive>
@@ -63,25 +103,39 @@ class Importloopback extends Component {
                       <th>ชื่อ - สกุล</th>
                       <th>วันที่รับบริการ</th>
                       <th>PDX</th>
-                      <th><center>นำเข้า</center></th>
+                      <th>
+                        <center>นำเข้า</center>
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     {!isLoading ? (
                       patients.map(patient => {
-                        const { id, hn, pname, fname, lname, vstdate, pdx } = patient;
+                        const { id, hn, name, datesick, icd10 } = patient;
                         return (
-                          <tr>
+                          <tr key={id}>
                             <td>{hn}</td>
-                            <td>{pname}{fname} {lname}</td>
-                            <td>{vstdate}</td>
-                            <td>{pdx}</td>
-                            <td><Button block color="warning" size="xs" className="btn-pill">Import</Button></td>
+                            <td>{name}</td>
+                            <td>{datesick}</td>
+                            <td>{icd10}</td>
+                            <td>
+                              <Button
+                                block
+                                color="warning"
+                                size="xs"
+                                className="btn-pill"
+                                onClick={e => this.importData(patient)}
+                              >
+                                Import
+                              </Button>
+                            </td>
                           </tr>
                         );
                       })
                     ) : (
-                      <p>Loading...</p>
+                      <tr>
+                        <td>Loading...</td>
+                      </tr>
                     )}
                   </tbody>
                 </Table>
@@ -89,8 +143,6 @@ class Importloopback extends Component {
             </Card>
           </Col>
         </Row>
-
-        
       </React.Fragment>
     );
   }
