@@ -36,6 +36,7 @@ class Importloopback extends Component {
         }
       })
       .then(response => {
+        console.log(response.data);
         this.setState({
           patients: response.data,
           isLoading: false

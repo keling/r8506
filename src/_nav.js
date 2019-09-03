@@ -20,7 +20,7 @@ export default {
           icon: 'icon-folder-alt',
         },
         {
-          name: 'นำเข้าจากการ KeyIn',
+          name: 'นำเข้าจากการ KeyIn นะ',
           url: '/imports/importform',
           icon: 'icon-note',
         },
@@ -39,6 +39,11 @@ export default {
         {
           name: 'รายงานการตรวจสอบเคส',
           url: '/theme/colors',
+          icon: 'icon-doc',
+        },
+        {
+          name: 'รายงาน E0',
+          url: '/report/reporte0',
           icon: 'icon-doc',
         },
         {
@@ -81,6 +86,11 @@ export default {
         {
           name: 'ตั้งค่าโรคเฝ้าระวังเป็นพิเศษ',
           url: '/theme/colors',
+          icon: 'cui-tags',
+        },
+        {
+          name: 'หน่วยงานและผู้ใช้',
+          url: '/admin/officeUser',
           icon: 'cui-tags',
         },
       ],
