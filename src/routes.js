@@ -43,8 +43,12 @@ const Importform = React.lazy(() => import('./views/Imports/Importform'));
 const Importloopback = React.lazy(() => import('./views/Imports/Importloopback'));
 
 const CaseWaitCheck = React.lazy(() => import('./views/Case/CaseWaitCheck'));
+<<<<<<< HEAD
 const OfficeAndUser = React.lazy(() => import('./views/Admin/OfficeAndUser'));
 const OfficeAndUserProvince = React.lazy(() => import('./views/Admin/OfficeAndUserProvince'));
+=======
+const Reporte0 = React.lazy(() => import('./views/Report/ReportE0'));
+>>>>>>> a09dd25e2b88b7a5234358a25d6a8b57ec88045d
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -87,15 +91,23 @@ const routes = [
   { path: '/notifications/modals', name: 'Modals', component: Modals },
   { path: '/widgets', name: 'Widgets', component: Widgets },
   { path: '/charts', name: 'Charts', component: Charts },
-  { path: '/users', exact: true,  name: 'Users', component: Users },
+  { path: '/users', exact: true, name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
 
+<<<<<<< HEAD
   { path: '/imports/importfile', exact: true,  name: 'นำเข้าจากไฟล์', component: Importfile },
   { path: '/imports/importform', exact: true,  name: 'นำเข้าจากฟอร์ม', component: Importform },
   { path: '/imports/importloopback', exact: true,  name: 'นำเข้าจาก Loopback', component: Importloopback },
   { path: '/case/waitCheck', exact: true,  name: 'รอตรวจสอบ', component: CaseWaitCheck },
   { path: '/admin/officeUser', exact: true,  name: 'ตั้งค่าหน่วยงานและผู้ใช้', component: OfficeAndUser },
   { path: '/admin/officeUserProv', exact: true,  name: 'ตั้งค่าหน่วยงานและผู้ใช้', component: OfficeAndUserProvince },
+=======
+  { path: '/imports/importfile', exact: true, name: 'นำเข้าจากไฟล์', component: Importfile },
+  { path: '/imports/importform', exact: true, name: 'นำเข้าจากฟอร์ม', component: Importform },
+  { path: '/imports/importloopback', exact: true, name: 'นำเข้าจาก Loopback', component: Importloopback },
+  { path: '/case/waitCheck', exact: true, name: 'รอตรวจสอบ', component: CaseWaitCheck },
+  { path: '/report/reporte0', exact: true, name: 'รายงาน E0', component: Reporte0 },
+>>>>>>> a09dd25e2b88b7a5234358a25d6a8b57ec88045d
 ];
 
 export default routes;
