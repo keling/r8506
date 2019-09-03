@@ -32,7 +32,7 @@ class CaseWaitCheck extends Component {
 
   getData() {
     axios
-      .get("http://203.157.168.91:3000/api/Races?filter[limit]=1&filter[skip]=1", {
+      .get("http://203.157.168.91:3000/api/Cases?filter[limit]=10&filter[skip]=0", {
         headers: { Authorization: this.state.AuthString }
       })
       .then(response => {
@@ -57,35 +57,36 @@ console.log(response);
                 <i className="fa fa-align-justify" /> Case รอตรวจสอบ
               </CardHeader>
               <CardBody>
-                <Table responsive>
-                  <thead>
-                    <tr>
-                      <th>HN</th>
-                      <th>ชื่อ - สกุล</th>
-                      <th>วันที่รับบริการ</th>
-                      <th>PDX</th>
-                      <th><center>นำเข้า</center></th>
-                    </tr>
-                  </thead>
-                  <tbody>
                     {!isLoading ? (
-                      cases.map(thisCase => {
+                <Table responsive>
+                <thead>
+                  <tr>
+                    <th>HN</th>
+                    <th>ชื่อ - สกุล</th>
+                    <th>วันที่รับบริการ</th>
+                    <th>PDX</th>
+                    <th><center>นำเข้า</center></th>
+                  </tr>
+                </thead>
+                    <tbody>
+                      {cases.map((thisCase,index) => {
                         const { idrace,name, vstdate, pdx} = thisCase;
                         return (
-                          <tr>
+                          <tr key={index}>
                             <td>{idrace}</td>
                             <td>{name}</td>
                             <td>{vstdate}</td>
                             <td>{pdx}</td>
-                            <td><Button block color="warning" size="xs" className="btn-pill">Import</Button></td>
+                            <td><Button block color="warning" size="xs" className="btn-pill">รับเคส</Button></td>
                           </tr>
                         );
                       })
+                    }
+                  </tbody>
+                  </Table>
                     ) : (
                       <p>Loading...</p>
                     )}
-                  </tbody>
-                </Table>
               </CardBody>
             </Card>
           </Col>
