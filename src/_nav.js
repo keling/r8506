@@ -42,7 +42,7 @@ export default {
           icon: 'icon-doc',
         },
         {
-          name: 'รายงานการ E0',
+          name: 'รายงาน E0',
           url: '/report/reporte0',
           icon: 'icon-doc',
         },
