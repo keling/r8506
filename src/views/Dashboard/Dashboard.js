@@ -109,8 +109,8 @@ class Dashboard extends Component {
       //   items.push(
       <div className="animated fadeIn">
         {!isLoading ? (
-          dashboards.map(dashdata => {
-            const { id, diseasename, statin, statwait, statsick, statincorrect } = dashdata;
+          dashboards.map(patient => {
+            const { id, diseasename, statin, statwait, statsick, statincorrect } = patient;
             return (
               <Row>
                 <Col xs="12" sm="12" lg="12">
@@ -131,7 +131,7 @@ class Dashboard extends Component {
                 <Col xs="6" sm="6" lg="3">
                   <Card id="card2" className="text-white bg-success">
                     <CardBody className="pb-0">
-                      <div><i className="icon-location-pin"></i> รอ รพ. สรุปผล<span className="text-value pull-right">70</span></div>
+                      <div><i className="icon-location-pin"></i> รอ รพ. สรุปผล<span className="text-value pull-right">{statwait}</span></div>
                     </CardBody>
                     <div className="chart-wrapper mx-3" style={{ height: '10px' }}>
                       {/* <Line data={cardChartData2} options={cardChartOpts2} height={70} /> */}
@@ -142,7 +142,7 @@ class Dashboard extends Component {
                 <Col xs="6" sm="6" lg="3">
                   <Card id="card2" className="text-white bg-info">
                     <CardBody className="pb-0">
-                      <div><i className="icon-location-pin"></i> ผู้ป่วยทั้งหมด<span className="text-value pull-right">70</span></div>
+                      <div><i className="icon-location-pin"></i> ผู้ป่วยทั้งหมด<span className="text-value pull-right">{statsick}</span></div>
                     </CardBody>
                     <div className="chart-wrapper mx-3" style={{ height: '10px' }}>
                       {/* <Line data={cardChartData2} options={cardChartOpts2} height={70} /> */}
@@ -153,7 +153,7 @@ class Dashboard extends Component {
                 <Col xs="6" sm="6" lg="3">
                   <Card id="card2" className="text-white bg-danger">
                     <CardBody className="pb-0">
-                      <div><i className="icon-location-pin"></i> ไม่พบ<span className="text-value pull-right">70</span></div>
+                      <div><i className="icon-location-pin"></i> ไม่พบ<span className="text-value pull-right">{statincorrect}</span></div>
                     </CardBody>
                     <div className="chart-wrapper mx-3" style={{ height: '10px' }}>
                       {/* <Line data={cardChartData2} options={cardChartOpts2} height={70} /> */}
@@ -174,55 +174,6 @@ class Dashboard extends Component {
         ) : (
             <p>Loading...</p>
           )}
-        <Row>
-          <Col xs="12" sm="12" lg="12">
-            {/* <h3 id={index}>{value}</h3> */}
-            <h3 id="d1">ไข้เลือดออก</h3>
-          </Col>
-          <Col xs="6" sm="6" lg="3">
-            <Card id="card1" className="text-white bg-warning">
-              <CardBody className="pb-0">
-                <div><i className="icon-location-pin"></i> รอตรวจสอบ<span className="text-value pull-right">70</span></div>
-              </CardBody>
-              <div className="chart-wrapper mx-3" style={{ height: '10px' }}>
-                {/* <Line data={cardChartData2} options={cardChartOpts2} height={70} /> */}
-              </div>
-            </Card>
-          </Col>
-
-          <Col xs="6" sm="6" lg="3">
-            <Card id="card2" className="text-white bg-success">
-              <CardBody className="pb-0">
-                <div><i className="icon-location-pin"></i> รอ รพ. สรุปผล<span className="text-value pull-right">70</span></div>
-              </CardBody>
-              <div className="chart-wrapper mx-3" style={{ height: '10px' }}>
-                {/* <Line data={cardChartData2} options={cardChartOpts2} height={70} /> */}
-              </div>
-            </Card>
-          </Col>
-
-          <Col xs="6" sm="6" lg="3">
-            <Card id="card2" className="text-white bg-info">
-              <CardBody className="pb-0">
-                <div><i className="icon-location-pin"></i> ผู้ป่วยทั้งหมด<span className="text-value pull-right">70</span></div>
-              </CardBody>
-              <div className="chart-wrapper mx-3" style={{ height: '10px' }}>
-                {/* <Line data={cardChartData2} options={cardChartOpts2} height={70} /> */}
-              </div>
-            </Card>
-          </Col>
-
-          <Col xs="6" sm="6" lg="3">
-            <Card id="card2" className="text-white bg-danger">
-              <CardBody className="pb-0">
-                <div><i className="icon-location-pin"></i> ไม่พบ<span className="text-value pull-right">70</span></div>
-              </CardBody>
-              <div className="chart-wrapper mx-3" style={{ height: '10px' }}>
-                {/* <Line data={cardChartData2} options={cardChartOpts2} height={70} /> */}
-              </div>
-            </Card>
-          </Col>
-        </Row>
         <hr />
       </div >
     );
