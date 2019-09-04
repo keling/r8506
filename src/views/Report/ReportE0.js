@@ -18,7 +18,10 @@ import {
     DropdownToggle,
     Progress,
     Row,
-    Table
+    Table,
+    FormGroup,
+    Label,
+    Input
 
 } from 'reactstrap';
 import DatePicker from 'react-datepicker';
@@ -35,14 +38,31 @@ class Reporte0 extends Component {
                 "oIIyHE7tDnjM9zW0iTkiZvYiSSEor8su1E7r2T4XnYX1dx8vlzn2Z8OaExNYEfsQ",
             patients: [],
             isLoading: true,
-            startDate: new Date()
+            startDate: new Date(),
+            endDate: new Date(),
+            Province: []
         };
     }
     handleChange = date => {
         this.setState({
             startDate: date
+
         });
     };
+    handleChange = date2 => {
+        this.setState({
+            endDate: date2
+
+        });
+    };
+
+    handleChange = province => {
+        this.setState({
+            Province: province
+        });
+        console.log(province)
+    };
+
     componentWillMount() {
         this.getData();
     }
@@ -75,12 +95,44 @@ class Reporte0 extends Component {
                                 <i className="fa fa-align-justify" /> รายงาน E0
                 </CardHeader>
                             <CardBody>
-                                <DatePicker
-                                    locale="th"
-                                    selected={this.state.startDate}
-                                    onChange={this.handleChange}
+                                <FormGroup>
 
-                                />
+                                    <Col md="3">
+                                        {/* <Label>เลือกจังหวัด</Label> */}
+                                        <Input type="select" name="select" id="select"
+                                            selected={this.state.Province}
+                                            onChange={this.handleChange}
+                                        >
+
+                                            <option value="0">ทุกจังหวัด</option>
+                                            <option value="38">บึงกาฬ</option>
+                                            <option value="39">หนองบัวลำภู</option>
+                                            <option value="41">อุดรธานี</option>
+                                            <option value="42">เลย</option>
+                                            <option value="43">หนองคาย</option>
+                                            <option value="47">สกลนคร</option>
+                                            <option value="48">นครพนม</option>
+                                        </Input>
+                                    </Col>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Col xs="12" md="9">ระหว่างวันที่&nbsp;&nbsp;
+                                        <DatePicker className="form-control"
+                                            locale="th"
+                                            selected={this.state.startDate}
+                                            onChange={this.handleChange}
+                                        />
+                                        &nbsp;&nbsp;ถึงวันที่&nbsp;&nbsp;
+                                        <DatePicker className="form-control"
+                                            locale="th"
+                                            selected={this.state.endDate}
+                                            onChange={this.handleChange}
+                                        />
+                                        {/* <Input type="date" id="date-input" name="date-input" placeholder="date" /> */}
+                                        &nbsp;&nbsp;<Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> ค้นหา</Button>
+                                    </Col>
+
+                                </FormGroup>
                                 <Table responsive className="table table-bordered">
                                     <thead>
                                         <tr>
@@ -112,6 +164,7 @@ class Reporte0 extends Component {
                                                         <td>{officeid}</td>
                                                         <td>{idmoph}</td>
                                                         {/* <td><Button block color="warning" size="xs" className="btn-pill">Import</Button></td> */}
+
                                                     </tr>
                                                 );
                                             })
@@ -126,7 +179,7 @@ class Reporte0 extends Component {
                 </Row>
 
 
-            </React.Fragment>
+            </React.Fragment >
         );
     }
 }
