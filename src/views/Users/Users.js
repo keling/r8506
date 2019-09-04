@@ -1,60 +1,100 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Badge, Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
-
-import usersData from './UsersData'
-
-function UserRow(props) {
-  const user = props.user
-  const userLink = `/users/${user.id}`
-
-  const getBadge = (status) => {
-    return status === 'Active' ? 'success' :
-      status === 'Inactive' ? 'secondary' :
-        status === 'Pending' ? 'warning' :
-          status === 'Banned' ? 'danger' :
-            'primary'
-  }
-
-  return (
-    <tr key={user.id.toString()}>
-      <th scope="row"><Link to={userLink}>{user.id}</Link></th>
-      <td><Link to={userLink}>{user.name}</Link></td>
-      <td>{user.registered}</td>
-      <td>{user.role}</td>
-      <td><Link to={userLink}><Badge color={getBadge(user.status)}>{user.status}</Badge></Link></td>
-    </tr>
-  )
-}
+import { Button, Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
+import axios from "axios";
 
 class Users extends Component {
+  constructor() {
+    super();
+    this.state = {
+      AuthString:
+        "oIIyHE7tDnjM9zW0iTkiZvYiSSEor8su1E7r2T4XnYX1dx8vlzn2Z8OaExNYEfsQ",
+      users: [],
+      isLoading: true
+    };
+  }
+
+  componentWillMount() {
+    this.getData();
+  }
+
+  getData() {
+    axios
+      .get("http://203.157.168.91:3000/api/Userr8506s", {
+        headers: { Authorization: this.state.AuthString },
+        params: {
+          filter: {
+            limit: "10"
+          }
+        }
+      })
+      .then(response => {
+        this.setState({
+          users: response.data,
+          isLoading: false
+        });
+      })
+      .catch(error => {
+        console.log("error " + error);
+      });
+  }
 
   render() {
-
-    const userList = usersData.filter((user) => user.id < 10)
-
+    //const userList = usersData.filter((user) => user.id < 10)
+    const { isLoading, users } = this.state;
     return (
       <div className="animated fadeIn">
         <Row>
-          <Col xl={6}>
+          <Col xl={12}>
             <Card>
               <CardHeader>
-                <i className="fa fa-align-justify"></i> Users <small className="text-muted">example</small>
+                <i className="fa fa-align-justify"></i> Users <small className="text-muted">เจ้าหน้าที่</small>
               </CardHeader>
               <CardBody>
                 <Table responsive hover>
                   <thead>
                     <tr>
-                      <th scope="col">id</th>
-                      <th scope="col">name</th>
-                      <th scope="col">registered</th>
-                      <th scope="col">role</th>
-                      <th scope="col">status</th>
+                      <th scope="col">Username</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Role</th>
+                      <th scope="col">Active</th>
+                      <th scope="col"><center>#</center></th>
                     </tr>
                   </thead>
                   <tbody>
-                    {userList.map((user, index) =>
-                      <UserRow key={index} user={user}/>
+                  {!isLoading ? (
+                    users.map(user => {
+                      const {
+                        iduser,
+                        username,
+                        name,
+                        email,
+                        idrole,
+                        active
+                      } = user;
+                      return (
+                        <tr key={iduser}>
+                          <td>{username}</td>
+                          <td>{name}</td>
+                          <td>{idrole}</td>
+                          <td>{active}</td>
+                          <td>
+                            <Button
+                              block
+                              color="warning"
+                              size="xs"
+                              className="btn-pill"
+                            >
+                              Edit
+                            </Button>
+                          </td>
+                        </tr>
+                      );
+                    })
+                    ) : (
+                      <tr>
+                        <td>Loading...</td>
+                      </tr>
                     )}
                   </tbody>
                 </Table>

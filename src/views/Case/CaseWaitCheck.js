@@ -57,36 +57,34 @@ console.log(response);
                 <i className="fa fa-align-justify" /> Case รอตรวจสอบ
               </CardHeader>
               <CardBody>
-                    {!isLoading ? (
-                <Table responsive>
-                <thead>
-                  <tr>
-                    <th>HN</th>
-                    <th>ชื่อ - สกุล</th>
-                    <th>วันที่รับบริการ</th>
-                    <th>PDX</th>
-                    <th><center>นำเข้า</center></th>
-                  </tr>
-                </thead>
-                    <tbody>
-                      {cases.map((thisCase,index) => {
-                        const { idrace,name, vstdate, pdx} = thisCase;
-                        return (
-                          <tr key={index}>
-                            <td>{idrace}</td>
-                            <td>{name}</td>
-                            <td>{vstdate}</td>
-                            <td>{pdx}</td>
-                            <td><Button block color="warning" size="xs" className="btn-pill">รับเคส</Button></td>
-                          </tr>
-                        );
+                {!isLoading ? (
+                  <div>
+                    {cases.map((thisCase,index) => {
+                      const { idrace,name, vstdate, pdx} = thisCase;
+                      return (
+                        <div class="alert alert-warning" key={index}>
+                          <div style={{ position: 'absolute', zIndex: '90' }}>
+{/*                             
+                            <Button block color="warning" size="xs">แจ้งเคส</Button>
+                            <Button block color="warning" size="xs">บุคคล</Button>
+ */}
+                          </div>
+
+                          <div>หมายเลขเคส {idrace}</div>
+                          <div>โรค {idrace}</div>
+                          <div>ICD10 {vstdate}</div>
+                          <div>ชื่อผู้ป่วย {name}</div>
+                          <div>ที่อยู่ {pdx}</div>
+                          <div>วันที่สั่งงาน {pdx}</div>
+                          <div><Button block color="warning" size="xs" className="btn-pill">รับทราบเคส</Button></div>
+                        </div>
+                      );
                       })
                     }
-                  </tbody>
-                  </Table>
-                    ) : (
-                      <p>Loading...</p>
-                    )}
+                  </div>
+                ) : (
+                  <p>Loading...</p>
+                )}
               </CardBody>
             </Card>
           </Col>
