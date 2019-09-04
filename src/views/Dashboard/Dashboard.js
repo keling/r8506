@@ -58,7 +58,32 @@ class Dashboard extends Component {
     this.state = {
       dropdownOpen: false,
       radioSelected: 2,
+      AuthString:
+        "oIIyHE7tDnjM9zW0iTkiZvYiSSEor8su1E7r2T4XnYX1dx8vlzn2Z8OaExNYEfsQ",
+      dashboards: [],
+      isLoading: true
     };
+  }
+
+  componentWillMount() {
+    this.getData();
+  }
+
+  getData() {
+    axios
+      .get("http://203.157.168.91:3000/api/vr506s", {
+        headers: { Authorization: this.state.AuthString }
+      })
+      .then(response => {
+        console.log(response.data);
+        this.setState({
+          dashboards: response.data,
+          isLoading: false
+        });
+      })
+      .catch(error => {
+        console.log("error " + error);
+      });
   }
 
   toggle() {
@@ -76,73 +101,95 @@ class Dashboard extends Component {
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
   render() {
-    const diseaseName = ['ไข้เลือดออก', 'ไข้เลือดออกช็อค', 'ไข้เดงกี่', 'อุจจาระร่วง', 'อาหารเป็นพิษ', 'พิษสุนัขบ้า', 'โรคซึมเศร้า']
-    const items = []
-    for (const [index, value] of diseaseName.entries()) {
-      items.push(
+    // const diseaseName = ['ไข้เลือดออก', 'ไข้เลือดออกช็อค', 'ไข้เดงกี่', 'อุจจาระร่วง', 'อาหารเป็นพิษ', 'พิษสุนัขบ้า', 'โรคซึมเศร้า']
+    // const items = []
+    const { isLoading, dashboards } = this.state;
+    return (
+      // for (const [index, value] of diseaseName.entries()) {
+      //   items.push(
+      <div className="animated fadeIn">
+        {!isLoading ? (
+          dashboards.map(patient => {
+            const { id, hn, pname, fname, lname, vstdate, pdx } = patient;
+            return (
+              <tr>
+                <td>{hn}</td>
+                <td>{pname}{fname} {lname}</td>
+                <td>{vstdate}</td>
+                <td>{pdx}</td>
+                <td><Button block color="warning" size="xs" className="btn-pill">Import</Button></td>
+              </tr>
+            );
+          })
+        ) : (
+            <p>Loading...</p>
+          )}
         <Row>
           <Col xs="12" sm="12" lg="12">
-            <h3 id={index}>{value}</h3>
+            {/* <h3 id={index}>{value}</h3> */}
+            <h3 id="d1">ไข้เลือดออก</h3>
           </Col>
-
-          <Col xs="12" sm="6" lg="3">
+          <Col xs="6" sm="6" lg="3">
             <Card id="card1" className="text-white bg-warning">
               <CardBody className="pb-0">
                 <div><i className="icon-location-pin"></i> รอตรวจสอบ<span className="text-value pull-right">70</span></div>
               </CardBody>
-              <div className="chart-wrapper mx-3" style={{ height: '20px' }}>
+              <div className="chart-wrapper mx-3" style={{ height: '10px' }}>
                 {/* <Line data={cardChartData2} options={cardChartOpts2} height={70} /> */}
               </div>
             </Card>
           </Col>
 
-          <Col xs="12" sm="6" lg="3">
+          <Col xs="6" sm="6" lg="3">
             <Card id="card2" className="text-white bg-success">
               <CardBody className="pb-0">
                 <div><i className="icon-location-pin"></i> รอ รพ. สรุปผล<span className="text-value pull-right">70</span></div>
               </CardBody>
-              <div className="chart-wrapper mx-3" style={{ height: '20px' }}>
+              <div className="chart-wrapper mx-3" style={{ height: '10px' }}>
                 {/* <Line data={cardChartData2} options={cardChartOpts2} height={70} /> */}
               </div>
             </Card>
           </Col>
 
-          <Col xs="12" sm="6" lg="3">
+          <Col xs="6" sm="6" lg="3">
             <Card id="card2" className="text-white bg-info">
               <CardBody className="pb-0">
                 <div><i className="icon-location-pin"></i> ผู้ป่วยทั้งหมด<span className="text-value pull-right">70</span></div>
               </CardBody>
-              <div className="chart-wrapper mx-3" style={{ height: '20px' }}>
+              <div className="chart-wrapper mx-3" style={{ height: '10px' }}>
                 {/* <Line data={cardChartData2} options={cardChartOpts2} height={70} /> */}
               </div>
             </Card>
           </Col>
 
-          <Col xs="12" sm="6" lg="3">
+          <Col xs="6" sm="6" lg="3">
             <Card id="card2" className="text-white bg-danger">
               <CardBody className="pb-0">
                 <div><i className="icon-location-pin"></i> ไม่พบ<span className="text-value pull-right">70</span></div>
               </CardBody>
-              <div className="chart-wrapper mx-3" style={{ height: '20px' }}>
+              <div className="chart-wrapper mx-3" style={{ height: '10px' }}>
                 {/* <Line data={cardChartData2} options={cardChartOpts2} height={70} /> */}
               </div>
             </Card>
           </Col>
-
-          <hr />
         </Row>
-      )
-      return (
-        <div className="animated fadeIn">
-          <Row>
-            <Col xs="12" sm="12" lg="12">
-              <p>วันที่</p>
-            </Col>
-          </Row>
-          {items}
-        </div>
-      );
-    }
+        <hr />
+      </div >
+    );
+    // return (
+    //   <div className="animated fadeIn">
+    //     <Row>
+    //       <Col xs="12" sm="12" lg="12">
+    //         <div >
+    //           <p>วันที่</p>
+    //         </div>
+    //       </Col>
+    //     </Row>
+    //     {items}
+    //     {items}
+    //   </div>
+    // );
+    //}
   }
 }
 

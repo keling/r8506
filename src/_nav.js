@@ -37,7 +37,7 @@ export default {
       icon: 'icon-chart',
       children: [
         {
-          name: 'รายงานการตรวจสอบเคส222222',
+          name: 'รายงานการตรวจสอบเคส',
           url: '/theme/colors',
           icon: 'icon-doc',
         },
@@ -70,7 +70,7 @@ export default {
       children: [
         {
           name: 'เจ้าหน้าที่',
-          url: '/theme/colors',
+          url: '/users',
           icon: 'icon-user',
         },
         {
@@ -86,6 +86,11 @@ export default {
         {
           name: 'ตั้งค่าโรคเฝ้าระวังเป็นพิเศษ',
           url: '/theme/colors',
+          icon: 'cui-tags',
+        },
+        {
+          name: 'หน่วยงานและผู้ใช้',
+          url: '/admin/officeUser',
           icon: 'cui-tags',
         },
       ],
