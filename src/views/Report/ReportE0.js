@@ -18,9 +18,15 @@ import {
     DropdownToggle,
     Progress,
     Row,
-    Table,
-} from 'reactstrap';
+    Table
 
+} from 'reactstrap';
+import DatePicker from 'react-datepicker';
+import { registerLocale, setDefaultLocale } from "react-datepicker";
+import th from 'date-fns/locale/th';
+import "react-datepicker/dist/react-datepicker.css";
+
+registerLocale('th', th)
 class Reporte0 extends Component {
     constructor() {
         super();
@@ -28,10 +34,15 @@ class Reporte0 extends Component {
             AuthString:
                 "oIIyHE7tDnjM9zW0iTkiZvYiSSEor8su1E7r2T4XnYX1dx8vlzn2Z8OaExNYEfsQ",
             patients: [],
-            isLoading: true
+            isLoading: true,
+            startDate: new Date()
         };
     }
-
+    handleChange = date => {
+        this.setState({
+            startDate: date
+        });
+    };
     componentWillMount() {
         this.getData();
     }
@@ -55,6 +66,7 @@ class Reporte0 extends Component {
     render() {
         const { isLoading, patients } = this.state;
         return (
+
             <React.Fragment>
                 <Row>
                     <Col xs="12" lg="12">
@@ -63,7 +75,12 @@ class Reporte0 extends Component {
                                 <i className="fa fa-align-justify" /> รายงาน E0
                 </CardHeader>
                             <CardBody>
+                                <DatePicker
+                                    locale="th"
+                                    selected={this.state.startDate}
+                                    onChange={this.handleChange}
 
+                                />
                                 <Table responsive className="table table-bordered">
                                     <thead>
                                         <tr>
