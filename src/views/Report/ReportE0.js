@@ -63,6 +63,7 @@ class Reporte0 extends Component {
                                 <i className="fa fa-align-justify" /> รายงาน E0
                 </CardHeader>
                             <CardBody>
+
                                 <Table responsive className="table table-bordered">
                                     <thead>
                                         <tr>
