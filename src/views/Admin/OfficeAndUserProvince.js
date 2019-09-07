@@ -25,7 +25,7 @@ import {
 class OfficeAndUserProvince extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
+    // console.log(props);
     this.toggle = this.toggle.bind(this);
     this.state = {
       activeTab: '1',
@@ -38,7 +38,7 @@ class OfficeAndUserProvince extends Component {
       idprovince: this.props.location.state.idprovince,
       nameprovince: this.props.location.state.nameprovince
     };
-    console.log(this.state);
+    // console.log(this.state);
 
   }
 
@@ -60,7 +60,7 @@ class OfficeAndUserProvince extends Component {
         headers: { Authorization: this.state.AuthString }
       })
       .then(response => {
-console.log(response);        
+// console.log(response);        
         this.setState({
           Docs: response.data,
           isLoading: false
@@ -75,7 +75,7 @@ console.log(response);
         headers: { Authorization: this.state.AuthString }
       })
       .then(response => {
-console.log(response);        
+// console.log(response);        
         this.setState({
           Users: response.data,
           UsersIsLoading: false
@@ -87,7 +87,7 @@ console.log(response);
   }
 
   handleEdit=(userInfo=null)=> {
-    console.log(userInfo);
+    // console.log(userInfo);
     this.props.history.push({
       pathname: `/admin/userEdit`,
       state: {userInfo: userInfo,idprovince:this.state.idprovince}
@@ -141,7 +141,7 @@ console.log(response);
                           <tbody>
                             {Docs.map((thisData,index) => {
                               const { id,name} = thisData;
-                              console.log(thisData);
+                              // console.log(thisData);
                               return (
                                 <tr key={index}>
                                 <th scope="row">{id}</th>

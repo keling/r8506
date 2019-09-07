@@ -58,7 +58,7 @@ class OfficeAndUser extends Component {
         headers: { Authorization: this.state.AuthString }
       })
       .then(response => {
-console.log(response);        
+// console.log(response);        
         this.setState({
           Docs: response.data,
           isLoading: false
@@ -73,7 +73,7 @@ console.log(response);
         headers: { Authorization: this.state.AuthString }
       })
       .then(response => {
-console.log(response);        
+// console.log(response);        
         this.setState({
           Users: response.data,
           UsersIsLoading: false
@@ -92,6 +92,14 @@ console.log(response);
     });
   }
 
+  handleEditUser=(userInfo=null)=> {
+    // console.log(userInfo);
+    this.props.history.push({
+      pathname: `/admin/userEdit`,
+      state: {userInfo: userInfo,idprovince:this.state.idprovince}
+    });
+  }
+
   render() {
     const { isLoading, Docs, Users, UsersIsLoading } = this.state;
     return (
@@ -103,6 +111,9 @@ console.log(response);
                 <i className="fa fa-align-justify" /> เขตสุขภาพที่ 8
               </CardHeader>
               <CardBody>
+
+                <div>ข้อมูลหน่วยงานและข้อมูลผู้ใช้ของเขตสุขภาพที่ 8</div>
+                <br></br>
 
                 <Nav tabs>
                   <NavItem>
@@ -127,7 +138,6 @@ console.log(response);
                   <TabPane tabId="1">
                     <Row>
                       <Col sm="12">
-                        <h4>รายชื่อจังหวัด</h4>
                         {!isLoading ? (
                           <Table>
                           <thead>
@@ -141,7 +151,7 @@ console.log(response);
                               const { idprovince,name} = thisData;
                               return (
                                 <tr key={index} onClick={()=>{this.handleClickProvince(idprovince,thisData.name);}}>
-                                <th scope="row">{idprovince}</th>
+                                <td style={{width:'1px'}}>{idprovince}</td>
                                 <td>{name}</td>
                                 </tr>
                               );
@@ -158,7 +168,11 @@ console.log(response);
                   <TabPane tabId="2">
                     <Row>
                       <Col sm="12">
-                        <h4>รายชื่อผู้ใช้งาน</h4>
+                        <Row style={{paddingBottom:"5px"}}>
+                          <div className="col-sm-9"><h4>รายชื่อผู้ใช้งาน</h4></div>
+                          <div className="col-sm-3 text-right"><Button onClick={()=>this.handleEditUser()}>เพิ่มผู้ใช้งาน</Button></div>
+                        </Row>
+
                         {!UsersIsLoading ? (
                           <Table>
                           <thead>
