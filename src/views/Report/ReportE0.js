@@ -24,12 +24,12 @@ import {
     Input
 
 } from 'reactstrap';
-// import DatePicker from 'react-datepicker';
-// import { registerLocale, setDefaultLocale } from "react-datepicker";
-// import th from 'date-fns/locale/th';
-// import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from 'react-datepicker';
+import { registerLocale, setDefaultLocale } from "react-datepicker";
+import th from 'date-fns/locale/th';
+import "react-datepicker/dist/react-datepicker.css";
 
-// registerLocale('th', th)
+registerLocale('th', th)
 class Reporte0 extends Component {
     constructor() {
         super();
@@ -117,7 +117,7 @@ class Reporte0 extends Component {
                                 </FormGroup>
                                 <FormGroup>
                                     <Col xs="12" md="9">ระหว่างวันที่&nbsp;&nbsp;
-                                        {/* <DatePicker className="form-control"
+                                        <DatePicker className="form-control"
                                             locale="th"
                                             selected={this.state.startDate}
                                             onChange={this.handleChange}
@@ -127,7 +127,7 @@ class Reporte0 extends Component {
                                             locale="th"
                                             selected={this.state.endDate}
                                             onChange={this.handleChange}
-                                        /> */}
+                                        />
                                         {/* <Input type="date" id="date-input" name="date-input" placeholder="date" /> */}
                                         &nbsp;&nbsp;<Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> ค้นหา</Button>
                                     </Col>
