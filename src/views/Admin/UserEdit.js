@@ -42,12 +42,16 @@ class UserEdit extends Component {
       userInfo:(this.props.location.state)?this.props.location.state.userInfo:{iduser:"",name:"",username:"",idprovince:""},
       // userInfo:{name:"",username:"",idprovince:""},
       roleList: [],
+      provinceList: [],
+      ampurList: [],
+      tambonList: [],
+      villageList: [],
+      selectedAmpurList: "",
     //   idprovince: this.props.location.state.idprovince,
     //   nameprovince: this.props.location.state.nameprovince
 
     };
     // console.log(this.state);
-
   }
 
   toggle(tab) {
@@ -78,7 +82,7 @@ class UserEdit extends Component {
         console.log("error " + error);
       });
 
-      axios
+    axios
       .get(`http://203.157.168.91:3000/api/Userr8506s?filter={"where":{"and":[{"idrole":"11"},{"idprovince":"${this.state.idprovince}"}]}}`, {
         headers: { Authorization: this.state.AuthString }
       })
@@ -93,7 +97,7 @@ class UserEdit extends Component {
         console.log("error " + error);
       });
       
-      axios
+    axios
       .get(`http://203.157.168.91:3000/api/Roler8506s`, {
         headers: { Authorization: this.state.AuthString }
       })
@@ -101,6 +105,20 @@ class UserEdit extends Component {
 // console.log(response);        
         this.setState({
           roleList: response.data,
+        });
+      })
+      .catch(error => {
+        console.log("error " + error);
+      });
+
+    axios
+      .get(`http://203.157.168.91:3000/api/Provinces?filter={"where":{"idstate":8}}`, {
+        headers: { Authorization: this.state.AuthString }
+      })
+      .then(response => {
+// console.log(response);        
+        this.setState({
+          provinceList: response.data,
         });
       })
       .catch(error => {
@@ -130,8 +148,40 @@ console.log(response);
       });
   }
 
+  handleInputProvinceChange=e=>{
+    // console.log(e.target.value);
+    axios
+    .get(`http://203.157.168.91:3000/api/Amps?filter={"where":{"idprovince":"${e.target.value}"}}`, {
+      headers: { Authorization: this.state.AuthString }
+    })
+    .then(response => {
+      this.setState({
+        ampurList: response.data,
+      });
+    })
+    .catch(error => {
+      console.log("error " + error);
+    });
+  }
+
+  handleInputAmpurChange=e=>{
+    // console.log(e.target.value);
+    axios
+    .get(`http://203.157.168.91:3000/api/Amps?filter={"where":{"idprovince":"${e.target.value}"}}`, {
+      headers: { Authorization: this.state.AuthString }
+    })
+    .then(response => {
+      this.setState({
+        tambonList: response.data,
+      });
+    })
+    .catch(error => {
+      console.log("error " + error);
+    });
+  }  
+
   render() {
-    const { isLoading, Docs, Users, UsersIsLoading, nameprovince, roleList } = this.state;
+    const { isLoading, Docs, Users, UsersIsLoading, nameprovince, roleList, provinceList, ampurList, tambonList, villageList } = this.state;
     // const { name, username} = this.state.userInfo;
     return (
       <>
@@ -144,7 +194,7 @@ console.log(response);
               <CardBody>
 
                 <Form>
-                  <Input type="hidden" name="idprovince" id="idprovince" placeholder="" value={(this.state.userInfo)?this.state.userInfo.idprovince:this.props.location.state.idprovince} onChange={this.handleChange} />
+                  <Input type="hidden" name="user_idprovince" id="user_idprovince" placeholder="" value={(this.state.userInfo)?this.state.userInfo.idprovince:this.props.location.state.idprovince} onChange={this.handleChange} />
 
                   <Row form>
                     <Col md={8}>
@@ -206,11 +256,12 @@ console.log(response);
                     <Col md={4}>
                       <FormGroup>
                       <Label for="idprovince">จังหวัด</Label>
-                      <Input id="idprovince" name="idprovince" type="select">
-                        {roleList.map((thisData,index) => {
-                          const { id,name} = thisData;
+                      <Input id="idprovince" name="idprovince" type="select" onChange={this.handleInputProvinceChange}>
+                        <option key="0" value="0">เลือกจังหวัด</option>
+                        {provinceList.map((thisData,index) => {
+                          const { idprovince,name} = thisData;
                           return (
-                            <option key={index} value={id}>{name}</option>
+                            <option key={index} value={idprovince}>{name}</option>
                           );
                         })}
                       </Input>
@@ -219,8 +270,9 @@ console.log(response);
                     <Col md={4}>
                       <FormGroup>
                       <Label for="idamp">อำเภอ</Label>
-                      <Input id="idamp" name="idamp" type="select">
-                        {roleList.map((thisData,index) => {
+                      <Input id="idamp" name="idamp" type="select" onChange={this.handleInputAmpurChange}>
+                        <option key="0" value="0">เลือกอำเภอ</option>
+                        {ampurList.map((thisData,index) => {
                           const { id,name} = thisData;
                           return (
                             <option key={index} value={id}>{name}</option>
@@ -233,7 +285,8 @@ console.log(response);
                       <FormGroup>
                       <Label for="idtum">ตำบล</Label>
                       <Input id="idtum" name="idtum" type="select">
-                        {roleList.map((thisData,index) => {
+                        <option key="0" value="0">เลือกตำบล</option>
+                        {ampurList.map((thisData,index) => {
                           const { id,name} = thisData;
                           return (
                             <option key={index} value={id}>{name}</option>
