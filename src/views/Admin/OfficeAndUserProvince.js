@@ -25,6 +25,7 @@ import {
 class OfficeAndUserProvince extends Component {
   constructor(props) {
     super(props);
+    // console.log(props);
     this.toggle = this.toggle.bind(this);
     this.state = {
       activeTab: '1',
@@ -37,7 +38,7 @@ class OfficeAndUserProvince extends Component {
       idprovince: this.props.location.state.idprovince,
       nameprovince: this.props.location.state.nameprovince
     };
-    console.log(this.state);
+    // console.log(this.state);
 
   }
 
@@ -59,7 +60,7 @@ class OfficeAndUserProvince extends Component {
         headers: { Authorization: this.state.AuthString }
       })
       .then(response => {
-console.log(response);        
+// console.log(response);        
         this.setState({
           Docs: response.data,
           isLoading: false
@@ -74,7 +75,7 @@ console.log(response);
         headers: { Authorization: this.state.AuthString }
       })
       .then(response => {
-console.log(response);        
+// console.log(response);        
         this.setState({
           Users: response.data,
           UsersIsLoading: false
@@ -84,6 +85,15 @@ console.log(response);
         console.log("error " + error);
       });  
   }
+
+  handleEdit=(userInfo=null)=> {
+    // console.log(userInfo);
+    this.props.history.push({
+      pathname: `/admin/userEdit`,
+      state: {userInfo: userInfo,idprovince:this.state.idprovince}
+    });
+  }
+
   render() {
     const { isLoading, Docs, Users, UsersIsLoading, nameprovince } = this.state;
     return (
@@ -131,7 +141,7 @@ console.log(response);
                           <tbody>
                             {Docs.map((thisData,index) => {
                               const { id,name} = thisData;
-                              console.log(thisData);
+                              // console.log(thisData);
                               return (
                                 <tr key={index}>
                                 <th scope="row">{id}</th>
@@ -151,7 +161,11 @@ console.log(response);
                   <TabPane tabId="2">
                     <Row>
                       <Col sm="12">
-                        <h4>รายชื่อผู้ใช้งาน</h4>
+                        <Row>
+                          <Col sm="6"><h4>รายชื่อผู้ใช้งาน</h4></Col>
+                          <Col sm="6"><Button onClick={()=>this.handleEdit()}>เพิ่มผู้ใช้</Button></Col>
+                        </Row>
+                        
                         {!UsersIsLoading ? (
                           <Table>
                           <thead>
@@ -159,6 +173,7 @@ console.log(response);
                               <th>#</th>
                               <th>ชื่อ-สกุล</th>
                               <th>UserName</th>
+                              <th></th>
                             </tr>
                           </thead>
                           <tbody>
@@ -169,6 +184,7 @@ console.log(response);
                                 <th scope="row">{index+1}</th>
                                 <td>{name}</td>
                                 <td>{username}</td>
+                                <td><Button onClick={()=>this.handleEdit(thisData)}>แก้ไข</Button></td>
                                 </tr>
                               );
                             })}

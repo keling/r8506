@@ -46,6 +46,8 @@ const CaseWaitCheck = React.lazy(() => import('./views/Case/CaseWaitCheck'));
 
 const OfficeAndUser = React.lazy(() => import('./views/Admin/OfficeAndUser'));
 const OfficeAndUserProvince = React.lazy(() => import('./views/Admin/OfficeAndUserProvince'));
+const UserEdit = React.lazy(() => import('./views/Admin/UserEdit'));
+
 
 const Reporte0 = React.lazy(() => import('./views/Report/ReportE0'));
 
@@ -101,6 +103,7 @@ const routes = [
   { path: '/case/waitCheck', exact: true,  name: 'รอตรวจสอบ', component: CaseWaitCheck },
   { path: '/admin/officeUser', exact: true,  name: 'ตั้งค่าหน่วยงานและผู้ใช้', component: OfficeAndUser },
   { path: '/admin/officeUserProv', exact: true,  name: 'ตั้งค่าหน่วยงานและผู้ใช้', component: OfficeAndUserProvince },
+  { path: '/admin/userEdit', exact: true,  name: 'ตั้งค่าหน่วยงานและผู้ใช้', component: UserEdit },
 
   { path: '/imports/importfile', exact: true, name: 'นำเข้าจากไฟล์', component: Importfile },
   { path: '/imports/importform', exact: true, name: 'นำเข้าจากฟอร์ม', component: Importform },
