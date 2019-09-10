@@ -55,7 +55,6 @@ class Reporte0 extends Component {
 
         });
     };
-
     handleChange = province => {
         this.setState({
             Province: province
@@ -97,7 +96,7 @@ class Reporte0 extends Component {
                             <CardBody>
                                 <FormGroup>
 
-                                    <Col md="3">
+                                    <Col xs="12" md="4">
                                         {/* <Label>เลือกจังหวัด</Label> */}
                                         <Input type="select" name="select" id="select"
                                             selected={this.state.Province}
@@ -116,7 +115,7 @@ class Reporte0 extends Component {
                                     </Col>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Col xs="12" md="9">ระหว่างวันที่&nbsp;&nbsp;
+                                    <Col xs="12" md="12">ระหว่างวันที่&nbsp;&nbsp;
                                         <DatePicker className="form-control"
                                             locale="th"
                                             selected={this.state.startDate}
