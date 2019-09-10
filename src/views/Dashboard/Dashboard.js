@@ -61,9 +61,14 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
 
+    // binding events
     this.toggle = this.toggle.bind(this);
     this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
+    this._onChange = this._onChange.bind(this);
+    this.handleStartDateChange = this.handleStartDateChange.bind(this);
+    this.handleEndDateChange = this.handleEndDateChange.bind(this);
 
+    // set current state
     this.state = {
       dropdownOpen: false,
       radioSelected: 2,
@@ -76,6 +81,8 @@ class Dashboard extends Component {
       endDate: new Date()
     };
     // console.log(this.state.setProvince);
+    // console.log(this.state.startDate);
+    // console.log(this.state.endDate);
   }
 
   componentWillMount() {
@@ -105,22 +112,28 @@ class Dashboard extends Component {
     });
   }
 
+  // setting up event
   _onChange(valueProv) {
     // console.log(valueProv);
     this.setState({ setProvince: valueProv });
   }
-
-  handleChange = dateStart => {
-    this.setState({
-      startDate: dateStart
-    });
+  handleStartDateChange(dateStart) {
+    // console.log(dateStart);
+    this.setState({ startDate: dateStart });
+  }
+  handleEndDateChange(dateEnd) {
+    // console.log(dateEnd);
+    if (this.state.startDate > dateEnd) {
+      alert('เลือกวันที่ สิ้นสุด ใหม่');
+    }
+    else {
+      this.setState({ endDate: dateEnd });
+    }
   }
 
-  handleChange = dateEnd => {
-    this.setState({
-      endDate: dateEnd
-    });
-  }
+  // handleChange = dateEnd => {
+  //   this.setState({ endDate: dateEnd });
+  // }
 
   onRadioBtnClick(radioSelected) {
     this.setState({
@@ -162,33 +175,44 @@ class Dashboard extends Component {
                 value={this.state.setProvince}
                 options={optionProvince}
                 searchable={false}
-                onChange={this._onChange.bind(this)}
+                onChange={this._onChange}
               />
             </FormGroup>
           </Col>
           <Col xs="12" md="6" lg="3">
             <FormGroup>
               <Label>จากวันที่: </Label><br />
-              <DatePicker className="form-control" id="dateStart"
+              <DatePicker className="form-control" name="dateStart"
                 locale="th"
-                format="YYYY-mm-dd"
+                dateFormat="yyyy-MM-dd"
                 selected={this.state.startDate}
-                onChange={this.handleChange}
+                onChange={this.handleStartDateChange}
               />
             </FormGroup>
           </Col>
           <Col xs="12" md="6" lg="3">
             <FormGroup>
               <Label>ถึงวันที่: </Label><br />
-              <DatePicker className="form-control" id="dateEnd"
+              <DatePicker className="form-control" name="dateEnd"
                 locale="th"
-                format="YYYY-mm-dd"
+                dateFormat="yyyy-MM-dd"
                 selected={this.state.endDate}
-                onChange={this.handleChange}
+                onChange={this.handleEndDateChange}
               />
             </FormGroup>
           </Col>
+          <Col xs="12" md="6" lg="3">
+            <br />
+            <FormGroup>
+              <Button color="success" size="md"><i className="fa fa-dot-circle-o"></i> ประมวลผล</Button>
+            </FormGroup>
+          </Col>
         </Row >
+        <Row>
+          <Col xs="12" md="12" lg="12">
+            <hr />
+          </Col>
+        </Row>
         {!isLoading ? (
           dashboards.map(patient => {
             const { id, diseasename, statin, statwait, statsick, statincorrect } = patient;
