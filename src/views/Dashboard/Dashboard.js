@@ -141,12 +141,10 @@ class Dashboard extends Component {
       { value: '47', label: 'สกลนคร' },
       { value: '48', label: 'นครพนม' }
     ];
-    // const diseaseName = ['ไข้เลือดออก', 'ไข้เลือดออกช็อค', 'ไข้เดงกี่', 'อุจจาระร่วง', 'อาหารเป็นพิษ', 'พิษสุนัขบ้า', 'โรคซึมเศร้า']
-    // const items = []
+
     const { isLoading, dashboards } = this.state;
     return (
-      // for (const [index, value] of diseaseName.entries()) {
-      //   items.push(
+
       <div className="animated fadeIn">
         <Row>
           <Col xs="12" md="12" lg="12">
@@ -197,7 +195,6 @@ class Dashboard extends Component {
             return (
               <Row>
                 <Col xs="12" sm="12" lg="12">
-                  {/* <h3 id={index}>{value}</h3> */}
                   <h5 id="d1">{diseasename}</h5>
                 </Col>
                 <Col xs="6" sm="6" lg="3">
@@ -244,14 +241,6 @@ class Dashboard extends Component {
                   </Card>
                 </Col>
               </Row>
-
-              // <tr>
-              //   <td>{hn}</td>
-              //   <td>{pname}{fname} {lname}</td>
-              //   <td>{vstdate}</td>
-              //   <td>{pdx}</td>
-              //   <td><Button block color="warning" size="xs" className="btn-pill">Import</Button></td>
-              // </tr>
             );
           })
         ) : (
@@ -260,20 +249,6 @@ class Dashboard extends Component {
         }
       </div >
     );
-    // return (
-    //   <div className="animated fadeIn">
-    //     <Row>
-    //       <Col xs="12" sm="12" lg="12">
-    //         <div >
-    //           <p>วันที่</p>
-    //         </div>
-    //       </Col>
-    //     </Row>
-    //     {items}
-    //     {items}
-    //   </div>
-    // );
-    //}
   }
 }
 
