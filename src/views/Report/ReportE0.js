@@ -56,7 +56,13 @@ class Reporte0 extends Component {
     }
     handleStartDateChange(dateStart) {
         // console.log(dateStart);
-        this.setState({ startDate: dateStart });
+        // this.setState({ startDate: dateStart });
+        if (this.state.endDate < dateStart) {
+            alert('เลือกวันที่ เริ่มต้น ใหม่');
+        }
+        else {
+            this.setState({ startDate: dateStart });
+        }
     }
     handleEndDateChange(dateEnd) {
         // console.log(dateEnd);
