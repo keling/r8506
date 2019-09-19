@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Select from 'react-select';
 import axios from "axios";
 import {
     Badge,
@@ -33,6 +34,11 @@ registerLocale('th', th)
 class Reporte0 extends Component {
     constructor() {
         super();
+
+        this._onChange = this._onChange.bind(this);
+        this.handleStartDateChange = this.handleStartDateChange.bind(this);
+        this.handleEndDateChange = this.handleEndDateChange.bind(this);
+
         this.state = {
             AuthString:
                 "oIIyHE7tDnjM9zW0iTkiZvYiSSEor8su1E7r2T4XnYX1dx8vlzn2Z8OaExNYEfsQ",
@@ -40,28 +46,51 @@ class Reporte0 extends Component {
             isLoading: true,
             startDate: new Date(),
             endDate: new Date(),
-            Province: []
+            Province: { value: '0', label: 'ทุกจังหวัด' }
         };
     }
-    handleChange = date => {
-        this.setState({
-            startDate: date
 
-        });
-    };
-    handleChange = date2 => {
-        this.setState({
-            endDate: date2
+    _onChange(valueProv) {
+        // console.log(valueProv);
+        this.setState({ Province: valueProv });
+    }
+    handleStartDateChange(dateStart) {
+        // console.log(dateStart);
+        // this.setState({ startDate: dateStart });
+        if (this.state.endDate < dateStart) {
+            alert('เลือกวันที่ เริ่มต้น ใหม่');
+        }
+        else {
+            this.setState({ startDate: dateStart });
+        }
+    }
+    handleEndDateChange(dateEnd) {
+        // console.log(dateEnd);
+        if (this.state.startDate > dateEnd) {
+            alert('เลือกวันที่ สิ้นสุด ใหม่');
+        }
+        else {
+            this.setState({ endDate: dateEnd });
+        }
+    }
+    // handleChange = date => {
+    //     this.setState({
+    //         startDate: date
 
-        });
-    };
+    //     });
+    // };
+    // handleChange = date2 => {
+    //     this.setState({
+    //         endDate: date2
 
-    handleChange = province => {
-        this.setState({
-            Province: province
-        });
-        console.log(province)
-    };
+    //     });
+    // };
+    // handleChange = province => {
+    //     this.setState({
+    //         Province: province
+    //     });
+    //     console.log(province)
+    // };
 
     componentWillMount() {
         this.getData();
@@ -84,6 +113,17 @@ class Reporte0 extends Component {
             });
     }
     render() {
+        var optionProvince = [
+            { value: '0', label: 'ทุกจังหวัด' },
+            { value: '38', label: 'บึงกาฬ' },
+            { value: '39', label: 'หนองบัวลำภู' },
+            { value: '41', label: 'อุดรธานี' },
+            { value: '42', label: 'เลย' },
+            { value: '43', label: 'หนองคาย' },
+            { value: '47', label: 'สกลนคร' },
+            { value: '48', label: 'นครพนม' }
+        ];
+
         const { isLoading, patients } = this.state;
         return (
 
@@ -97,26 +137,38 @@ class Reporte0 extends Component {
                             <CardBody>
                                 <FormGroup>
 
-                                    <Col md="3">
+                                    <Col xs="12" md="6" lg="4">
                                         {/* <Label>เลือกจังหวัด</Label> */}
-                                        <Input type="select" name="select" id="select"
-                                            selected={this.state.Province}
-                                            onChange={this.handleChange}
-                                        >
-
-                                            <option value="0">ทุกจังหวัด</option>
-                                            <option value="38">บึงกาฬ</option>
-                                            <option value="39">หนองบัวลำภู</option>
-                                            <option value="41">อุดรธานี</option>
-                                            <option value="42">เลย</option>
-                                            <option value="43">หนองคาย</option>
-                                            <option value="47">สกลนคร</option>
-                                            <option value="48">นครพนม</option>
-                                        </Input>
+                                        <Label>จังหวัด: </Label>
+                                        <Select
+                                            name="selectProvince"
+                                            defaultValue={this.state.Province}
+                                            value={this.state.Province}
+                                            options={optionProvince}
+                                            searchable={false}
+                                            onChange={this._onChange}
+                                        />
                                     </Col>
                                 </FormGroup>
-                                <FormGroup>
-                                    <Col xs="12" md="9">ระหว่างวันที่&nbsp;&nbsp;
+                                <FormGroup >
+                                    <Col xs="12" md="6" lg="4">
+                                        <Label>จากวันที่: </Label><br />
+                                        <DatePicker className="form-control" name="dateStart"
+                                            locale="th"
+                                            dateFormat="yyyy-MM-dd"
+                                            selected={this.state.startDate}
+                                            onChange={this.handleStartDateChange}
+                                        />
+                                    </Col>
+                                    <Col xs="12" md="6" lg="4">
+                                        <Label>ถึงวันที่: </Label><br />
+                                        <DatePicker className="form-control" name="dateEnd"
+                                            locale="th"
+                                            dateFormat="yyyy-MM-dd"
+                                            selected={this.state.endDate}
+                                            onChange={this.handleEndDateChange}
+                                        />
+                                        {/* <Col xs="12" md="12">ระหว่างวันที่&nbsp;&nbsp;
                                         <DatePicker className="form-control"
                                             locale="th"
                                             selected={this.state.startDate}
@@ -127,9 +179,10 @@ class Reporte0 extends Component {
                                             locale="th"
                                             selected={this.state.endDate}
                                             onChange={this.handleChange}
-                                        />
+                                        /> */}
                                         {/* <Input type="date" id="date-input" name="date-input" placeholder="date" /> */}
-                                        &nbsp;&nbsp;<Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> ค้นหา</Button>
+                                        {/* &nbsp;&nbsp;<Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> ค้นหา</Button>
+                                    </Col> */}
                                     </Col>
 
                                 </FormGroup>
