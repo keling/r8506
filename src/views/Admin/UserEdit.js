@@ -39,7 +39,23 @@ class UserEdit extends Component {
       isLoading: true,
       Users: [],
       UsersIsLoading: true,
-      userInfo:(this.props.location.state)?this.props.location.state.userInfo:{iduser:"",name:"",username:"",idprovince:""},
+      userInfo:(this.props.location.state)?this.props.location.state.userInfo:
+      {
+        iduser:"",
+        idrole:"",
+        name:"",
+        email:"",
+        homeTel:"",
+        mobileTel:"",
+        idemployee:"",
+        idprovince:"",
+        idamp:"",
+        idtum:"",
+        idvillage:"",
+        address:"",
+        username:"",
+        password:"",
+      },
       // userInfo:{name:"",username:"",idprovince:""},
       roleList: [],
       provinceList: [],
@@ -72,7 +88,7 @@ class UserEdit extends Component {
         headers: { Authorization: this.state.AuthString }
       })
       .then(response => {
-// console.log(response);        
+//  console.log(response);        
         this.setState({
           Docs: response.data,
           isLoading: false
@@ -128,6 +144,7 @@ class UserEdit extends Component {
 
   handleChange=e=>{
       this.setState({ userInfo: {...this.state.userInfo, [e.target.id]:e.target.value} });
+      // console.log(this.state);
   }
 
   handleSave=e=>{
@@ -150,6 +167,7 @@ console.log(response);
 
   handleInputProvinceChange=e=>{
     // console.log(e.target.value);
+    this.setState({ userInfo: {...this.state.userInfo, [e.target.id]:e.target.value , "idamp":"0" ,"idtum":"0" , "idvillage":"0" } });
     axios
     .get(`http://203.157.168.91:3000/api/Amps?filter={"where":{"idprovince":"${e.target.value}"}}`, {
       headers: { Authorization: this.state.AuthString }
@@ -157,6 +175,7 @@ console.log(response);
     .then(response => {
       this.setState({
         ampurList: response.data,
+
       });
     })
     .catch(error => {
@@ -166,8 +185,9 @@ console.log(response);
 
   handleInputAmpurChange=e=>{
     // console.log(e.target.value);
+    this.setState({ userInfo: {...this.state.userInfo, [e.target.id]:e.target.value , "idtum":"0" , "idvillage":"0"} });
     axios
-    .get(`http://203.157.168.91:3000/api/Amps?filter={"where":{"idprovince":"${e.target.value}"}}`, {
+    .get(`http://203.157.168.91:3000/api/Ta?filter={"where":{"and":[{"idamp":"${e.target.value}"},{"idprovince":"${this.state.ampurList[0].idprovince}"}]}}`, {
       headers: { Authorization: this.state.AuthString }
     })
     .then(response => {
@@ -178,7 +198,29 @@ console.log(response);
     .catch(error => {
       console.log("error " + error);
     });
+  }
+
+  handleInputTumbonChange=e=>{
+    // console.log(e.target.value);
+    this.setState({ userInfo: {...this.state.userInfo, [e.target.id]:e.target.value , "idvillage":"0"} });
+    axios
+    .get(`http://203.157.168.91:3000/api/Villages?filter={"where":{"and":[{"idtum":"${e.target.value}"},{"idamp":"${this.state.tambonList[0].idamp}"},{"idprovince":"${this.state.ampurList[0].idprovince}"}]}}`, {
+      headers: { Authorization: this.state.AuthString }
+    })
+    .then(response => {
+      this.setState({
+        villageList: response.data,
+      });
+    })
+    .catch(error => {
+      console.log("error " + error);
+    });
   }  
+
+  handleInputVillageChange=e=>{
+    // console.log(e.target.value);
+    this.setState({ userInfo: {...this.state.userInfo, [e.target.id]:e.target.value} });
+  }
 
   render() {
     const { isLoading, Docs, Users, UsersIsLoading, nameprovince, roleList, provinceList, ampurList, tambonList, villageList } = this.state;
@@ -200,7 +242,10 @@ console.log(response);
                     <Col md={8}>
                       <FormGroup>
                         <Label for="idrole">ประเภทผู้ใช้งาน</Label>
-                        <Input type="select" id="idrole" name="idrole">
+                        <Input type="select" id="idrole" name="idrole" 
+                          value={(this.state.userInfo)?this.state.userInfo.idrole:""} 
+                          onChange={this.handleChange}
+                        >
                           {roleList.map((thisData,index) => {
                             const { id,name} = thisData;
                             return (
@@ -218,13 +263,19 @@ console.log(response);
                     <Col md={4}>
                       <FormGroup>
                       <Label for="name">ชื่อ-สกุล</Label>
-                      <Input type="text" name="name" id="name" placeholder="" value={(this.state.userInfo)?this.state.userInfo.name:""} onChange={this.handleChange} />
+                      <Input type="text" name="name" id="name" placeholder="" 
+                        value={(this.state.userInfo)?this.state.userInfo.name:""} 
+                        onChange={this.handleChange}
+                      />
                       </FormGroup>
                     </Col>
                     <Col md={4}>
                       <FormGroup>
                       <Label for="email">อีเมลล์</Label>
-                      <Input type="email" name="email" id="email" placeholder="mymail@email.com" value={(this.state.userInfo)?this.state.userInfo.name:""} onChange={this.handleChange} />
+                      <Input type="email" name="email" id="email" placeholder="mymail@email.com" 
+                        value={(this.state.userInfo)?this.state.userInfo.email:""} 
+                        onChange={this.handleChange} 
+                      />
                       </FormGroup>
                     </Col>
                   </Row>
@@ -232,20 +283,29 @@ console.log(response);
                   <Row form>
                     <Col md={4}>
                       <FormGroup>
-                      <Label for="home_tel">เบอร์โทรศัพท์ที่ทำงาน</Label>
-                      <Input type="text" name="home_tel" id="home_tel" placeholder="" value={(this.state.userInfo)?this.state.userInfo.name:""} onChange={this.handleChange} />
+                      <Label for="homeTel">เบอร์โทรศัพท์ที่ทำงาน</Label>
+                      <Input type="text" name="homeTel" id="homeTel" placeholder="" 
+                        value={(this.state.userInfo)?this.state.userInfo.homeTel:""} 
+                        onChange={this.handleChange} 
+                      />
                       </FormGroup>
                     </Col>
                     <Col md={4}>
                       <FormGroup>
-                      <Label for="mobile_tel">เบอร์โทรศัพท์มือถือ</Label>
-                      <Input type="text" name="mobile_tel" id="mobile_tel" placeholder="" value={(this.state.userInfo)?this.state.userInfo.name:""} onChange={this.handleChange} />
+                      <Label for="mobileTel">เบอร์โทรศัพท์มือถือ</Label>
+                      <Input type="text" name="mobileTel" id="mobileTel" placeholder="" 
+                        value={(this.state.userInfo)?this.state.userInfo.mobileTel:""} 
+                        onChange={this.handleChange} 
+                      />
                       </FormGroup>
                     </Col>
                     <Col md={4}>
                       <FormGroup>
                       <Label for="idemployee">รหัสประจำตัวพนักงาน</Label>
-                      <Input type="text" name="idemployee" id="idemployee" placeholder="" value={(this.state.userInfo)?this.state.userInfo.name:""} onChange={this.handleChange} />
+                      <Input type="text" name="idemployee" id="idemployee" placeholder="" 
+                        value={(this.state.userInfo)?this.state.userInfo.idemployee:""} 
+                        onChange={this.handleChange} 
+                      />
                       </FormGroup>
                     </Col>
                   </Row>
@@ -256,7 +316,10 @@ console.log(response);
                     <Col md={4}>
                       <FormGroup>
                       <Label for="idprovince">จังหวัด</Label>
-                      <Input id="idprovince" name="idprovince" type="select" onChange={this.handleInputProvinceChange}>
+                      <Input id="idprovince" name="idprovince" type="select" 
+                        value={(this.state.userInfo)?this.state.userInfo.idprovince:"0"} 
+                        onChange={this.handleInputProvinceChange}
+                      >
                         <option key="0" value="0">เลือกจังหวัด</option>
                         {provinceList.map((thisData,index) => {
                           const { idprovince,name} = thisData;
@@ -270,7 +333,10 @@ console.log(response);
                     <Col md={4}>
                       <FormGroup>
                       <Label for="idamp">อำเภอ</Label>
-                      <Input id="idamp" name="idamp" type="select" onChange={this.handleInputAmpurChange}>
+                      <Input id="idamp" name="idamp" type="select" 
+                        value={(this.state.userInfo)?this.state.userInfo.idamp:"0"} 
+                        onChange={this.handleInputAmpurChange}
+                      >
                         <option key="0" value="0">เลือกอำเภอ</option>
                         {ampurList.map((thisData,index) => {
                           const { id,name} = thisData;
@@ -284,9 +350,12 @@ console.log(response);
                     <Col md={4}>
                       <FormGroup>
                       <Label for="idtum">ตำบล</Label>
-                      <Input id="idtum" name="idtum" type="select">
+                      <Input id="idtum" name="idtum" type="select"
+                        value={(this.state.userInfo)?this.state.userInfo.idtum:"0"} 
+                        onChange={this.handleInputTumbonChange}
+                      >
                         <option key="0" value="0">เลือกตำบล</option>
-                        {ampurList.map((thisData,index) => {
+                        {tambonList.map((thisData,index) => {
                           const { id,name} = thisData;
                           return (
                             <option key={index} value={id}>{name}</option>
@@ -301,8 +370,12 @@ console.log(response);
                     <Col md={4}>
                       <FormGroup>
                       <Label for="idvillage">หมู่บ้าน</Label>
-                      <Input id="idvillage" name="idvillage" type="select">
-                        {roleList.map((thisData,index) => {
+                      <Input id="idvillage" name="idvillage" type="select"
+                        value={(this.state.userInfo)?this.state.userInfo.idvillage:"0"} 
+                        onChange={this.handleInputVillageChange}
+                      >
+                        <option key="0" value="0">เลือกหมู่บ้าน</option>
+                        {villageList.map((thisData,index) => {
                           const { id,name} = thisData;
                           return (
                             <option key={index} value={id}>{name}</option>
@@ -314,7 +387,10 @@ console.log(response);
                     <Col md={8}>
                     <FormGroup>
                       <Label for="address">เลขที่</Label>
-                      <Input type="text" name="address" id="address" placeholder="เลขที่" value={(this.state.userInfo)?this.state.userInfo.username:""} onChange={this.handleChange} />
+                      <Input type="text" name="address" id="address" placeholder="เลขที่" 
+                        value={(this.state.userInfo)?this.state.userInfo.address:""} 
+                        onChange={this.handleChange} 
+                      />
                       </FormGroup>
                     </Col>
                   </Row>
@@ -325,13 +401,19 @@ console.log(response);
                     <Col md={4}>
                       <FormGroup>
                       <Label for="username">Username</Label>
-                      <Input type="text" name="username" id="username" placeholder="MyUsername" value={(this.state.userInfo)?this.state.userInfo.username:""} onChange={this.handleChange} />
+                      <Input type="text" name="username" id="username" placeholder="MyUsername" 
+                        value={(this.state.userInfo)?this.state.userInfo.username:""} 
+                        onChange={this.handleChange}
+                      />
                       </FormGroup>
                     </Col>
                     <Col md={4}>
                       <FormGroup>
                       <Label for="username">รหัสผ่าน</Label>
-                      <Input type="password" name="password" id="password" placeholder="" />
+                      <Input type="password" name="password" id="password" placeholder="" 
+                        value={(this.state.userInfo)?this.state.userInfo.password:""} 
+                        onChange={this.handleChange}
+                      />
                       </FormGroup>
                     </Col>
                     <Col md={4}>
