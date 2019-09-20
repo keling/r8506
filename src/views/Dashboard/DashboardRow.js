@@ -26,7 +26,10 @@ import {
     Table,
 } from 'reactstrap'
 
-import { ACCESS_TOKEN, URL_API } from './DashboardSettings'
+import {
+    ACCESS_TOKEN,
+    URL_API
+} from './DashboardSettings'
 
 export default class DashboardRow extends Component {
     constructor(props) {
