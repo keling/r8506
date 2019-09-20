@@ -184,7 +184,7 @@ export default class DashboardRow extends Component {
                             <div>
                                 <i className="icon-location-pin"></i> รอตรวจสอบ<span className="text-value pull-right">
                                     {
-                                        this.state.dashboardRowIn.count != `undefined` ?
+                                        this.state.dashboardRowIn.count != undefined ?
                                             this.state.dashboardRowIn.count :
                                             <i className="fa fa-spinner fa-spin fa-fw"></i>
                                     }
@@ -202,7 +202,7 @@ export default class DashboardRow extends Component {
                         <CardBody className="pb-0">
                             <div><i className="icon-location-pin"></i> รอ รพ. สรุปผล<span className="text-value pull-right">
                                 {
-                                    this.state.dashboardRowWait.count != `undefined` ?
+                                    this.state.dashboardRowWait.count != undefined ?
                                         this.state.dashboardRowWait.count :
                                         <i className="fa fa-spinner fa-spin fa-fw"></i>
                                 }
@@ -219,7 +219,7 @@ export default class DashboardRow extends Component {
                         <CardBody className="pb-0">
                             <div><i className="icon-location-pin"></i> ผู้ป่วยทั้งหมด<span className="text-value pull-right">
                                 {
-                                    this.state.dashboardRowSick.count != `undefined` ?
+                                    this.state.dashboardRowSick.count != undefined ?
                                         this.state.dashboardRowSick.count :
                                         <i className="fa fa-spinner fa-spin fa-fw"></i>
                                 }
@@ -236,7 +236,7 @@ export default class DashboardRow extends Component {
                         <CardBody className="pb-0">
                             <div><i className="icon-location-pin"></i> ไม่พบ<span className="text-value pull-right">
                                 {
-                                    this.state.dashboardRowIncorrect.count != `undefined` ?
+                                    this.state.dashboardRowIncorrect.count != undefined ?
                                         this.state.dashboardRowIncorrect.count :
                                         <i className="fa fa-spinner fa-spin fa-fw"></i>
                                 }
