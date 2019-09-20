@@ -38,8 +38,6 @@ export default class DashboardRow extends Component {
         super(props)
 
         this.state = {
-            AuthString:
-                "cMhqtcyDfiwnnG9s3ZVfDkxoEcf34tnap4FZzd0zZErAcFo1tRhokPuRkO864DR5",
             dashboardRowIn: {},
             dashboardRowWait: {},
             dashboardRowSick: {},
@@ -102,19 +100,19 @@ export default class DashboardRow extends Component {
                 }
             }
         }
-        let getCount = await axios
-            .get("http://203.157.168.91:3000/api/Cases/count", {
-                headers: { Authorization: this.state.AuthString },
+        let axiosObject = await axios
+            .get(`${URL_API}/Cases/count`, {
+                headers: { Authorization: ACCESS_TOKEN },
                 params
             })
-        console.log(getCount);
+        // console.log(axiosObject);
 
-        if (getCount.status != 200) {
+        if (axiosObject.status != 200) {
             return;
         }
 
         this.setState({
-            dashboardRowWait: getCount.data
+            dashboardRowWait: axiosObject.data
         })
     }
 
@@ -129,19 +127,19 @@ export default class DashboardRow extends Component {
                 }
             }
         }
-        let getCount = await axios
-            .get("http://203.157.168.91:3000/api/Cases/count", {
-                headers: { Authorization: this.state.AuthString },
+        let axiosObject = await axios
+            .get(`${URL_API}/Cases/count`, {
+                headers: { Authorization: ACCESS_TOKEN },
                 params
             })
-        console.log(getCount);
+        console.log(axiosObject);
 
-        if (getCount.status != 200) {
+        if (axiosObject.status != 200) {
             return;
         }
 
         this.setState({
-            dashboardRowSick: getCount.data
+            dashboardRowSick: axiosObject.data
         })
     }
 
@@ -158,19 +156,19 @@ export default class DashboardRow extends Component {
                 }
             }
         }
-        let getCount = await axios
-            .get("http://203.157.168.91:3000/api/Cases/count", {
-                headers: { Authorization: this.state.AuthString },
+        let axiosObject = await axios
+            .get(`${URL_API}/Cases/count`, {
+                headers: { Authorization: ACCESS_TOKEN },
                 params
             })
-        console.log(getCount);
+        console.log(axiosObject);
 
-        if (getCount.status != 200) {
+        if (axiosObject.status != 200) {
             return;
         }
 
         this.setState({
-            dashboardRowIncorrect: getCount.data
+            dashboardRowIncorrect: axiosObject.data
         })
     }
 
