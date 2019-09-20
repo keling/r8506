@@ -26,6 +26,11 @@ import {
     Table,
 
 } from 'reactstrap';
+
+import {
+    ACCESS_TOKEN,
+    URL_API
+} from './DashboardSettings'
 import DashboardCardIn from "./DashboardCardIn";
 
 export default class DashboardRow extends Component {
@@ -82,7 +87,7 @@ export default class DashboardRow extends Component {
         }
 
         this.setState({
-            dashboardRowIn: getCount.data
+            dashboardRowIn: axiosObject.data
         })
     }
 
@@ -179,7 +184,13 @@ export default class DashboardRow extends Component {
                     <Card id="card1" className="text-white bg-warning">
                         <CardBody className="pb-0">
                             <div>
-                                <i className="icon-location-pin"></i> รอตรวจสอบ<span className="text-value pull-right">{this.state.dashboardRowIn.count}</span>
+                                <i className="icon-location-pin"></i> รอตรวจสอบ<span className="text-value pull-right">
+                                    {
+                                        this.state.dashboardRowIn.count ?
+                                            this.state.dashboardRowIn.count :
+                                            <i className="fa fa-spinner fa-spin fa-fw"></i>
+                                    }
+                                </span>
                             </div>
                         </CardBody>
                         <div className="chart-wrapper mx-3" style={{ height: '10px' }}>
@@ -191,7 +202,13 @@ export default class DashboardRow extends Component {
                 <Col xs="6" sm="6" lg="3">
                     <Card id="card2" className="text-white bg-success">
                         <CardBody className="pb-0">
-                            <div><i className="icon-location-pin"></i> รอ รพ. สรุปผล<span className="text-value pull-right">{this.state.dashboardRowWait.count}</span></div>
+                            <div><i className="icon-location-pin"></i> รอ รพ. สรุปผล<span className="text-value pull-right">
+                                {
+                                    this.state.dashboardRowWait.count ?
+                                        this.state.dashboardRowWait.count :
+                                        <i className="fa fa-spinner fa-spin fa-fw"></i>
+                                }
+                            </span></div>
                         </CardBody>
                         <div className="chart-wrapper mx-3" style={{ height: '10px' }}>
                             {/* <Line data={cardChartData2} options={cardChartOpts2} height={70} /> */}
@@ -202,7 +219,13 @@ export default class DashboardRow extends Component {
                 <Col xs="6" sm="6" lg="3">
                     <Card id="card2" className="text-white bg-info">
                         <CardBody className="pb-0">
-                            <div><i className="icon-location-pin"></i> ผู้ป่วยทั้งหมด<span className="text-value pull-right">{this.state.dashboardRowSick.count}</span></div>
+                            <div><i className="icon-location-pin"></i> ผู้ป่วยทั้งหมด<span className="text-value pull-right">
+                                {
+                                    this.state.dashboardRowSick.count ?
+                                        this.state.dashboardRowSick.count :
+                                        <i className="fa fa-spinner fa-spin fa-fw"></i>
+                                }
+                            </span></div>
                         </CardBody>
                         <div className="chart-wrapper mx-3" style={{ height: '10px' }}>
                             {/* <Line data={cardChartData2} options={cardChartOpts2} height={70} /> */}
@@ -213,7 +236,13 @@ export default class DashboardRow extends Component {
                 <Col xs="6" sm="6" lg="3">
                     <Card id="card2" className="text-white bg-danger">
                         <CardBody className="pb-0">
-                            <div><i className="icon-location-pin"></i> ไม่พบ<span className="text-value pull-right">{this.state.dashboardRowIncorrect.count}</span></div>
+                            <div><i className="icon-location-pin"></i> ไม่พบ<span className="text-value pull-right">
+                                {
+                                    this.state.dashboardRowIncorrect.count ?
+                                        this.state.dashboardRowIncorrect.count :
+                                        <i className="fa fa-spinner fa-spin fa-fw"></i>
+                                }
+                            </span></div>
                         </CardBody>
                         <div className="chart-wrapper mx-3" style={{ height: '10px' }}>
                             {/* <Line data={cardChartData2} options={cardChartOpts2} height={70} /> */}
