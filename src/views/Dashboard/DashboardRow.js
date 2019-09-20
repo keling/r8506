@@ -1,6 +1,7 @@
-import React, { Component, lazy, Suspense } from 'react';
-import Select from 'react-select';
-import axios from "axios";
+import React, { Component, lazy, Suspense } from 'react'
+
+import axios from 'axios'
+import Select from 'react-select'
 import {
     Badge,
     Button,
@@ -23,63 +24,63 @@ import {
     Progress,
     Row,
     Table,
-} from 'reactstrap';
+} from 'reactstrap'
+
+import { ACCESS_TOKEN, URL_API } from './DashboardSettings'
 
 export default class DashboardRow extends Component {
     constructor(props) {
-        super(props);
+        super(props)
 
-        // binding events
-
-        // set current state
         this.state = {
-            AuthString:
-                "oIIyHE7tDnjM9zW0iTkiZvYiSSEor8su1E7r2T4XnYX1dx8vlzn2Z8OaExNYEfsQ",
-            dashboardRow: {}
+            data: {}
         }
     }
 
     componentWillMount() {
-        this.getData();
+        // this.getData()
     }
 
     async getData() {
-        console.log(this.props);
+        // console.log(this.props);
         let params = {
             where: {
-                chservProvince: "41",
+                chservProvince: `41`,
                 disease: this.props.diseasecode.id,
                 cstatus: {
                     between: [1, 2]
                 },
                 datedefine: {
-                    between: ["2019-01-01", "2019-05-31"]
+                    between: [
+                        `2019-01-01`,
+                        `2019-05-31`
+                    ]
                 }
             }
         }
-        let getCount = await axios
-            .get("http://203.157.168.91:3000/api/Cases/count", {
-                headers: { Authorization: this.state.AuthString },
-                params
-            })
-        console.log(getCount);
+
+        let axiosObject = await axios.get(`${URL_API}/Cases/count`, {
+            headers: { Authorization: ACCESS_TOKEN },
+            params
+        })
+
         // this.setState({
         //     isLoading: false
         // });
 
-        // console.log(getDisease);
-        if (getCount.status != 200) {
+        // console.log(axiosObject);
+        if (axiosObject.status != 200) {
             return;
         }
 
         this.setState({
-            dashboardRow: getCount.data
+            data: axiosObject.data
         })
     }
 
     render() {
         return (
-            < Row >
+            <Row>
                 <Col xs="12" sm="12" lg="12">
                     <h5 id="d1">disease</h5>
                 </Col>
@@ -88,8 +89,8 @@ export default class DashboardRow extends Component {
                         <CardBody className="pb-0">
                             <div>
                                 <i className="icon-location-pin"></i> รอตรวจสอบ
-                        <span className="text-value pull-right">
-                                    {this.state.dashboardRow.count}
+                                <span className="text-value pull-right">
+                                    {this.state.data.count}
                                 </span>
                             </div>
                         </CardBody>

@@ -31,6 +31,10 @@ import DatePicker from 'react-datepicker';
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 import th from 'date-fns/locale/th';
 import "react-datepicker/dist/react-datepicker.css";
+import {
+  ACCESS_TOKEN,
+  URL_API
+} from './DashboardSettings'
 import DashboardRow from "./DashboardRow";
 
 const Widget03 = lazy(() => import('../../views/Widgets/Widget03'));
@@ -85,8 +89,6 @@ class Dashboard extends Component {
     this.state = {
       dropdownOpen: false,
       radioSelected: 2,
-      AuthString:
-        "oIIyHE7tDnjM9zW0iTkiZvYiSSEor8su1E7r2T4XnYX1dx8vlzn2Z8OaExNYEfsQ",
       dashboards: [],
       casein: [],
       casewait: [],
@@ -110,12 +112,13 @@ class Dashboard extends Component {
   }
 
   async getData2() {
-    let getDisease = await axios
-      .get("http://203.157.168.91:3000/api/Reportdashboards", {
-        headers: { Authorization: this.state.AuthString },
-        data: {}
+    let getDisease = await axios.get(`${URL_API}/Reportdashboards`, {
+      headers: {
+        Authorization: ACCESS_TOKEN
+      },
+      data: {}
 
-      })
+    })
     this.setState({
       isLoading: false
     });
@@ -132,12 +135,13 @@ class Dashboard extends Component {
   }
 
   getData() {
-    // "http://203.157.168.91:3000/api/Reportdashboards?filter[where][DATEDEFINE][between][0]=" + stDate + "&filter[where][DATEDEFINE][between][1]=" + edDate + ""
+    // `{URL_API}/Reportdashboards?filter[where][DATEDEFINE][between][0]=" + stDate + "&filter[where][DATEDEFINE][between][1]=" + edDate + ""
 
-    axios
-      .get("http://203.157.168.91:3000/api/Reportdashboards", {
-        headers: { Authorization: this.state.AuthString }
-      })
+    axios.get(`${URL_API}/Reportdashboards`, {
+      headers: {
+        Authorization: ACCESS_TOKEN
+      }
+    })
       .then(response => {
         console.log(response.data);
         this.setState({
@@ -168,12 +172,13 @@ class Dashboard extends Component {
       condition2 = ",\"chservProvince\":" + prov + "";
     }
 
-    // http://203.157.168.91:3000/api/Cases/count?where={%22chservProvince%22:%2241%22,%22disease%22:%2226%22,%22cstatus%22:{%22between%22:[1,4]},%22datedefine%22:{%22between%22:[%222019-01-01%22,%222019-03-31%22]}}&access_token=oIIyHE7tDnjM9zW0iTkiZvYiSSEor8su1E7r2T4XnYX1dx8vlzn2Z8OaExNYEfsQ
+    //`{URL_API}/Cases/count?where={%22chservProvince%22:%2241%22,%22disease%22:%2226%22,%22cstatus%22:{%22between%22:[1,4]},%22datedefine%22:{%22between%22:[%222019-01-01%22,%222019-03-31%22]}}&access_token=oIIyHE7tDnjM9zW0iTkiZvYiSSEor8su1E7r2T4XnYX1dx8vlzn2Z8OaExNYEfsQ
 
-    axios
-      .get("http://203.157.168.91:3000/api/Cases/count?where={" + conditionDate + condition0 + condition1 + condition2 + "}", {
-        headers: { Authorization: this.state.AuthString }
-      })
+    axios.get(`${URL_API}/Cases/count?where={" + conditionDate + condition0 + condition1 + condition2 + "}`, {
+      headers: {
+        Authorization: ACCESS_TOKEN
+      }
+    })
       .then(response => {
         console.log(response.data);
         this.setState({
@@ -201,10 +206,11 @@ class Dashboard extends Component {
       condition2 = "&filter[where][chservProvince]='" + prov + "'";
     }
 
-    axios
-      .get("http://203.157.168.91:3000/api/Cases?filter[where][datedefine][between][0]='" + dStart + "'&filter[where][datedefine][between][1]='" + dEnd + "'" + condition1 + "" + condition2 + "", {
-        headers: { Authorization: this.state.AuthString }
-      })
+    axios.get(`${URL_API}/Cases?filter[where][datedefine][between][0]='` + dStart + "'&filter[where][datedefine][between][1]='" + dEnd + "'" + condition1 + "" + condition2 + "", {
+      headers: {
+        Authorization: ACCESS_TOKEN
+      }
+    })
       .then(response => {
         // console.log(response.data);
         //this.setState({
