@@ -31,7 +31,7 @@ class OfficeAndUser extends Component {
     this.state = {
       activeTab: '1',
       AuthString:
-        "oIIyHE7tDnjM9zW0iTkiZvYiSSEor8su1E7r2T4XnYX1dx8vlzn2Z8OaExNYEfsQ",
+        "cMhqtcyDfiwnnG9s3ZVfDkxoEcf34tnap4FZzd0zZErAcFo1tRhokPuRkO864DR5",
       Docs: [],
       isLoading: true,
       Users: [],
