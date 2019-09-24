@@ -31,7 +31,8 @@ import {
     ACCESS_TOKEN,
     URL_API
 } from './DashboardSettings'
-import DashboardCardIn from "./DashboardCardIn";
+import DashboardCardIn from './DashboardCardIn';
+import LoadingText from './LoadingText'
 
 export default class DashboardRow extends Component {
     constructor(props) {
@@ -183,11 +184,7 @@ export default class DashboardRow extends Component {
                         <CardBody className="pb-0">
                             <div>
                                 <i className="icon-location-pin"></i> รอตรวจสอบ<span className="text-value pull-right">
-                                    {
-                                        this.state.dashboardRowIn.count != undefined ?
-                                            this.state.dashboardRowIn.count :
-                                            <i className="fa fa-spinner fa-spin fa-fw"></i>
-                                    }
+                                    <LoadingText data={this.state.dashboardRowIn.count} />
                                 </span>
                             </div>
                         </CardBody>
@@ -201,11 +198,7 @@ export default class DashboardRow extends Component {
                     <Card id="card2" className="text-white bg-success">
                         <CardBody className="pb-0">
                             <div><i className="icon-location-pin"></i> รอ รพ. สรุปผล<span className="text-value pull-right">
-                                {
-                                    this.state.dashboardRowWait.count != undefined ?
-                                        this.state.dashboardRowWait.count :
-                                        <i className="fa fa-spinner fa-spin fa-fw"></i>
-                                }
+                                <LoadingText data={this.state.dashboardRowWait.count} />
                             </span></div>
                         </CardBody>
                         <div className="chart-wrapper mx-3" style={{ height: '10px' }}>
@@ -218,11 +211,7 @@ export default class DashboardRow extends Component {
                     <Card id="card2" className="text-white bg-info">
                         <CardBody className="pb-0">
                             <div><i className="icon-location-pin"></i> ผู้ป่วยทั้งหมด<span className="text-value pull-right">
-                                {
-                                    this.state.dashboardRowSick.count != undefined ?
-                                        this.state.dashboardRowSick.count :
-                                        <i className="fa fa-spinner fa-spin fa-fw"></i>
-                                }
+                                <LoadingText data={this.state.dashboardRowSick.count} />
                             </span></div>
                         </CardBody>
                         <div className="chart-wrapper mx-3" style={{ height: '10px' }}>
@@ -235,11 +224,7 @@ export default class DashboardRow extends Component {
                     <Card id="card2" className="text-white bg-danger">
                         <CardBody className="pb-0">
                             <div><i className="icon-location-pin"></i> ไม่พบ<span className="text-value pull-right">
-                                {
-                                    this.state.dashboardRowIncorrect.count != undefined ?
-                                        this.state.dashboardRowIncorrect.count :
-                                        <i className="fa fa-spinner fa-spin fa-fw"></i>
-                                }
+                                <LoadingText data={this.state.dashboardRowIncorrect.count} />
                             </span></div>
                         </CardBody>
                         <div className="chart-wrapper mx-3" style={{ height: '10px' }}>
