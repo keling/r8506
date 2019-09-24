@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import Utils from './Utils'
+
 export default class LoadingText extends Component {
     constructor(props) {
         super(props)
@@ -9,27 +11,21 @@ export default class LoadingText extends Component {
         }
     }
 
-    // componentWillMount() {
-    //     let data = this.props.data
+    componentDidUpdate(prevProps) {
+        if (prevProps.data == this.props.data) {
+            return
+        }
 
-    //     if (!isNaN(data)) {
-    //         data = data.toLocaleString()
-    //     }
-
-    //     console.info(`this is dataaaaaaaaaa`, data)
-
-    //     this.setState({
-    //         data
-    //     })
-    // }
-
-    com
+        this.setState({
+            data: Utils.numberFormat(this.props.data)
+        })
+    }
 
     render() {
         return (
-            this.props.data == undefined || this.props.data == null ?
+            this.state.data == undefined || this.state.data == null ?
                 <i className="fa fa-spinner fa-spin fa-fw"></i> :
-                this.props.data
+                this.state.data
         )
     }
 }
