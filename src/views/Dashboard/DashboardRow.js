@@ -45,7 +45,7 @@ export default class DashboardRow extends Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.getDataIn();
         this.getDataWait();
         this.getDataSick();
@@ -63,8 +63,8 @@ export default class DashboardRow extends Component {
                 },
                 datedefine: {
                     between: [
-                        `2019-01-01`,
-                        `2019-05-31`
+                        this.props.dtstart,
+                        this.props.dtend
                     ]
                 }
             }
@@ -96,7 +96,10 @@ export default class DashboardRow extends Component {
                 disease: this.props.diseasecode.id,
                 cstatus: "3",
                 datedefine: {
-                    between: ["2019-01-01", "2019-08-31"]
+                    between: [
+                        this.props.dtstart,
+                        this.props.dtend
+                    ]
                 }
             }
         }
@@ -123,7 +126,10 @@ export default class DashboardRow extends Component {
                 disease: this.props.diseasecode.id,
                 cstatus: "4",
                 datedefine: {
-                    between: ["2019-01-01", "2019-08-31"]
+                    between: [
+                        this.props.dtstart,
+                        this.props.dtend
+                    ]
                 }
             }
         }
@@ -132,7 +138,7 @@ export default class DashboardRow extends Component {
                 headers: { Authorization: ACCESS_TOKEN },
                 params
             })
-        console.log(axiosObject);
+        // console.log(axiosObject);
 
         if (axiosObject.status != 200) {
             return;
@@ -152,7 +158,10 @@ export default class DashboardRow extends Component {
                     nin: [1, 2, 3, 4]
                 },
                 datedefine: {
-                    between: ["2019-01-01", "2019-08-31"]
+                    between: [
+                        this.props.dtstart,
+                        this.props.dtend
+                    ]
                 }
             }
         }
@@ -161,7 +170,7 @@ export default class DashboardRow extends Component {
                 headers: { Authorization: ACCESS_TOKEN },
                 params
             })
-        console.log(axiosObject);
+        // console.log(axiosObject);
 
         if (axiosObject.status != 200) {
             return;

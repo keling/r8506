@@ -77,19 +77,11 @@ for (var i = 0; i <= elements; i++) {
 class Dashboard extends Component {
   constructor(props) {
     super(props);
-
-    // binding events
-    this.toggle = this.toggle.bind(this);
-    this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
-    this.onChangeProvince = this.onChangeProvince.bind(this);
-    this.handleStartDateChange = this.handleStartDateChange.bind(this);
-    this.handleEndDateChange = this.handleEndDateChange.bind(this);
-    // this.getValueCaseIn = this.getValueCaseIn.bind(this);
-
     // set current state
     this.state = {
       dropdownOpen: false,
       radioSelected: 2,
+      submitClick: false,
       AuthString:
         "cMhqtcyDfiwnnG9s3ZVfDkxoEcf34tnap4FZzd0zZErAcFo1tRhokPuRkO864DR5",
       dashboards: [],
@@ -102,6 +94,16 @@ class Dashboard extends Component {
       startDate: new Date(),
       endDate: new Date()
     };
+
+    // binding events
+    this.toggle = this.toggle.bind(this);
+    this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
+    this.onChangeProvince = this.onChangeProvince.bind(this);
+    this.handleStartDateChange = this.handleStartDateChange.bind(this);
+    this.handleEndDateChange = this.handleEndDateChange.bind(this);
+    this.onSubmitClick = this.onSubmitClick.bind(this);
+    // this.getValueCaseIn = this.getValueCaseIn.bind(this);
+
     // console.log(this.state.setProvince['value']);
     // console.log(this.state.startDate);
     // console.log(this.state.endDate);
@@ -110,8 +112,13 @@ class Dashboard extends Component {
 
   componentWillMount() {
     this.getData2();
-    this.getData();
-    this.getValueCaseIn();
+    // this.getData();
+  }
+
+  componentWillReceiveProps(NextProps) {
+    if (NextProps == 1) {
+      this.getData2();
+    }
   }
 
   async getData2() {
@@ -137,25 +144,25 @@ class Dashboard extends Component {
     //this.render(getDisease.data);
   }
 
-  getData() {
-    // `{URL_API}/Reportdashboards?filter[where][DATEDEFINE][between][0]=" + stDate + "&filter[where][DATEDEFINE][between][1]=" + edDate + ""
+  // getData() {
+  //   // `{URL_API}/Reportdashboards?filter[where][DATEDEFINE][between][0]=" + stDate + "&filter[where][DATEDEFINE][between][1]=" + edDate + ""
 
-    axios.get(`${URL_API}/Reportdashboards`, {
-      headers: {
-        Authorization: ACCESS_TOKEN
-      }
-    })
-      .then(response => {
-        console.log(response.data);
-        this.setState({
-          dashboards: response.data,
-          isLoading: false
-        });
-      })
-      .catch(error => {
-        console.log("error " + error);
-      });
-  }
+  //   axios.get(`${URL_API}/Reportdashboards`, {
+  //     headers: {
+  //       Authorization: ACCESS_TOKEN
+  //     }
+  //   })
+  //     .then(response => {
+  //       console.log(response.data);
+  //       this.setState({
+  //         dashboards: response.data,
+  //         isLoading: false
+  //       });
+  //     })
+  //     .catch(error => {
+  //       console.log("error " + error);
+  //     });
+  // }
 
   getValueCaseIn() {
     var dStart = formatDate(this.state.startDate);
@@ -266,10 +273,19 @@ class Dashboard extends Component {
     });
   }
 
+  onSubmitClick() {
+    this.setState({
+      submitClick: !this.state.submitClick,
+    });
+    // this.componentWillReceiveProps(1);
+    this.componentWillMount();
+    console.log(this.state.submitClick);
+  }
+
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
   render() {
-    var optionProvince = [
+    let optionProvince = [
       { value: '0', label: 'ทุกจังหวัด' },
       { value: '38', label: 'บึงกาฬ' },
       { value: '39', label: 'หนองบัวลำภู' },
@@ -329,7 +345,7 @@ class Dashboard extends Component {
           <Col xs="12" md="6" lg="3">
             <br />
             <FormGroup>
-              <Button color="success" size="md"><i className="fa fa-dot-circle-o"></i> ประมวลผล</Button>
+              <Button color="success" size="md" onClick={this.onSubmitClick}><i className="fa fa-dot-circle-o"></i> ประมวลผล</Button>
             </FormGroup>
           </Col>
         </Row >
@@ -342,7 +358,7 @@ class Dashboard extends Component {
           dashboards.map(patient => {
             const { id, diseasename, statin, statwait, statsick, statincorrect } = patient;
             return (
-              <DashboardRow diseasecode={patient} />
+              <DashboardRow diseasecode={patient} dtstart={this.state.startDate} dtend={this.state.endDate} processState={this.state.submitClick} />
             );
           })
         ) : (
