@@ -25,7 +25,8 @@ import {
     Row,
     Table,
 
-} from 'reactstrap';
+} from 'reactstrap'
+import Moment from 'moment'
 
 import {
     ACCESS_TOKEN,
@@ -42,6 +43,8 @@ function formatDate(incomingDate) {
     return makeDate;
 }
 
+// console.info('this is moment', Moment, Moment(new Date()).format('YYYY-MM-DD'))
+
 export default class DashboardRow extends Component {
     constructor(props) {
         super(props)
@@ -50,11 +53,77 @@ export default class DashboardRow extends Component {
             dashboardRowIn: {},
             dashboardRowWait: {},
             dashboardRowSick: {},
-            dashboardRowIncorrect: {}
+            dashboardRowIncorrect: {},
+            province: 0
         }
     }
 
-    componentDidMount() {
+
+    componentWillMount() {
+
+        console.info('this is row will mount')
+
+        // this.getDataIn();
+        // this.getDataWait();
+        // this.getDataSick();
+        // this.getDataIncorrect();
+    }
+
+    // componentWillUpdate
+
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     // console.info('this is should component update', nextProps, this.props, nextState, this.state)
+    //     console.info('this is should update', nextProps.province, this.props.province)
+
+    //     if (nextState.dashboardRowIn.count != this.state.dashboardRowIn.count) {
+    //         return true
+    //     }
+
+    //     if (nextState.dashboardRowWait.count != this.state.dashboardRowWait.count) {
+    //         return true
+    //     }
+
+    //     if (nextState.dashboardRowSick.count != this.state.dashboardRowSick.count) {
+    //         return true
+    //     }
+
+    //     if (nextState.dashboardRowIncorrect.count != this.state.dashboardRowIncorrect.count) {
+    //         return true
+    //     }
+
+    //     if (nextProps.province == this.props.province) {
+    //         return false
+    //     }
+
+    //     return true
+    // }
+
+    // componentWillUpdate(nextProps) {
+    //     if (nextProps.province == this.props.province) {
+    //         return
+    //     }
+
+
+    //     console.info('this is row will update', nextProps, this.props)
+
+    //     this.setState({
+    //         province: this.props.province
+    //     }, _ => {
+    //         console.info('this is state', this.state)
+    //         this.getDataIn();
+    //         this.getDataWait();
+    //         this.getDataSick();
+    //         this.getDataIncorrect();
+    //     })
+
+
+    // }
+
+    componentDidUpdate(prevProp) {
+        if (prevProp.province == this.props.province) {
+            return
+        }
+
         this.getDataIn();
         this.getDataWait();
         this.getDataSick();
@@ -63,9 +132,11 @@ export default class DashboardRow extends Component {
 
     async getDataIn() {
         console.log(this.props);
-        let dStart = formatDate(this.props.dtstart);
-        let dEnd = formatDate(this.props.dtend);
-        let prov = "";
+
+        let dStart = Moment(this.props.dtstart).format('YYYY-MM-DD');
+        let dEnd = Moment(this.props.dtend).format('YYYY-MM-DD');
+        let prov = [];
+
         if (this.props.provcode['value'] == 0) {
             prov = [38, 39, 41, 42, 43, 47, 48];
         }
@@ -79,7 +150,7 @@ export default class DashboardRow extends Component {
                 chservProvince: {
                     in: prov
                 },
-                disease: this.props.diseasecode.id,
+                disease: this.props.disease.id,
                 cstatus: {
                     between: [1, 2]
                 },
@@ -116,8 +187,8 @@ export default class DashboardRow extends Component {
         let dEnd = formatDate(this.props.dtend);
         let params = {
             where: {
-                chservProvince: "41",
-                disease: this.props.diseasecode.id,
+                chservProvince: this.props.province || 0,
+                disease: this.props.disease.id,
                 cstatus: "3",
                 datedefine: {
                     between: [
@@ -148,8 +219,8 @@ export default class DashboardRow extends Component {
         let dEnd = formatDate(this.props.dtend);
         let params = {
             where: {
-                chservProvince: "41",
-                disease: this.props.diseasecode.id,
+                chservProvince: this.props.province || 0,
+                disease: this.props.disease.id,
                 cstatus: "4",
                 datedefine: {
                     between: [
@@ -180,8 +251,8 @@ export default class DashboardRow extends Component {
         let dEnd = formatDate(this.props.dtend);
         let params = {
             where: {
-                chservProvince: "41",
-                disease: this.props.diseasecode.id,
+                chservProvince: this.props.province || 0,
+                disease: this.props.disease.id,
                 cstatus: {
                     nin: [1, 2, 3, 4]
                 },
@@ -213,7 +284,7 @@ export default class DashboardRow extends Component {
         return (
             <Row>
                 <Col xs="12" sm="12" lg="12">
-                    <h5 id="d1">{this.props.diseasecode.diseasename}</h5>
+                    <h5 id="d1">{this.props.disease.diseasename}</h5>
                 </Col>
                 <Col xs="6" sm="6" lg="3">
                     <Card id="card1" className="text-white bg-warning">
