@@ -53,35 +53,17 @@ function formatDate(incomingDate) {
   var numsDate = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
   var makeDate = incomingDate.getFullYear() + "-" + numsDate[incomingDate.getMonth() + 1] + "-" + numsDate[incomingDate.getDate()];
   return makeDate;
-  // var edDate = this.state.endDate.getFullYear() + "-" + numsDate[this.state.endDate.getMonth() + 1] + "-" + numsDate[this.state.endDate.getDate()];
-  // console.log(stDate);
-  // console.log(edDate);
-}
-
-//Random Numbers
-function random(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-var elements = 27;
-var data1 = [];
-var data2 = [];
-var data3 = [];
-
-for (var i = 0; i <= elements; i++) {
-  data1.push(random(50, 200));
-  data2.push(random(80, 100));
-  data3.push(65);
 }
 
 class Dashboard extends Component {
   constructor(props) {
     super(props);
+
     // set current state
     this.state = {
       dropdownOpen: false,
       radioSelected: 2,
-      submitClick: false,
+      clickChange: false,
       AuthString:
         "cMhqtcyDfiwnnG9s3ZVfDkxoEcf34tnap4FZzd0zZErAcFo1tRhokPuRkO864DR5",
       dashboards: [],
@@ -102,32 +84,26 @@ class Dashboard extends Component {
     this.handleStartDateChange = this.handleStartDateChange.bind(this);
     this.handleEndDateChange = this.handleEndDateChange.bind(this);
     this.onSubmitClick = this.onSubmitClick.bind(this);
-    // this.getValueCaseIn = this.getValueCaseIn.bind(this);
-
-    // console.log(this.state.setProvince['value']);
-    // console.log(this.state.startDate);
-    // console.log(this.state.endDate);
-    // console.log(this.state.dashboards[0, 0]);
   }
 
-  componentWillMount() {
-    this.getData2();
-    // this.getData();
+  componentDidMount() {
+    this.getData();
   }
 
-  componentWillReceiveProps(NextProps) {
-    if (NextProps == 1) {
-      this.getData2();
-    }
-  }
+  // componentWillUpdate(NextProps) {
+  //   if (NextProps.setProvince != this.state.setProvince) {
+  //     this.getData();
+  //   }
+  // }
 
-  async getData2() {
+  async getData() {
+    let params = "";
     let getDisease = await axios.get(`${URL_API}/Reportdashboards`, {
       headers: {
         Authorization: ACCESS_TOKEN
       },
-      data: {}
-
+      data: {},
+      params
     })
     this.setState({
       isLoading: false
@@ -144,10 +120,27 @@ class Dashboard extends Component {
     //this.render(getDisease.data);
   }
 
-  // getData() {
-  //   // `{URL_API}/Reportdashboards?filter[where][DATEDEFINE][between][0]=" + stDate + "&filter[where][DATEDEFINE][between][1]=" + edDate + ""
+  // getValueCaseIn() {
+  //   var dStart = formatDate(this.state.startDate);
+  //   var dEnd = formatDate(this.state.endDate);
+  //   var prov = this.state.setProvince['value'];
+  //   var diseaseCode = this.state.dashboards[0, 0];
+  //   // var conditionDate = "\"datedefine\":{\"between\":[\"2019-01-01\",\"2019-06-30\"]}";
+  //   var conditionDate = "\"datedefine\":{\"between\":[\"" + dStart + "\",\"" + dEnd + "\"]}";
+  //   var condition0 = ",\"disease\":\"" + diseaseCode + "\"";
+  //   var condition1 = ",\"cstatus\":{\"between\":[1,2]}";
+  //   var condition2 = "";
 
-  //   axios.get(`${URL_API}/Reportdashboards`, {
+  //   if (this.state.setProvince['value'] == "0") {
+  //     condition2 = "";
+  //   }
+  //   else {
+  //     condition2 = ",\"chservProvince\":" + prov + "";
+  //   }
+
+  //   //`{URL_API}/Cases/count?where={%22chservProvince%22:%2241%22,%22disease%22:%2226%22,%22cstatus%22:{%22between%22:[1,4]},%22datedefine%22:{%22between%22:[%222019-01-01%22,%222019-03-31%22]}}&access_token=oIIyHE7tDnjM9zW0iTkiZvYiSSEor8su1E7r2T4XnYX1dx8vlzn2Z8OaExNYEfsQ
+
+  //   axios.get(`${URL_API}/Cases/count?where={" + conditionDate + condition0 + condition1 + condition2 + "}`, {
   //     headers: {
   //       Authorization: ACCESS_TOKEN
   //     }
@@ -155,83 +148,15 @@ class Dashboard extends Component {
   //     .then(response => {
   //       console.log(response.data);
   //       this.setState({
-  //         dashboards: response.data,
+  //         casein: response.data,
   //         isLoading: false
   //       });
+  //       // return response.data;
   //     })
   //     .catch(error => {
   //       console.log("error " + error);
   //     });
   // }
-
-  getValueCaseIn() {
-    var dStart = formatDate(this.state.startDate);
-    var dEnd = formatDate(this.state.endDate);
-    var prov = this.state.setProvince['value'];
-    var diseaseCode = this.state.dashboards[0, 0];
-    // var conditionDate = "\"datedefine\":{\"between\":[\"2019-01-01\",\"2019-06-30\"]}";
-    var conditionDate = "\"datedefine\":{\"between\":[\"" + dStart + "\",\"" + dEnd + "\"]}";
-    var condition0 = ",\"disease\":\"" + diseaseCode + "\"";
-    var condition1 = ",\"cstatus\":{\"between\":[1,2]}";
-    var condition2 = "";
-
-    if (this.state.setProvince['value'] == "0") {
-      condition2 = "";
-    }
-    else {
-      condition2 = ",\"chservProvince\":" + prov + "";
-    }
-
-    //`{URL_API}/Cases/count?where={%22chservProvince%22:%2241%22,%22disease%22:%2226%22,%22cstatus%22:{%22between%22:[1,4]},%22datedefine%22:{%22between%22:[%222019-01-01%22,%222019-03-31%22]}}&access_token=oIIyHE7tDnjM9zW0iTkiZvYiSSEor8su1E7r2T4XnYX1dx8vlzn2Z8OaExNYEfsQ
-
-    axios.get(`${URL_API}/Cases/count?where={" + conditionDate + condition0 + condition1 + condition2 + "}`, {
-      headers: {
-        Authorization: ACCESS_TOKEN
-      }
-    })
-      .then(response => {
-        console.log(response.data);
-        this.setState({
-          casein: response.data,
-          isLoading: false
-        });
-        // return response.data;
-      })
-      .catch(error => {
-        console.log("error " + error);
-      });
-  }
-
-  getValueCaseWait() {
-    var dStart = formatDate(this.state.startDate);
-    var dEnd = formatDate(this.state.endDate);
-    var prov = this.state.setProvince['value'];
-    var condition1 = "&filter[where][cstatus][between][0]=1&filter[where][cstatus][between][1]=2";
-    var condition2 = "";
-
-    if (this.state.setProvince['value'] == "0") {
-      condition2 = "";
-    }
-    else {
-      condition2 = "&filter[where][chservProvince]='" + prov + "'";
-    }
-
-    axios.get(`${URL_API}/Cases?filter[where][datedefine][between][0]='` + dStart + "'&filter[where][datedefine][between][1]='" + dEnd + "'" + condition1 + "" + condition2 + "", {
-      headers: {
-        Authorization: ACCESS_TOKEN
-      }
-    })
-      .then(response => {
-        // console.log(response.data);
-        //this.setState({
-        //casewait: response.data,
-        // isLoading: false
-        //});
-      })
-      .catch(error => {
-        console.log("error " + error);
-      });
-  }
 
   toggle() {
     this.setState({
@@ -263,10 +188,6 @@ class Dashboard extends Component {
     }
   }
 
-  // handleChange = dateEnd => {
-  //   this.setState({ endDate: dateEnd });
-  // }
-
   onRadioBtnClick(radioSelected) {
     this.setState({
       radioSelected: radioSelected,
@@ -275,11 +196,9 @@ class Dashboard extends Component {
 
   onSubmitClick() {
     this.setState({
-      submitClick: !this.state.submitClick,
+      clickChange: !this.state.clickChange
     });
-    // this.componentWillReceiveProps(1);
-    this.componentWillMount();
-    console.log(this.state.submitClick);
+
   }
 
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
@@ -358,7 +277,7 @@ class Dashboard extends Component {
           dashboards.map(patient => {
             const { id, diseasename, statin, statwait, statsick, statincorrect } = patient;
             return (
-              <DashboardRow diseasecode={patient} dtstart={this.state.startDate} dtend={this.state.endDate} processState={this.state.submitClick} />
+              <DashboardRow diseasecode={patient} dtstart={this.state.startDate} dtend={this.state.endDate} provcode={this.state.setProvince} />
             );
           })
         ) : (

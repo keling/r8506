@@ -34,6 +34,14 @@ import {
 import DashboardCardIn from './DashboardCardIn';
 import LoadingText from './LoadingText'
 
+// functions
+function formatDate(incomingDate) {
+    var numsDate = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
+    var makeDate = incomingDate.getFullYear() + "-" + numsDate[incomingDate.getMonth() + 1] + "-" + numsDate[incomingDate.getDate()];
+    // console.log(makeDate);
+    return makeDate;
+}
+
 export default class DashboardRow extends Component {
     constructor(props) {
         super(props)
@@ -55,17 +63,30 @@ export default class DashboardRow extends Component {
 
     async getDataIn() {
         console.log(this.props);
+        let dStart = formatDate(this.props.dtstart);
+        let dEnd = formatDate(this.props.dtend);
+        let prov = [];
+        if (this.props.provcode['value'] == 0) {
+            prov = [38, 39, 41, 42, 43, 47, 48];
+        }
+        else {
+            prov = this.props.provcode['value'];
+        }
+        // console.log(dStart);
+        console.log(prov);
         let params = {
             where: {
-                chservProvince: `41`,
+                chservProvince: {
+                    in: prov
+                },
                 disease: this.props.diseasecode.id,
                 cstatus: {
                     between: [1, 2]
                 },
                 datedefine: {
                     between: [
-                        this.props.dtstart,
-                        this.props.dtend
+                        dStart,
+                        dEnd
                     ]
                 }
             }
@@ -91,6 +112,8 @@ export default class DashboardRow extends Component {
     }
 
     async getDataWait() {
+        let dStart = formatDate(this.props.dtstart);
+        let dEnd = formatDate(this.props.dtend);
         let params = {
             where: {
                 chservProvince: "41",
@@ -98,8 +121,8 @@ export default class DashboardRow extends Component {
                 cstatus: "3",
                 datedefine: {
                     between: [
-                        this.props.dtstart,
-                        this.props.dtend
+                        dStart,
+                        dEnd
                     ]
                 }
             }
@@ -121,6 +144,8 @@ export default class DashboardRow extends Component {
     }
 
     async getDataSick() {
+        let dStart = formatDate(this.props.dtstart);
+        let dEnd = formatDate(this.props.dtend);
         let params = {
             where: {
                 chservProvince: "41",
@@ -128,8 +153,8 @@ export default class DashboardRow extends Component {
                 cstatus: "4",
                 datedefine: {
                     between: [
-                        this.props.dtstart,
-                        this.props.dtend
+                        dStart,
+                        dEnd
                     ]
                 }
             }
@@ -151,6 +176,8 @@ export default class DashboardRow extends Component {
     }
 
     async getDataIncorrect() {
+        let dStart = formatDate(this.props.dtstart);
+        let dEnd = formatDate(this.props.dtend);
         let params = {
             where: {
                 chservProvince: "41",
@@ -160,8 +187,8 @@ export default class DashboardRow extends Component {
                 },
                 datedefine: {
                     between: [
-                        this.props.dtstart,
-                        this.props.dtend
+                        dStart,
+                        dEnd
                     ]
                 }
             }
