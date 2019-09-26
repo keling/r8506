@@ -37,7 +37,7 @@ import {
     URL_API
 } from './DashboardSettings'
 import DashboardForm, { PROVINCE_OPTIONS } from './DashboardForm/DashboardForm'
-import DashboardRow from './DashboardRow'
+import DashboardResult from './DashboardResult/DashboardResult'
 
 // const Widget03 = lazy(() => import('../../views/Widgets/Widget03'));
 
@@ -46,19 +46,6 @@ import DashboardRow from './DashboardRow'
 // const brandInfo = getStyle('--info')
 // const brandWarning = getStyle('--warning')
 // const brandDanger = getStyle('--danger')
-
-registerLocale('th', th);
-
-const provinceOptions = [
-    { value: '0', label: 'ทุกจังหวัด' },
-    { value: '38', label: 'บึงกาฬ' },
-    { value: '39', label: 'หนองบัวลำภู' },
-    { value: '41', label: 'อุดรธานี' },
-    { value: '42', label: 'เลย' },
-    { value: '43', label: 'หนองคาย' },
-    { value: '47', label: 'สกลนคร' },
-    { value: '48', label: 'นครพนม' }
-]
 
 const Loading = _ => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
@@ -72,32 +59,21 @@ class Dashboard extends Component {
 
             diseases: [],
 
-            dateStart: new Date(),
-            dateEnd: new Date(),
-            selectedProvince: provinceOptions[0],
-
-            dashboardRowParams: {
+            dashboardResultParams: {
                 dateStart: new Date(),
                 dateEnd: new Date(),
-                selectedProvince: provinceOptions[0]
+                selectedProvince: PROVINCE_OPTIONS[0],
+                diseases: []
             }
         };
 
         // binding events
-        this.handleProvinceChange = this.handleProvinceChange.bind(this)
-        this.handleStartDateChange = this.handleStartDateChange.bind(this)
-        this.handleEndDateChange = this.handleEndDateChange.bind(this)
-        this.handleFormSubmit = this.handleFormSubmit.bind(this)
+        this.handleDashboardFormSubmit = this.handleDashboardFormSubmit.bind(this)
     }
 
     componentDidMount() {
-        // console.info(this.refs.dateStart)
         this.getData()
     }
-
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     if(this.state.dateStart != nextState.dateStart || this.state.date)
-    // }
 
     async getData() {
         let getDiseaseResult = await axios.get(`${URL_API}/Reportdashboards`, {
@@ -114,58 +90,24 @@ class Dashboard extends Component {
             return
         }
 
-        this.setState({
-            diseases: getDiseaseResult.data
-        })
-    }
-
-    handleProvinceChange(selectedProvince) {
-        this.setState({
-            selectedProvince
-        })
-    }
-
-    handleStartDateChange(dateStart) {
-        // this.refs.dateStart.setSelected(dateStart)
-        if (dateStart > this.state.dateEnd) {
-            alert('เลือกวันที่ เริ่มต้น ใหม่')
-
-            this.setState({
-                dateStart: this.state.dateEnd
-            })
-
-            return
-        }
+        let dashboardResultParams = this.state.dashboardResultParams
+        dashboardResultParams[`diseases`] = getDiseaseResult.data
 
         this.setState({
-            dateStart
+            diseases: getDiseaseResult.data,
+            dashboardResultParams
         })
-    }
-
-    handleEndDateChange(dateEnd) {
-        if (this.state.dateStart > dateEnd) {
-            alert('เลือกวันที่ สิ้นสุด ใหม่')
-
-            this.setState({
-                dateEnd: this.state.dateStart
-            })
-
-            return
-        }
-
-        this.setState({
-            dateEnd
-        })
-    }
-
-    handleFormSubmit() {
-        // this.setState({
-        //     clickChange: !this.state.clickChange
-        // })
     }
 
     handleDashboardFormSubmit(params) {
-        console.info(params)
+        this.setState({
+            dashboardResultParams: {
+                dateStart: params.dateStart,
+                dateEnd: params.dateEnd,
+                selectedProvince: params.selectedProvince,
+                diseases: this.state.diseases
+            }
+        })
     }
 
     render() {
@@ -178,16 +120,15 @@ class Dashboard extends Component {
                     </Col>
                 </Row>
                 <DashboardForm onSubmit={this.handleDashboardFormSubmit} />
+                <Row>
+                    <Col xs="12" md="12" lg="12">
+                        <hr />
+                    </Col>
+                </Row>
                 {
                     this.state.isLoading ?
                         <Loading /> :
-                        this.state.diseases.map(disease => {
-                            console.info('dashboard rerender')
-                            return <DashboardRow
-                                disease={disease}
-                            // params={this.state.dashboardRowParams}
-                            />
-                        })
+                        <DashboardResult params={this.state.dashboardResultParams} timestamp={new Date()} />
                 }
             </div >
         );

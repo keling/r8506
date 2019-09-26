@@ -42,6 +42,8 @@ export const PROVINCE_OPTIONS = [
 
 const DATEPICKER_FORMAT = `d MMMM yyyy`
 
+registerLocale('th', th);
+
 export default class DashboardForm extends Component {
     constructor(props) {
         super(props)
@@ -110,69 +112,62 @@ export default class DashboardForm extends Component {
 
     render() {
         return (
-            <>
-                <Row>
-                    <Col xs="12" md="6" lg="3">
-                        <FormGroup>
-                            <Label>จังหวัด: </Label>
-                            <Select
-                                defaultValue={PROVINCE_OPTIONS[0]}
-                                name="selectProvince"
-                                options={PROVINCE_OPTIONS}
-                                ref="selectProvince"
-                                searchable={false}
-                                onChange={this.handleProvinceChange}
+            <Row>
+                <Col xs="12" md="6" lg="3">
+                    <FormGroup>
+                        <Label>จังหวัด: </Label>
+                        <Select
+                            defaultValue={PROVINCE_OPTIONS[0]}
+                            name="selectProvince"
+                            options={PROVINCE_OPTIONS}
+                            ref="selectProvince"
+                            searchable={false}
+                            onChange={this.handleProvinceChange}
+                        />
+                    </FormGroup>
+                </Col>
+                <Col xs="12" md="6" lg="3">
+                    <FormGroup>
+                        <Label>จากวันที่ : </Label>
+                        <br />
+                        <div className="customDatePickerWidth">
+                            <DatePicker
+                                className="form-control"
+                                dateFormat={DATEPICKER_FORMAT}
+                                locale="th"
+                                name="dateStart"
+                                ref="dateStart"
+                                selected={this.state.dateStart}
+                                onChange={this.handleStartDateChange}
                             />
-                        </FormGroup>
-                    </Col>
-                    <Col xs="12" md="6" lg="3">
-                        <FormGroup>
-                            <Label>จากวันที่ : </Label>
-                            <br />
-                            <div className="customDatePickerWidth">
-                                <DatePicker
-                                    className="form-control"
-                                    dateFormat={DATEPICKER_FORMAT}
-                                    locale="th"
-                                    name="dateStart"
-                                    ref="dateStart"
-                                    selected={this.state.dateStart}
-                                    onChange={this.handleStartDateChange}
-                                />
-                            </div>
-                        </FormGroup>
-                    </Col>
-                    <Col xs="12" md="6" lg="3">
-                        <FormGroup>
-                            <Label>ถึงวันที่ : </Label>
-                            <br />
-                            <div className="customDatePickerWidth">
-                                <DatePicker
-                                    className="form-control"
-                                    dateFormat={DATEPICKER_FORMAT}
-                                    locale="th"
-                                    name="dateEnd"
-                                    ref="dateEnd"
-                                    selected={this.state.dateEnd}
-                                    onChange={this.handleEndDateChange}
-                                />
-                            </div>
-                        </FormGroup>
-                    </Col>
-                    <Col xs="12" md="6" lg="3">
-                        <FormGroup style={{ paddingTop: `1.75rem` }}>
-                            <Button className="w-100" color="success" size="md" onClick={this.handleFormSubmit}>
-                                <i className="fa fa-dot-circle-o"></i> ประมวลผล
+                        </div>
+                    </FormGroup>
+                </Col>
+                <Col xs="12" md="6" lg="3">
+                    <FormGroup>
+                        <Label>ถึงวันที่ : </Label>
+                        <br />
+                        <div className="customDatePickerWidth">
+                            <DatePicker
+                                className="form-control"
+                                dateFormat={DATEPICKER_FORMAT}
+                                locale="th"
+                                name="dateEnd"
+                                ref="dateEnd"
+                                selected={this.state.dateEnd}
+                                onChange={this.handleEndDateChange}
+                            />
+                        </div>
+                    </FormGroup>
+                </Col>
+                <Col xs="12" md="6" lg="3">
+                    <FormGroup style={{ paddingTop: `1.75rem` }}>
+                        <Button className="w-100" color="success" size="md" onClick={this.handleFormSubmit}>
+                            <i className="fa fa-dot-circle-o"></i> ประมวลผล
                             </Button>
-                        </FormGroup>
-                    </Col>
-                </Row >
-                <Row>
-                    <Col xs="12" md="12" lg="12">
-                        <hr />
-                    </Col>
-                </Row>
-            </>
+                    </FormGroup>
+                </Col>
+            </Row >
         )
     }
 }
