@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
-import ReactDOM from "react-dom";
 import classnames from 'classnames';
+import ReactDOM from "react-dom";
+import { withRouter } from 'react-router-dom';
 import {
   Row,
   Col,
@@ -9,14 +10,9 @@ import {
   Card,
   CardBody,
   CardHeader,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
   Table,
   TabContent,
   TabPane,
-  CardTitle,
-  CardText,
   Nav, 
   NavItem, 
   NavLink,
@@ -35,11 +31,10 @@ class OfficeAndUserProvince extends Component {
       isLoading: true,
       Users: [],
       UsersIsLoading: true,
-      idprovince: this.props.location.state.idprovince,
-      nameprovince: this.props.location.state.nameprovince
+      idprovince: (this.props.location.state)?((this.props.location.state.idprovince)?this.props.location.state.idprovince:""):"",
+      nameprovince: (this.props.location.state)?((this.props.location.state.nameprovince)?this.props.location.state.nameprovince:""):"",
     };
-    // console.log(this.state);
-
+    // console.log(this.props.location.state);
   }
 
   toggle(tab) {
@@ -86,7 +81,7 @@ class OfficeAndUserProvince extends Component {
       });  
   }
 
-  handleEdit=(userInfo=null)=> {
+  handleEditUser=(userInfo=null)=> {
     // console.log(userInfo);
     this.props.history.push({
       pathname: `/admin/userEdit`,
@@ -161,11 +156,13 @@ class OfficeAndUserProvince extends Component {
                   <TabPane tabId="2">
                     <Row>
                       <Col sm="12">
-                        <Row>
-                          <Col sm="6"><h4>รายชื่อผู้ใช้งาน</h4></Col>
-                          <Col sm="6"><Button onClick={()=>this.handleEdit()}>เพิ่มผู้ใช้</Button></Col>
+
+                        <Row style={{paddingBottom:"5px"}}>
+                          <div className="col-sm-9"><h4>รายชื่อผู้ใช้งาน</h4></div>
+                          <div className="col-sm-3 text-right">
+                            <Button color="success" onClick={()=>this.handleEditUser()}>เพิ่มผู้ใช้งาน</Button>
+                          </div>
                         </Row>
-                        
                         {!UsersIsLoading ? (
                           <Table>
                           <thead>
@@ -184,7 +181,14 @@ class OfficeAndUserProvince extends Component {
                                 <th scope="row">{index+1}</th>
                                 <td>{name}</td>
                                 <td>{username}</td>
-                                <td><Button onClick={()=>this.handleEdit(thisData)}>แก้ไข</Button></td>
+                                <td align="right">
+                                <Button 
+                                    color="warning"
+                                    onClick={()=>this.handleEditUser(thisData)}
+                                  >
+                                  แก้ไข
+                                </Button>
+                                </td>
                                 </tr>
                               );
                             })}

@@ -10,14 +10,9 @@ import {
   Card,
   CardBody,
   CardHeader,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
   Table,
   TabContent,
   TabPane,
-  CardTitle,
-  CardText,
   Nav, 
   NavItem, 
   NavLink,
@@ -73,7 +68,7 @@ class OfficeAndUser extends Component {
         headers: { Authorization: this.state.AuthString }
       })
       .then(response => {
-// console.log(response);        
+// console.log(response.data);        
         this.setState({
           Users: response.data,
           UsersIsLoading: false
@@ -150,7 +145,10 @@ class OfficeAndUser extends Component {
                             {Docs.map((thisData,index) => {
                               const { idprovince,name} = thisData;
                               return (
-                                <tr key={index} onClick={()=>{this.handleClickProvince(idprovince,thisData.name);}}>
+                                <tr 
+                                  key={index} 
+                                  onClick={()=>{this.handleClickProvince(idprovince,thisData.name);}}
+                                >
                                 <td style={{width:'1px'}}>{idprovince}</td>
                                 <td>{name}</td>
                                 </tr>
@@ -170,7 +168,9 @@ class OfficeAndUser extends Component {
                       <Col sm="12">
                         <Row style={{paddingBottom:"5px"}}>
                           <div className="col-sm-9"><h4>รายชื่อผู้ใช้งาน</h4></div>
-                          <div className="col-sm-3 text-right"><Button onClick={()=>this.handleEditUser()}>เพิ่มผู้ใช้งาน</Button></div>
+                          <div className="col-sm-3 text-right">
+                            <Button color="success" onClick={()=>this.handleEditUser()}>เพิ่มผู้ใช้งาน</Button>
+                          </div>
                         </Row>
 
                         {!UsersIsLoading ? (
@@ -180,6 +180,7 @@ class OfficeAndUser extends Component {
                               <th>#</th>
                               <th>ชื่อ-สกุล</th>
                               <th>UserName</th>
+                              <th><br></br></th>
                             </tr>
                           </thead>
                           <tbody>
@@ -190,6 +191,12 @@ class OfficeAndUser extends Component {
                                 <th scope="row">{index+1}</th>
                                 <td>{name}</td>
                                 <td>{username}</td>
+                                <td align="right">
+                                  <Button 
+                                    color="warning"
+                                    onClick={()=>this.handleEditUser(thisData)}
+                                  >แก้ไข</Button>
+                                </td>
                                 </tr>
                               );
                             })}
