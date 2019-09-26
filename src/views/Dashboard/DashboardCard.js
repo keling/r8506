@@ -24,3 +24,8 @@ import {
     Row,
     Table,
 } from 'reactstrap';
+
+import {
+    ACCESS_TOKEN,
+    URL_API
+} from './DashboardSettings'
