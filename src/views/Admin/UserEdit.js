@@ -9,37 +9,43 @@ import {
   Card,
   CardBody,
   CardHeader,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Table,
-  TabContent,
-  TabPane,
-  CardTitle,
-  CardText,
-  Nav, 
-  NavItem, 
-  NavLink,
   Form,
   FormGroup,
   Label,
   Input,
-  FormText,
 } from "reactstrap";
 
 class UserEdit extends Component {
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
+    // this.handleInputProvinceChange = this.handleInputProvinceChange.bind(this);
     this.state = {
       activeTab: '1',
       AuthString:
-        "oIIyHE7tDnjM9zW0iTkiZvYiSSEor8su1E7r2T4XnYX1dx8vlzn2Z8OaExNYEfsQ",
+        "cMhqtcyDfiwnnG9s3ZVfDkxoEcf34tnap4FZzd0zZErAcFo1tRhokPuRkO864DR5",
       Docs: [],
       isLoading: true,
       Users: [],
       UsersIsLoading: true,
-      userInfo:(this.props.location.state)?this.props.location.state.userInfo:
+      userInfo:(this.props.location.state)?((this.props.location.state.userInfo)?this.props.location.state.userInfo:
+      {
+        iduser:"",
+        idrole:"",
+        name:"",
+        email:"",
+        homeTel:"",
+        mobileTel:"",
+        idemployee:"",
+        idprovince:"",
+        idamp:"",
+        idtum:"",
+        idvillage:"",
+        address:"",
+        username:"",
+        password:"",
+      }
+      ):
       {
         iduser:"",
         idrole:"",
@@ -56,7 +62,6 @@ class UserEdit extends Component {
         username:"",
         password:"",
       },
-      // userInfo:{name:"",username:"",idprovince:""},
       roleList: [],
       provinceList: [],
       ampurList: [],
@@ -67,6 +72,7 @@ class UserEdit extends Component {
     //   nameprovince: this.props.location.state.nameprovince
 
     };
+    // console.log(this.props.location.state);
     // console.log(this.state);
   }
 
@@ -149,12 +155,14 @@ class UserEdit extends Component {
 
   handleSave=e=>{
 // console.log(this.state.userInfo);
+console.log(this.state.userInfo.iduser);
+    if (this.state.userInfo.iduser) {
       axios
-      .put(`http://203.157.168.91:3000/api/Userr8506s`, this.state.userInfo, {
+      .put(`http://203.157.168.91:3000/api/Userr8506s/${this.state.userInfo.iduser}`, this.state.userInfo, {
         headers: { Authorization: this.state.AuthString }
       })
       .then(response => {
-console.log(response);        
+  // console.log(response);        
         this.setState({
           Users: response.data,
           UsersIsLoading: false
@@ -163,6 +171,95 @@ console.log(response);
       .catch(error => {
         console.log("error " + error);
       });
+    }
+    else {
+      axios
+      .put(`http://203.157.168.91:3000/api/Userr8506s`, this.state.userInfo, {
+        headers: { Authorization: this.state.AuthString }
+      })
+      .then(response => {
+  // console.log(response);        
+        this.setState({
+          Users: response.data,
+          UsersIsLoading: false
+        });
+      })
+      .catch(error => {
+        console.log("error " + error);
+      });
+    }
+  }
+
+  getAmpur=()=> {
+    console.log(this.state.userInfo);
+    if (this.state.userInfo.idprovince) {
+      axios
+      .get(`http://203.157.168.91:3000/api/Amps?filter={"where":{"idprovince":"${this.state.userInfo.idprovince}"}}`, {
+        headers: { Authorization: this.state.AuthString }
+      })
+      .then(response => {
+        this.setState({
+          ampurList: response.data,
+        });
+      })
+      .catch(error => {
+        console.log("error " + error);
+      });
+    }
+  }
+
+  getTambon=()=>{
+    console.log('getTambon');
+    console.log(this.state.userInfo.idamp);
+    if (this.state.userInfo.idamp) {
+      axios
+      .get(`http://203.157.168.91:3000/api/Ta?filter={"where":{"and":[{"idamp":"${this.state.userInfo.idamp}"},{"idprovince":"${this.state.userInfo.idprovince}"}]}}`, {
+        headers: { Authorization: this.state.AuthString }
+      })
+      .then(response => {
+        this.setState({
+          tambonList: response.data,
+        });
+      })
+      .catch(error => {
+        console.log("error " + error);
+      });
+    }
+  }
+
+  getVillage=()=>{
+    console.log('getVillage');
+    console.log(this.state.userInfo.idvillage);
+    if (this.state.userInfo.idvillage) {
+      axios
+      .get(`http://203.157.168.91:3000/api/Villages?filter={"where":{"and":[{"idtum":"${this.state.userInfo.idtum}"},{"idamp":"${this.state.userInfo.idamp}"},{"idprovince":"${this.state.userInfo.idprovince}"}]}}`, {
+        headers: { Authorization: this.state.AuthString }
+      })
+      .then(response => {
+        this.setState({
+          villageList: response.data,
+        });
+      })
+      .catch(error => {
+        console.log("error " + error);
+      });
+    }
+  }
+
+  componentWillMount() {
+    this.getData();
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (this.state.userInfo.idprovince!="" & this.state.userInfo.idprovince!="0" & this.state.ampurList.length==0) {
+      this.getAmpur();
+    }
+    if (this.state.userInfo.idprovince!="" & this.state.userInfo.idamp!="" & this.state.userInfo.idprovince!="0" & this.state.userInfo.idamp!="0" & this.state.tambonList.length==0) {
+      this.getTambon();
+    }
+    if (this.state.userInfo.idprovince!="" & this.state.userInfo.idamp!="" & this.state.userInfo.idtum!="" & this.state.userInfo.idprovince!="0" & this.state.userInfo.idamp!="0" & this.state.userInfo.idtum!="0" & this.state.villageList.length==0) {
+      this.getVillage();
+    }
   }
 
   handleInputProvinceChange=e=>{
@@ -173,6 +270,7 @@ console.log(response);
       headers: { Authorization: this.state.AuthString }
     })
     .then(response => {
+      console.log('handleInputProvinceChange');
       this.setState({
         ampurList: response.data,
 
@@ -218,7 +316,6 @@ console.log(response);
   }  
 
   handleInputVillageChange=e=>{
-    // console.log(e.target.value);
     this.setState({ userInfo: {...this.state.userInfo, [e.target.id]:e.target.value} });
   }
 
