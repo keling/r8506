@@ -20,7 +20,7 @@ export default {
           icon: 'icon-folder-alt',
         },
         {
-          name: 'นำเข้าจากการ KeyIn นะ',
+          name: 'นำเข้าจากการ KeyIn',
           url: '/imports/importform',
           icon: 'icon-note',
         },
@@ -57,6 +57,11 @@ export default {
           icon: 'icon-doc',
         },
       ],
+    },
+    {
+      name: 'งานที่ได้รับมอบหมาย',
+      url: '/srrt/workList',
+      icon: 'icon-star',
     },
     {
       name: 'ค้นหารายงาน R506',
