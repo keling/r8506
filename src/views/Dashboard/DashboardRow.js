@@ -32,7 +32,6 @@ import {
     ACCESS_TOKEN,
     URL_API
 } from './DashboardSettings'
-import DashboardCardIn from './DashboardCardIn';
 import LoadingText from './LoadingText'
 
 // functions
