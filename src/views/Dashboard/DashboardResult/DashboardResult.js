@@ -24,7 +24,7 @@ export default class DashboardResult extends Component {
     // }
 
     render() {
-        console.info(`result render`)
+        // console.info(`result render`)
         return (
             this.props.params.diseases.map(disease => (
                 <DashboardRow key={`disease-${disease.id}`} disease={disease} params={this.props.params} timestamp={this.props.timestamp} />

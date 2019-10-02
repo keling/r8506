@@ -1,6 +1,6 @@
 import React, { Component, lazy, Suspense } from 'react';
 import Select from 'react-select';
-import axios from "axios";
+// import axios from "axios";
 import { Bar, Line } from 'react-chartjs-2';
 import {
     Badge,
@@ -32,6 +32,8 @@ import { registerLocale, setDefaultLocale } from "react-datepicker";
 import th from 'date-fns/locale/th';
 import "react-datepicker/dist/react-datepicker.css";
 
+import axios from './AwaitableAxios'
+
 import {
     ACCESS_TOKEN,
     URL_API
@@ -55,6 +57,7 @@ class Dashboard extends Component {
 
         // set current state
         this.state = {
+            isError: ``,
             isLoading: true,
 
             diseases: [],
@@ -86,7 +89,8 @@ class Dashboard extends Component {
             isLoading: false
         })
 
-        if (getDiseaseResult.status != 200) {
+        if (getDiseaseResult.isAxiosError || getDiseaseResult.status != 200) {
+            console.error(`API Error`, getDiseaseResult.response)
             return
         }
 
@@ -130,6 +134,13 @@ class Dashboard extends Component {
                         <Loading /> :
                         <DashboardResult params={this.state.dashboardResultParams} timestamp={new Date()} />
                 }
+                {/* <Row>
+                    <div className="animated fadeIn pt-1 text-center">
+                        {
+                            this.state.isError
+                        }
+                    </div>
+                </Row> */}
             </div >
         );
     }

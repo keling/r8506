@@ -1,7 +1,7 @@
 // https://reactjs.org/docs/react-component.html#updating
 import React, { Component, lazy, Suspense } from 'react'
 
-import axios from 'axios'
+// import axios from 'axios'
 import Select from 'react-select'
 import {
     Badge,
@@ -29,6 +29,8 @@ import {
 } from 'reactstrap'
 import Moment from 'moment'
 
+import axios from '../AwaitableAxios'
+
 import {
     ACCESS_TOKEN,
     URL_API
@@ -48,48 +50,41 @@ const convertProvinceParam = province => {
     }
 }
 
+const INIT_DATA_STATE = {
+    dataIn: {},
+    dataWait: {},
+    dataSick: {},
+    dataIncorrect: {},
+}
+
+const CSTATUSES = {
+    In: {
+        between: [1, 2]
+    },
+    Wait: 3,
+    Sick: 4,
+    Incorrect: {
+        nin: [1, 2, 3, 4]
+    },
+}
+
 export default class DashboardRow extends Component {
     constructor(props) {
         super(props)
 
-        this.state = {
-            dataIn: {},
-            dataWait: {},
-            dataSick: {},
-            dataIncorrect: {},
-            timestamp: this.props.timestamp
-        }
+        this.state = Object.assign({
+            timestamp: this.props.timestamp,
+        }, INIT_DATA_STATE)
 
-        this.data = {
-            dataIn: {},
-            dataWait: {},
-            dataSick: {},
-            dataIncorrect: {},
-        }
+        this.data = Object.assign({}, INIT_DATA_STATE)
 
     }
 
-    // static getDerivedStateFromProps(props, state) {
-    //     this.getData()
-    // }
-
     componentDidMount() {
-        console.info('this is row did mount', this.props.disease, this.props.params)
-
         this.getData()
-        // this.getDataIn();
-        // this.getDataWait();
-        // this.getDataSick();
-        // this.getDataIncorrect();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        console.info('this is should component update')
-        console.info(this.props)
-        console.info(nextProps)
-        // console.info(this.state)
-        // console.info(nextState)
-
         if (this.props.timestamp != nextProps.timestamp) {
             return true
         }
@@ -104,62 +99,36 @@ export default class DashboardRow extends Component {
         }
 
         return false
-        //     // if (
-        //     //     this.props.params.dateStart != nextProps.params.dateStart ||
-        //     //     this.props.params.dateEnd != nextProps.params.dateEnd ||
-        //     //     this.props.params.selectedProvince != nextProps.params.selectedProvince
-        //     // ) {
-        //     //     return true
-        //     // }
-
-        //     // return false
-        //     // console.info(this.state, nextState)
-        //     if (
-        //         this.state.dashboardRowIn.count !== nextState.dashboardRowIn.count ||
-        //         this.state.dashboardRowWait.count !== nextState.dashboardRowWait.count ||
-        //         this.state.dashboardRowSick.count !== nextState.dashboardRowSick.count ||
-        //         this.state.dashboardRowIncorrect.count !== nextState.dashboardRowIncorrect.count
-        //     ) {
-        //         return true
-        //     }
-
-        //     return false
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        console.info('this is row did update', this.props.disease, this.props.params)
+        // console.info('this is row did update', this.props.disease, this.props.params)
+
+        if (prevProps.timestamp != this.props.timestamp) {
+            this.setState(Object.assign({}, INIT_DATA_STATE))
+        }
 
         // if (prevProp.province == this.props.province) {
         //     return
         // }
 
-        this.getData()
+        // this.setState({
+        //     loading: true
+        // })
 
-        // this.getDataIn();
-        // this.getDataWait();
-        // this.getDataSick();
-        // this.getDataIncorrect();
+        this.getData()
     }
 
     async getData() {
-        console.info('\n')
-        console.info('\n')
+
+        // this.setState(INIT_DATA_STATE)
+        // console.info('\n')
+        // console.info('\n')
         // promisify them
         // use isloading to trigger render from state change
 
-        let cstatuses = {
-            In: {
-                between: [1, 2]
-            },
-            Wait: 3,
-            Sick: 4,
-            Incorrect: {
-                nin: [1, 2, 3, 4]
-            },
-        }
-
-        for (let cstatusIndex in cstatuses) {
-            let cstatus = cstatuses[cstatusIndex]
+        for (let cstatusIndex in CSTATUSES) {
+            let cstatus = CSTATUSES[cstatusIndex]
             let dataResult = await this.getDataByCstatus(cstatus)
 
             if (dataResult.error) {
@@ -181,18 +150,18 @@ export default class DashboardRow extends Component {
         // this.getDataSick()
         // this.getDataIncorrect()
 
-        console.info('final', this.data)
+        // console.info('final', this.data)
 
         this.setState({
             ...this.data,
-            shouldUpdate: true,
+            loading: false,
         }, _ => {
-            console.info('after set state', this.state)
+            // console.info('after set state', this.state)
         })
 
 
-        console.info('\n')
-        console.info('\n')
+        // console.info('\n')
+        // console.info('\n')
     }
 
     getDataByCstatus(cstatus) {
@@ -217,11 +186,6 @@ export default class DashboardRow extends Component {
                     params
                 })
 
-                // this.setState({
-                //     isLoading: false
-                // });
-
-                // console.log(axiosObject);
                 if (axiosObject.status != 200) {
                     resolve({
                         error: true
@@ -229,119 +193,14 @@ export default class DashboardRow extends Component {
                     return
                 }
 
-                // console.info(this.data)
-                // this.data.dataIn = axiosObject.data
-
                 resolve({
                     error: false,
                     data: axiosObject.data
                 })
-
-                // this.setState({
-                //     dataIn: axiosObject.data
-                // }, _ => {
-                //     console.info('complete set datain')
-                //     resolve({
-                //         error: false
-                //     })
-                // })
             }
         )
 
 
-    }
-
-    async getDataWait() {
-        let params = {
-            where: {
-                chservProvince: convertProvinceParam(this.props.params.selectedProvince),
-                disease: this.props.disease.id,
-                cstatus: "3",
-                datedefine: {
-                    between: [
-                        Moment(this.props.params.dateStart).format('YYYY-MM-DD'),
-                        Moment(this.props.params.dateEnd).format('YYYY-MM-DD')
-                    ]
-                }
-            }
-        }
-        let axiosObject = await axios
-            .get(`${URL_API}/Cases/count`, {
-                headers: { Authorization: ACCESS_TOKEN },
-                params
-            })
-        // console.log(axiosObject);
-
-        if (axiosObject.status != 200) {
-            return;
-        }
-
-        this.setState({
-            dataWait: axiosObject.data
-        })
-    }
-
-    async getDataSick() {
-
-        let params = {
-            where: {
-                chservProvince: convertProvinceParam(this.props.params.selectedProvince),
-                disease: this.props.disease.id,
-                cstatus: "4",
-                datedefine: {
-                    between: [
-                        Moment(this.props.params.dateStart).format('YYYY-MM-DD'),
-                        Moment(this.props.params.dateEnd).format('YYYY-MM-DD')
-                    ]
-                }
-            }
-        }
-        let axiosObject = await axios
-            .get(`${URL_API}/Cases/count`, {
-                headers: { Authorization: ACCESS_TOKEN },
-                params
-            })
-        // console.log(axiosObject);
-
-        if (axiosObject.status != 200) {
-            return;
-        }
-
-        this.setState({
-            dataSick: axiosObject.data
-        })
-    }
-
-    async getDataIncorrect() {
-        let params = {
-            where: {
-                chservProvince: convertProvinceParam(this.props.params.selectedProvince),
-                disease: this.props.disease.id,
-                cstatus: {
-                    nin: [1, 2, 3, 4]
-                },
-                datedefine: {
-                    between: [
-                        Moment(this.props.params.dateStart).format('YYYY-MM-DD'),
-                        Moment(this.props.params.dateEnd).format('YYYY-MM-DD')
-                    ]
-                }
-            }
-        }
-        let axiosObject = await axios
-            .get(`${URL_API}/Cases/count`, {
-                headers: { Authorization: ACCESS_TOKEN },
-                params
-            })
-        // console.log(axiosObject);
-
-        if (axiosObject.status != 200) {
-            return;
-        }
-
-        this.setState({
-            dataIncorrect: axiosObject.data
-        })
     }
 
     render() {
