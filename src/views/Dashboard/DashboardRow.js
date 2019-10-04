@@ -32,7 +32,6 @@ import {
     ACCESS_TOKEN,
     URL_API
 } from './DashboardSettings'
-import DashboardCardIn from './DashboardCardIn';
 import LoadingText from './LoadingText'
 
 // functions
@@ -132,14 +131,16 @@ export default class DashboardRow extends Component {
 
     async getDataIn() {
         console.log(this.props);
+
         let dStart = Moment(this.props.dtstart).format('YYYY-MM-DD');
         let dEnd = Moment(this.props.dtend).format('YYYY-MM-DD');
         let prov = [];
+
         if (this.props.provcode['value'] == 0) {
             prov = [38, 39, 41, 42, 43, 47, 48];
         }
         else {
-            prov = this.props.provcode['value'];
+            prov = [this.props.provcode['value']];
         }
         // console.log(dStart);
         console.log(prov);
