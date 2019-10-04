@@ -91,7 +91,7 @@ class OfficeAndUser extends Component {
     // console.log(userInfo);
     this.props.history.push({
       pathname: `/admin/userEdit`,
-      state: {userInfo: userInfo,idprovince:this.state.idprovince}
+      state: {userInfo: userInfo,idprovince:this.state.idprovince,roleLevel:"region"}
     });
   }
 

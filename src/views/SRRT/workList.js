@@ -9,6 +9,7 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Alert,
   Form,
   FormGroup,
   Label,
@@ -21,54 +22,10 @@ class workList extends Component {
     this.toggle = this.toggle.bind(this);
     // this.handleInputProvinceChange = this.handleInputProvinceChange.bind(this);
     this.state = {
-      activeTab: '1',
       AuthString:
         "cMhqtcyDfiwnnG9s3ZVfDkxoEcf34tnap4FZzd0zZErAcFo1tRhokPuRkO864DR5",
-      Docs: [],
-      isLoading: true,
-      Users: [],
-      UsersIsLoading: true,
-      userInfo:(this.props.location.state)?((this.props.location.state.userInfo)?this.props.location.state.userInfo:
-      {
-        iduser:"",
-        idrole:"",
-        name:"",
-        email:"",
-        homeTel:"",
-        mobileTel:"",
-        idemployee:"",
-        idprovince:"",
-        idamp:"",
-        idtum:"",
-        idvillage:"",
-        address:"",
-        username:"",
-        password:"",
-      }
-      ):
-      {
-        iduser:"",
-        idrole:"",
-        name:"",
-        email:"",
-        homeTel:"",
-        mobileTel:"",
-        idemployee:"",
-        idprovince:"",
-        idamp:"",
-        idtum:"",
-        idvillage:"",
-        address:"",
-        username:"",
-        password:"",
-      },
-      roleList: [],
-      provinceList: [],
-      ampurList: [],
-      tambonList: [],
-      villageList: [],
-      selectedAmpurList: "",
-    //   idprovince: this.props.location.state.idprovince,
+      caseNumber:"",
+        //   idprovince: this.props.location.state.idprovince,
     //   nameprovince: this.props.location.state.nameprovince
 
     };
@@ -81,184 +38,6 @@ class workList extends Component {
       this.setState({
         activeTab: tab
       });
-    }
-  }
-
-  componentWillMount() {
-    this.getData();
-  }
-
-  getData() {
-    axios
-      .get(`http://203.157.168.91:3000/api/Amps?filter={"where":{"idprovince":"${this.state.idprovince}"}}`, {
-        headers: { Authorization: this.state.AuthString }
-      })
-      .then(response => {
-//  console.log(response);        
-        this.setState({
-          Docs: response.data,
-          isLoading: false
-        });
-      })
-      .catch(error => {
-        console.log("error " + error);
-      });
-
-    axios
-      .get(`http://203.157.168.91:3000/api/Userr8506s?filter={"where":{"and":[{"idrole":"11"},{"idprovince":"${this.state.idprovince}"}]}}`, {
-        headers: { Authorization: this.state.AuthString }
-      })
-      .then(response => {
-// console.log(response);        
-        this.setState({
-          Users: response.data,
-          UsersIsLoading: false
-        });
-      })
-      .catch(error => {
-        console.log("error " + error);
-      });
-      
-    axios
-      .get(`http://203.157.168.91:3000/api/Roler8506s`, {
-        headers: { Authorization: this.state.AuthString }
-      })
-      .then(response => {
-// console.log(response);        
-        this.setState({
-          roleList: response.data,
-        });
-      })
-      .catch(error => {
-        console.log("error " + error);
-      });
-
-    axios
-      .get(`http://203.157.168.91:3000/api/Provinces?filter={"where":{"idstate":8}}`, {
-        headers: { Authorization: this.state.AuthString }
-      })
-      .then(response => {
-// console.log(response);        
-        this.setState({
-          provinceList: response.data,
-        });
-      })
-      .catch(error => {
-        console.log("error " + error);
-      });
-  }
-
-  handleChange=e=>{
-      this.setState({ userInfo: {...this.state.userInfo, [e.target.id]:e.target.value} });
-      // console.log(this.state);
-  }
-
-  handleSave=e=>{
-// console.log(this.state.userInfo);
-console.log(this.state.userInfo.iduser);
-    if (this.state.userInfo.iduser) {
-      axios
-      .put(`http://203.157.168.91:3000/api/Userr8506s/${this.state.userInfo.iduser}`, this.state.userInfo, {
-        headers: { Authorization: this.state.AuthString }
-      })
-      .then(response => {
-  // console.log(response);        
-        this.setState({
-          Users: response.data,
-          UsersIsLoading: false
-        });
-      })
-      .catch(error => {
-        console.log("error " + error);
-      });
-    }
-    else {
-      axios
-      .put(`http://203.157.168.91:3000/api/Userr8506s`, this.state.userInfo, {
-        headers: { Authorization: this.state.AuthString }
-      })
-      .then(response => {
-  // console.log(response);        
-        this.setState({
-          Users: response.data,
-          UsersIsLoading: false
-        });
-      })
-      .catch(error => {
-        console.log("error " + error);
-      });
-    }
-  }
-
-  getAmpur=()=> {
-    console.log(this.state.userInfo);
-    if (this.state.userInfo.idprovince) {
-      axios
-      .get(`http://203.157.168.91:3000/api/Amps?filter={"where":{"idprovince":"${this.state.userInfo.idprovince}"}}`, {
-        headers: { Authorization: this.state.AuthString }
-      })
-      .then(response => {
-        this.setState({
-          ampurList: response.data,
-        });
-      })
-      .catch(error => {
-        console.log("error " + error);
-      });
-    }
-  }
-
-  getTambon=()=>{
-    console.log('getTambon');
-    console.log(this.state.userInfo.idamp);
-    if (this.state.userInfo.idamp) {
-      axios
-      .get(`http://203.157.168.91:3000/api/Ta?filter={"where":{"and":[{"idamp":"${this.state.userInfo.idamp}"},{"idprovince":"${this.state.userInfo.idprovince}"}]}}`, {
-        headers: { Authorization: this.state.AuthString }
-      })
-      .then(response => {
-        this.setState({
-          tambonList: response.data,
-        });
-      })
-      .catch(error => {
-        console.log("error " + error);
-      });
-    }
-  }
-
-  getVillage=()=>{
-    console.log('getVillage');
-    console.log(this.state.userInfo.idvillage);
-    if (this.state.userInfo.idvillage) {
-      axios
-      .get(`http://203.157.168.91:3000/api/Villages?filter={"where":{"and":[{"idtum":"${this.state.userInfo.idtum}"},{"idamp":"${this.state.userInfo.idamp}"},{"idprovince":"${this.state.userInfo.idprovince}"}]}}`, {
-        headers: { Authorization: this.state.AuthString }
-      })
-      .then(response => {
-        this.setState({
-          villageList: response.data,
-        });
-      })
-      .catch(error => {
-        console.log("error " + error);
-      });
-    }
-  }
-
-  componentWillMount() {
-    this.getData();
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    if (this.state.userInfo.idprovince!="" & this.state.userInfo.idprovince!="0" & this.state.ampurList.length==0) {
-      this.getAmpur();
-    }
-    if (this.state.userInfo.idprovince!="" & this.state.userInfo.idamp!="" & this.state.userInfo.idprovince!="0" & this.state.userInfo.idamp!="0" & this.state.tambonList.length==0) {
-      this.getTambon();
-    }
-    if (this.state.userInfo.idprovince!="" & this.state.userInfo.idamp!="" & this.state.userInfo.idtum!="" & this.state.userInfo.idprovince!="0" & this.state.userInfo.idamp!="0" & this.state.userInfo.idtum!="0" & this.state.villageList.length==0) {
-      this.getVillage();
     }
   }
 
@@ -281,42 +60,11 @@ console.log(this.state.userInfo.iduser);
     });
   }
 
-  handleInputAmpurChange=e=>{
-    // console.log(e.target.value);
-    this.setState({ userInfo: {...this.state.userInfo, [e.target.id]:e.target.value , "idtum":"0" , "idvillage":"0"} });
-    axios
-    .get(`http://203.157.168.91:3000/api/Ta?filter={"where":{"and":[{"idamp":"${e.target.value}"},{"idprovince":"${this.state.ampurList[0].idprovince}"}]}}`, {
-      headers: { Authorization: this.state.AuthString }
-    })
-    .then(response => {
-      this.setState({
-        tambonList: response.data,
-      });
-    })
-    .catch(error => {
-      console.log("error " + error);
+  handleWorkCase=(caseNumber=null)=> {
+    this.props.history.push({
+      pathname: `/SRRT/workCase`,
+      state: {caseNumber: caseNumber}
     });
-  }
-
-  handleInputTumbonChange=e=>{
-    // console.log(e.target.value);
-    this.setState({ userInfo: {...this.state.userInfo, [e.target.id]:e.target.value , "idvillage":"0"} });
-    axios
-    .get(`http://203.157.168.91:3000/api/Villages?filter={"where":{"and":[{"idtum":"${e.target.value}"},{"idamp":"${this.state.tambonList[0].idamp}"},{"idprovince":"${this.state.ampurList[0].idprovince}"}]}}`, {
-      headers: { Authorization: this.state.AuthString }
-    })
-    .then(response => {
-      this.setState({
-        villageList: response.data,
-      });
-    })
-    .catch(error => {
-      console.log("error " + error);
-    });
-  }  
-
-  handleInputVillageChange=e=>{
-    this.setState({ userInfo: {...this.state.userInfo, [e.target.id]:e.target.value} });
   }
 
   render() {
@@ -332,13 +80,60 @@ console.log(this.state.userInfo.iduser);
               </CardHeader>
               <CardBody>
 
-                <Row>
-                  งาน #001
-                </Row>
+                <Alert color="warning" style={{margin:"0px",marginBottom:"20px",padding:"0px",paddingTop:"20px",paddingBottom:"20px"}}>
+                  <Row style={{margin:"0px",padding:"0px"}}>
+                    <Col>
+                      <Col xs="12"><b>หมายเลขเคส</b> 95232</Col>
+                      <Col xs="12"><b>โรค</b> ไข้เด็งกี่</Col>
+                      <Col xs="12"><b>ชื่อผู้ป่วย</b> สมชาย ชาติไทย</Col>
+                      <Col xs="12"><b>ที่อยู่</b> 555 ม.5 ต.ในเมือง อ.เมือง จ.สกลนคร</Col>
+                      <Col xs="12"><b>วันที่สั่งงาน</b> 12/12/2562</Col>
+                    </Col>
+                    <Col xs="auto">
+                      <div style={{textAlign:"center"}}></div>
+                      <Button 
+                        color="warning" 
+                        style={{height:"100%",width:"150px"}}
+                        onClick={()=>this.handleWorkCase('316565')}
+                      >
+                        ดำเนินการต่อ
+                      </Button>
+                    </Col>
+                    <Col xs="12" style={{marginLeft:"15px",color:"red"}}>
+                      <b>รับทราบเคสแล้ว </b>**ถูกบันทึกตำแหน่ง GPS และเริ่มต้นการจับเวลาในการลงพื้นที่แล้ว**
+                    </Col>
+                  </Row>
+                </Alert>
 
-                <Row>
-                  งาน #002
-                </Row>
+                <Alert color="primary" style={{margin:"0px",marginBottom:"20px",padding:"0px",paddingTop:"20px",paddingBottom:"20px"}}>
+                  <Row style={{margin:"0px",padding:"0px"}}>
+                    <Col>
+                      <Col xs="12"><b>หมายเลขเคส</b> 95232</Col>
+                      <Col xs="12"><b>โรค</b> ไข้เด็งกี่</Col>
+                      <Col xs="12"><b>ชื่อผู้ป่วย</b> สมชาย ชาติไทย</Col>
+                      <Col xs="12"><b>ที่อยู่</b> 555 ม.5 ต.ในเมือง อ.เมือง จ.สกลนคร</Col>
+                      <Col xs="12"><b>วันที่สั่งงาน</b> 12/12/2562</Col>
+                    </Col>
+                    <Col xs="auto">
+                      <Button color="primary" style={{height:"100%",width:"150px"}}>รับทราบเคส</Button>
+                    </Col>
+                  </Row>
+                </Alert>
+
+                <Alert color="primary" style={{margin:"0px",marginBottom:"20px",padding:"0px",paddingTop:"20px",paddingBottom:"20px"}}>
+                  <Row style={{margin:"0px",padding:"0px"}}>
+                    <Col>
+                      <Col xs="12"><b>หมายเลขเคส</b> 95232</Col>
+                      <Col xs="12"><b>โรค</b> ไข้เด็งกี่</Col>
+                      <Col xs="12"><b>ชื่อผู้ป่วย</b> สมชาย ชาติไทย</Col>
+                      <Col xs="12"><b>ที่อยู่</b> 555 ม.5 ต.ในเมือง อ.เมือง จ.สกลนคร</Col>
+                      <Col xs="12"><b>วันที่สั่งงาน</b> 12/12/2562</Col>
+                    </Col>
+                    <Col xs="auto">
+                      <Button color="primary" style={{height:"100%",width:"150px"}}>รับทราบเคส</Button>
+                    </Col>
+                  </Row>
+                </Alert>
 
               </CardBody>
             </Card>

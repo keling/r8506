@@ -48,6 +48,7 @@ const OfficeAndUser = React.lazy(() => import('./views/Admin/OfficeAndUser'));
 const OfficeAndUserProvince = React.lazy(() => import('./views/Admin/OfficeAndUserProvince'));
 const UserEdit = React.lazy(() => import('./views/Admin/UserEdit'));
 const workList = React.lazy(() => import('./views/SRRT/workList'));
+const workCase = React.lazy(() => import('./views/SRRT/workCase'));
 
 const Reporte0 = React.lazy(() => import('./views/Report/ReportE0'));
 
@@ -105,6 +106,7 @@ const routes = [
   { path: '/admin/officeUserProv', exact: true,  name: 'ตั้งค่าหน่วยงานและผู้ใช้', component: OfficeAndUserProvince },
   { path: '/admin/userEdit', exact: true,  name: 'ตั้งค่าหน่วยงานและผู้ใช้', component: UserEdit },
   { path: '/srrt/workList', exact: true,  name: 'งานที่รับมอบหมาย', component: workList },
+  { path: '/srrt/workCase', exact: true,  name: 'รายละเอียด Case', component: workCase },
 
   { path: '/imports/importfile', exact: true, name: 'นำเข้าจากไฟล์', component: Importfile },
   { path: '/imports/importform', exact: true, name: 'นำเข้าจากฟอร์ม', component: Importform },

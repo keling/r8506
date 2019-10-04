@@ -68,6 +68,7 @@ class UserEdit extends Component {
       tambonList: [],
       villageList: [],
       selectedAmpurList: "",
+      roleLevel:(this.props.location.state)?this.props.location.state.roleLevel:"",
     //   idprovince: this.props.location.state.idprovince,
     //   nameprovince: this.props.location.state.nameprovince
 
@@ -118,9 +119,17 @@ class UserEdit extends Component {
       .catch(error => {
         console.log("error " + error);
       });
-      
+
+    let roleFilter=""; 
+    console.log(this.props.location.state);
+    if (this.state.roleLevel=="region") {
+      roleFilter=`?filter={"where":{"or":[{"classRegion":"Y"},{"classProvince":"Y"},{"classAmpur":"Y"},{"classUnit":"Y"}]}}`;
+    }
+    else if (this.state.roleLevel=="province") {
+      roleFilter=`?filter={"where":{"or":[{"classProvince":"Y"},{"classAmpur":"Y"},{"classUnit":"Y"}]}}`;
+    }    
     axios
-      .get(`http://203.157.168.91:3000/api/Roler8506s`, {
+      .get(`http://203.157.168.91:3000/api/Roler8506s`+roleFilter, {
         headers: { Authorization: this.state.AuthString }
       })
       .then(response => {
