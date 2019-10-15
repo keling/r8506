@@ -70,7 +70,7 @@ export default class E0 extends Component {
             },
             where: {
                 DATEDEFINE: {
-                    between: ['2019-09-01', '2019-12-31']
+                    between: ['2019-08-01', '2019-12-31']
                 }
             }
         })
@@ -93,6 +93,7 @@ export default class E0 extends Component {
             datas: getE0Result.data,
             E0ResultParams
         })
+        console.log(this.state.datas);
     }
 
     handleE0FormSubmit(params) {
@@ -107,6 +108,7 @@ export default class E0 extends Component {
     }
 
     render() {
+        // const { datas } = this.state;
         return (
             <div className="animated fadeIn">
                 <Row>
@@ -127,6 +129,7 @@ export default class E0 extends Component {
                             <Table responsive hover>
                                 <thead>
                                     <tr>
+                                        <th>IDCase</th>
                                         <th>โรค</th>
                                         <th>ชื่อ - สกุล</th>
                                         <th>ที่อยู่</th>
@@ -140,27 +143,32 @@ export default class E0 extends Component {
                                 </thead>
                                 <tbody>
                                     {
-                                        this.state.isLoading ?
+                                        this.state.isLoading ? (
                                             //<Loading /> :
-                                            <Col>Loading ...</Col> :
-                                            // <DashboardResult params={this.state.dashboardResultParams} timestamp={new Date()} />
-                                            // <E0Tables params={this.state.E0ResultParams.datas} />
-                                            this.state.E0ResultParams.datas.map(datax => {
-                                                const { disname, casename, address, addrcode, datesick, datedefine, datereach, officeid, idmoph } = datax;
-                                                <tr>
-                                                    <td>{disname}</td>
-                                                    <td>{casename}</td>
-                                                    <td>{address}</td>
-                                                    <td>{addrcode}</td>
-                                                    <td>{datesick}</td>
-                                                    <td>{datedefine}</td>
-                                                    <td>{datereach}</td>
-                                                    <td>{officeid}</td>
-                                                    <td>{idmoph}</td>
-                                                </tr>
-                                            }
-                                            )
-                                    }
+                                            <Col>Loading ...</Col>) : (
+                                                // <DashboardResult params={this.state.dashboardResultParams} timestamp={new Date()} />
+                                                // <E0Tables params={this.state.E0ResultParams.datas} />
+                                                // this.state.E0ResultParams.datas.map(datas => {
+                                                //const { disname, casename, address, addrcode, datesick, datedefine, datereach, officeid, idmoph } = datas;
+                                                this.state.datas.map(datax => {
+                                                    return (
+                                                        <tr>
+                                                            <td>{datax.id}</td>
+                                                            <td>{datax.disname}</td>
+                                                            <td>{datax.casename}</td>
+                                                            <td>{datax.address}</td>
+                                                            <td>{datax.addrcode}</td>
+                                                            <td>{datax.datesick}</td>
+                                                            <td>{datax.datedefine}</td>
+                                                            <td>{datax.datereach}</td>
+                                                            <td>{datax.officeid}</td>
+                                                            <td>{datax.idmoph}</td>
+                                                        </tr>
+                                                    )
+                                                })
+                                                //}
+                                                //)
+                                            )}
                                 </tbody>
                             </Table>
                         </CardBody>
