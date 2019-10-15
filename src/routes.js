@@ -50,7 +50,7 @@ const UserEdit = React.lazy(() => import('./views/Admin/UserEdit'));
 const workList = React.lazy(() => import('./views/SRRT/workList'));
 const workCase = React.lazy(() => import('./views/SRRT/workCase'));
 
-const Reporte0 = React.lazy(() => import('./views/Report/ReportE0'));
+const E0 = React.lazy(() => import('./views/Report/E0/E0main'));
 
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
@@ -98,21 +98,21 @@ const routes = [
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
 
 
-  { path: '/imports/importfile', exact: true,  name: 'นำเข้าจากไฟล์', component: Importfile },
-  { path: '/imports/importform', exact: true,  name: 'นำเข้าจากฟอร์ม', component: Importform },
-  { path: '/imports/importloopback', exact: true,  name: 'นำเข้าจาก Loopback', component: Importloopback },
-  { path: '/case/waitCheck', exact: true,  name: 'รอตรวจสอบ', component: CaseWaitCheck },
-  { path: '/admin/officeUser', exact: true,  name: 'ตั้งค่าหน่วยงานและผู้ใช้', component: OfficeAndUser },
-  { path: '/admin/officeUserProv', exact: true,  name: 'ตั้งค่าหน่วยงานและผู้ใช้', component: OfficeAndUserProvince },
-  { path: '/admin/userEdit', exact: true,  name: 'ตั้งค่าหน่วยงานและผู้ใช้', component: UserEdit },
-  { path: '/srrt/workList', exact: true,  name: 'งานที่รับมอบหมาย', component: workList },
-  { path: '/srrt/workCase', exact: true,  name: 'รายละเอียด Case', component: workCase },
+  { path: '/imports/importfile', exact: true, name: 'นำเข้าจากไฟล์', component: Importfile },
+  { path: '/imports/importform', exact: true, name: 'นำเข้าจากฟอร์ม', component: Importform },
+  { path: '/imports/importloopback', exact: true, name: 'นำเข้าจาก Loopback', component: Importloopback },
+  { path: '/case/waitCheck', exact: true, name: 'รอตรวจสอบ', component: CaseWaitCheck },
+  { path: '/admin/officeUser', exact: true, name: 'ตั้งค่าหน่วยงานและผู้ใช้', component: OfficeAndUser },
+  { path: '/admin/officeUserProv', exact: true, name: 'ตั้งค่าหน่วยงานและผู้ใช้', component: OfficeAndUserProvince },
+  { path: '/admin/userEdit', exact: true, name: 'ตั้งค่าหน่วยงานและผู้ใช้', component: UserEdit },
+  { path: '/srrt/workList', exact: true, name: 'งานที่รับมอบหมาย', component: workList },
+  { path: '/srrt/workCase', exact: true, name: 'รายละเอียด Case', component: workCase },
 
   { path: '/imports/importfile', exact: true, name: 'นำเข้าจากไฟล์', component: Importfile },
   { path: '/imports/importform', exact: true, name: 'นำเข้าจากฟอร์ม', component: Importform },
   { path: '/imports/importloopback', exact: true, name: 'นำเข้าจาก Loopback', component: Importloopback },
   { path: '/case/waitCheck', exact: true, name: 'รอตรวจสอบ', component: CaseWaitCheck },
-  { path: '/report/reporte0', exact: true, name: 'รายงาน E0', component: Reporte0 },
+  { path: '/report/E0/E0main', exact: true, name: 'รายงาน E0', component: E0 },
 
 ];
 

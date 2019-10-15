@@ -43,7 +43,7 @@ export default {
         },
         {
           name: 'รายงาน E0',
-          url: '/report/reporte0',
+          url: '/report/E0/E0main',
           icon: 'icon-doc',
         },
         {
