@@ -34,6 +34,9 @@ import {
     URL_API
 } from './E0Settings';
 import E0Form, { PROVINCE_OPTIONS } from './E0Form/E0Form';
+import MaterialTable from 'material-table';
+import Icons from '@material-ui/core';
+import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import { tsPropertySignature } from "@babel/types";
 import E0Tables from './E0Table';
 import LoadingText from "../../Dashboard/LoadingText";
@@ -55,7 +58,9 @@ export default class E0 extends Component {
                 selectedProvince: PROVINCE_OPTIONS[0],
                 datas: []
                 //diseases: []
-            }
+            },
+
+            currentPage: 0
         };
     }
 
@@ -107,6 +112,13 @@ export default class E0 extends Component {
         })
     }
 
+    handleClickPage(e, index) {
+        e.preventDefault();
+        this.setState({
+            currentPage: index
+        });
+    }
+
     render() {
         // const { datas } = this.state;
         return (
@@ -120,13 +132,27 @@ export default class E0 extends Component {
                 <E0Form onSubmit={this.handleE0FormSubmit} />
                 <Row>
                     <Col xs="12" md="12" lg="12">
+                        <MaterialTable
+                            title="Basic Export Preview"
+                            columns={[]}
+                            datas={this.state.datas}
+                            options={
+                                {
+                                    exportButton: true
+                                }
+                            }
+                        />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs="12" md="12" lg="12">
                         <hr />
                     </Col>
                 </Row>
                 <Row>
                     <Card xs='12' md='12' lg='12'>
                         <CardBody>
-                            <Table responsive hover>
+                            <Table responsive bordered hover>
                                 <thead>
                                     <tr>
                                         <th>IDCase</th>
@@ -148,8 +174,6 @@ export default class E0 extends Component {
                                             <Col>Loading ...</Col>) : (
                                                 // <DashboardResult params={this.state.dashboardResultParams} timestamp={new Date()} />
                                                 // <E0Tables params={this.state.E0ResultParams.datas} />
-                                                // this.state.E0ResultParams.datas.map(datas => {
-                                                //const { disname, casename, address, addrcode, datesick, datedefine, datereach, officeid, idmoph } = datas;
                                                 this.state.datas.map(datax => {
                                                     return (
                                                         <tr>
@@ -166,8 +190,6 @@ export default class E0 extends Component {
                                                         </tr>
                                                     )
                                                 })
-                                                //}
-                                                //)
                                             )}
                                 </tbody>
                             </Table>
