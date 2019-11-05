@@ -12,9 +12,10 @@ class Profile extends Component {
     this.state = {
       iduser: '',
       username: '',
-      name: ''
+      name: '',
+      users: [],
+      email: ''
     }
-
     this.getData = this.getData.bind(this);
   }
 
@@ -26,26 +27,27 @@ class Profile extends Component {
       username: decoded.username,
       name: decoded.name
     })
-    this.getData();
+    this.getData(decoded.iduser);
   }
 
-  getData() {
+  getData(iduser) {
     axios.get(`${URL_API}/Userr8506s`, {
       headers: { Authorization: ACCESS_TOKEN },
       params: {
         filter: {
           where: {
-            iduser:  this.state.iduser
+            iduser: iduser
           }
         }
       }
     })
     .then(response => {
-      console.log(response.data);
-      // this.setState({
-      //   users: response.data
-      // });
-      
+      //console.log(response.data);
+      response.data.map(user => {
+        this.setState({
+          email: user.email
+        });
+      })
     })
     .catch(error => {
       console.log("error " + error);
@@ -60,49 +62,29 @@ class Profile extends Component {
           </div>
           <div className="card-body">
             <Row>
-              <Col xs="12">
-              <Table hover bordered striped responsive size="sm">
+              <Col xs="6">
+                <Table hover bordered striped responsive size="sm">
                   <tbody>
                   <tr>
-                    <td><b>Username</b></td>
-                    <td>{this.state.username}</td>
-                    <td>Member</td>
-                    <td>
-                      <Badge color="success">Active</Badge>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b>Name</b></td>
-                    <td>{this.state.name}</td>
-                    <td>Staff</td>
-                    <td>
-                      <Badge color="danger">Banned</Badge>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>IdUser</td>
-                    <td>{this.state.iduser}</td>
-                    <td>Admin</td>
-                    <td>
-                      <Badge color="secondary">Inactive</Badge>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Félix Troels</td>
-                    <td>2012/03/01</td>
-                    <td>Member</td>
-                    <td>
-                      <Badge color="warning">Pending</Badge>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Aulus Agmundr</td>
-                    <td>2012/01/21</td>
-                    <td>Staff</td>
-                    <td>
-                      <Badge color="success">Active</Badge>
-                    </td>
-                  </tr>
+                      <td><b>ID User</b></td>
+                      <td>{this.state.iduser}</td>
+                    </tr>
+                    <tr>
+                      <td><b>Username</b></td>
+                      <td>{this.state.username}</td>
+                    </tr>
+                    <tr>
+                      <td><b>ชื่อ - สกุล</b></td>
+                      <td>{this.state.name}</td>
+                    </tr>
+                    <tr>
+                      <td><b>อีเมล์</b></td>
+                      <td>{this.state.email}</td>
+                    </tr>
+                    <tr>
+                      <td><b>ระดับผู้ใช้งาน</b></td>
+                      <td></td>
+                    </tr>
                   </tbody>
                 </Table>
               </Col>

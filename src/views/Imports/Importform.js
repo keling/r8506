@@ -2,8 +2,102 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import { Alert, Row, Col, FormGroup, Input, Button, Label } from 'reactstrap'
+import { ACCESS_TOKEN, URL_API } from '../Settings/Config';
+import axios from 'axios';
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 class Importform extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            alert: null
+        }
+        this.onChange = this.onChange.bind(this);
+    }
+    onChange(e) {
+        this.setState({[e.target.name]: e.target.value})
+    }
+
+    submit(e) {
+        if (this.state.patient_name) {
+            axios({
+                method: "post",
+                url: `${URL_API}/Cases`,
+                headers: { Authorization: ACCESS_TOKEN },
+                data: {
+                idcase: "",
+                e0: this.state.e0,
+                e1: this.state.e1,
+                pe0: this.state.pe0,
+                pe1: this.state.pe1,
+                disease: 26,
+                name: this.state.patient_name,
+                hn: this.state.hn,
+                hserv: 41010110,
+                icd10: this.state.icd10,
+                officeid: 41010110,
+                cstatus: 1,
+                cimportDate: new Date().toLocaleString(),
+                caddrProvince: 41,
+                caddrAmp: 1,
+                caddrTum: 1,
+                caddrVillage: 1,
+                chservProvince: 41,
+                idmoph: 10671
+                }
+            });
+            // console.log(new Date().toLocaleString());
+            this.SuccessAlert();
+        } else {
+            this.WarningAlert();
+        }
+    }
+
+    SuccessAlert() {
+        const getAlert = () => (
+          <SweetAlert 
+            success 
+            title="Success!"
+            onConfirm={() => this.hideAlert()}
+          >
+            Import done!
+          </SweetAlert>
+        );
+    
+        this.setState({
+          alert: getAlert()
+        });
+    }
+
+    hideAlert() {
+        this.setState({
+            alert: null
+        });
+        this.props.history.push('./dashboard');
+    }
+
+    WarningAlert() {
+        const getAlert = () => (
+          <SweetAlert 
+            warning 
+            title="Warning!"
+            onConfirm={() => this.hideAlert2()}
+          >
+            กรุณากรอกข้อมูลให้ครบถ้วนตาม *
+          </SweetAlert>
+        );
+    
+        this.setState({
+          alert: getAlert()
+        });
+    }
+
+    hideAlert2() {
+        this.setState({
+            alert: null
+        });
+    }
+
     render() {
         return (
             <div className="animated fadeIn">
@@ -16,25 +110,25 @@ class Importform extends Component {
                             <Col xs="3">
                                 <FormGroup>
                                     <Label htmlFor="e0">E0</Label>
-                                    <Input type="text" id="e0" placeholder="" />
+                                    <Input type="text" name="e0" id="e0" placeholder="" onChange={e => this.onChange(e)} />
                                 </FormGroup>
                             </Col>
                             <Col xs="3">
                                 <FormGroup>
                                     <Label htmlFor="pe0">PE0</Label>
-                                    <Input type="text" id="pe0" placeholder="" />
+                                    <Input type="text" name="pe0" id="pe0" placeholder="" onChange={e => this.onChange(e)} />
                                 </FormGroup>
                             </Col>
                             <Col xs="3">
                                 <FormGroup>
                                     <Label htmlFor="e1">E1</Label>
-                                    <Input type="text" id="e1" placeholder="" />
+                                    <Input type="text" name="e1" id="e1" placeholder="" onChange={e => this.onChange(e)} />
                                 </FormGroup>
                             </Col>
                             <Col xs="3">
                                 <FormGroup>
                                     <Label htmlFor="pe1">PE1</Label>
-                                    <Input type="text" id="pe1" placeholder="" />
+                                    <Input type="text" name="pe1" id="pe1" placeholder="" onChange={e => this.onChange(e)} />
                                 </FormGroup>
                             </Col>
                         </FormGroup>
@@ -44,8 +138,8 @@ class Importform extends Component {
                         <FormGroup row>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                    <Label htmlFor="e0">ชื่อผู้ป่วย</Label>
-                                    <Input type="text" id="e0" placeholder="" />
+                                    <Label htmlFor="patient_name">ชื่อผู้ป่วย <span className="text-danger">*</span></Label>
+                                    <Input type="text" name="patient_name" id="patient_name" placeholder="" onChange={e => this.onChange(e)} />
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="3">
@@ -224,7 +318,7 @@ class Importform extends Component {
                             <Col xs="12" md="3">
                                 <FormGroup>
                                     <Label htmlFor="pe0">รหัส HN</Label>
-                                    <Input type="text" id="pe0" placeholder="" />
+                                    <Input type="text" name="hn" id="hn" placeholder="" onChange={e => this.onChange(e)} />
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="3">
@@ -414,7 +508,7 @@ class Importform extends Component {
                             <Col xs="12" md="2">
                                 <FormGroup>
                                     <Label htmlFor="pe0">รหัส ICD10</Label>
-                                    <Input type="text" id="pe0" placeholder="" />
+                                    <Input type="text" name="icd10" id="icd10" placeholder="" onChange={e => this.onChange(e)} />
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="2">
@@ -431,16 +525,17 @@ class Importform extends Component {
                             </Col>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                    <Label htmlFor="pe0">วันที่ได้รับผลการยินยันจากแพทย์</Label>
+                                    <Label htmlFor="pe0">วันที่ได้รับผลการยืนยันจากแพทย์</Label>
                                     <Input type="text" id="pe0" placeholder="" />
                                 </FormGroup>
                             </Col>
                         </FormGroup>
                     </div>
                     <div className="card-footer">
-                        <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> บันทึก</Button>
+                        <Button type="submit" size="sm" color="primary" onClick={e => this.submit(e)}><i className="fa fa-dot-circle-o"></i> บันทึก</Button>
                     </div>
                 </div>
+                {this.state.alert}
             </div>
         );
     }

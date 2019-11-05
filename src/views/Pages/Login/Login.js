@@ -5,6 +5,7 @@ import { ACCESS_TOKEN, URL_API } from '../../Settings/Config';
 import axios from 'axios'
 import md5 from 'md5'
 import jwt from 'jsonwebtoken'
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 class Login extends Component {
   constructor(props) {
@@ -12,7 +13,8 @@ class Login extends Component {
     this.state = {
       user_login: '',
       user_pass: '',
-      users: []
+      users: [],
+      alert: null
     }
 
     this.onChange = this.onChange.bind(this);
@@ -31,7 +33,7 @@ class Login extends Component {
         filter: {
           where: {
             username:  this.state.user_login,
-            password: md5(this.state.user_pass),
+            pwd: md5(this.state.user_pass),
             active: 1
           }
         }
@@ -55,11 +57,35 @@ class Login extends Component {
 
         this.props.history.push('./dashboard');
       } else {
-        console.log("Login Fail")
+        //console.log("Login Fail")
+        this.WarningAlert()
       }
     })
     .catch(error => {
       console.log("error " + error);
+    });
+  }
+
+  WarningAlert() {
+    const getAlert = () => (
+      <SweetAlert 
+        warning 
+        title="Warning!"
+        onConfirm={() => this.hideAlert()}
+      >
+        Invalid authentication!
+      </SweetAlert>
+    );
+
+    this.setState({
+      alert: getAlert()
+    });
+  }
+
+  hideAlert() {
+    //console.log('Hiding alert...');
+    this.setState({
+      alert: null
     });
   }
 
@@ -104,6 +130,7 @@ class Login extends Component {
             </Col>
           </Row>
         </Container>
+        {this.state.alert}
       </div>
     );
   }
