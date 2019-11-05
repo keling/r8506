@@ -37,6 +37,7 @@ const Typography = React.lazy(() => import('./views/Theme/Typography'));
 const Widgets = React.lazy(() => import('./views/Widgets/Widgets'));
 const Users = React.lazy(() => import('./views/Users/Users'));
 const User = React.lazy(() => import('./views/Users/User'));
+const Profile = React.lazy(() => import('./views/Users/Profile'));
 
 const Importfile = React.lazy(() => import('./views/Imports/Importfile'));
 const Importform = React.lazy(() => import('./views/Imports/Importform'));
@@ -95,6 +96,7 @@ const routes = [
   { path: '/widgets', name: 'Widgets', component: Widgets },
   { path: '/charts', name: 'Charts', component: Charts },
   { path: '/users', exact: true, name: 'Users', component: Users },
+  { path: '/profile', exact: true, name: 'Profiles', component: Profile },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
 
 

@@ -15,7 +15,7 @@ class Importloopback extends Component {
     super();
     this.state = {
       AuthStringGet:
-        "L5IbeKHeFi9HF9kHK1wZRMwtKmY0FJpcRgV9itHEYsnjqw9nfRNnckLIJqO1ddTZ",
+        "fPecBALQwFuRJyfFn3XI7kBdbqqtPD6sxW0wWsL7m7kpPE6ARUjQYpiBF7ARQRl9",
       patients: [],
       isLoading: true
     };
@@ -31,7 +31,7 @@ class Importloopback extends Component {
         headers: { Authorization: this.state.AuthStringGet },
         params: {
           filter: {
-            where: { datedefine: { between: ["2019-09-02", "2019-09-02"] } }
+            where: { report_date: { between: ["2019-10-02", "2019-10-02"] } }
           }
         }
       })
