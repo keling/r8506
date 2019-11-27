@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { Link, NavLink, withRouter } from 'react-router-dom';
-import { Badge, UncontrolledDropdown, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem } from 'reactstrap';
+import { Badge, UncontrolledDropdown, DropdownToggle, Nav, NavItem } from 'reactstrap';
 import PropTypes from 'prop-types';
 
 import { AppAsideToggler, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
 import logo from '../../assets/img/brand/logo.png'
 import sygnet from '../../assets/img/brand/logo-mini.png'
+import jwt_decode from 'jwt-decode';
+import UserMenu from '../../views/Menu/UserMenu'
+import GuestMenu from '../../views/Menu/GuestMenu'
 
 const propTypes = {
   children: PropTypes.node,
@@ -14,18 +17,46 @@ const propTypes = {
 const defaultProps = {};
 
 class DefaultHeader extends Component {
-  constructor(props) {
-    super(props);
-
+  constructor() {
+    super()
+    this.state = {
+      iduser: '',
+      menuItem: ''
+    }
     this.routeChange = this.routeChange.bind(this);
+    this.checkAuthen = this.checkAuthen.bind(this);
   }
 
-  routeChange(e) {
-    this.props.history.push("/profile");
+  componentDidMount() {
+    const token = localStorage.usertoken
+    if (token) {
+      const decoded = jwt_decode(token)
+      this.setState({
+        iduser: decoded.iduser
+      })
+      this.checkAuthen(decoded.iduser)
+    } else {
+      this.checkAuthen('')
+    }
+  }
+
+  routeChange(e, path_rout) {
+    this.props.history.push(path_rout);
+  }
+
+  checkAuthen(id) {
+    if (id != '') {
+      this.setState({
+        menuItem: <UserMenu/>
+      })
+    } else {
+      this.setState({
+        menuItem: <GuestMenu/>
+      })
+    }
   }
 
   render() {
-
     // eslint-disable-next-line
     const { children, ...attributes } = this.props;
 
@@ -63,20 +94,7 @@ class DefaultHeader extends Component {
             <DropdownToggle nav>
               <img src={'assets/img/avatars/user.png'} className="img-avatar" alt="" />
             </DropdownToggle>
-            <DropdownMenu right>
-              <DropdownItem header tag="div" className="text-center"><strong>Account</strong></DropdownItem>
-              <DropdownItem><i className="fa fa-bell-o"></i> Updates<Badge color="info">42</Badge></DropdownItem>
-              <DropdownItem><i className="fa fa-envelope-o"></i> Messages<Badge color="success">42</Badge></DropdownItem>
-              <DropdownItem><i className="fa fa-tasks"></i> Tasks<Badge color="danger">42</Badge></DropdownItem>
-              <DropdownItem><i className="fa fa-comments"></i> Comments<Badge color="warning">42</Badge></DropdownItem>
-              <DropdownItem header tag="div" className="text-center"><strong>Settings</strong></DropdownItem>
-              <DropdownItem onClick={e => this.routeChange(e)}><i className="fa fa-user"></i> Profile</DropdownItem>
-              <DropdownItem><i className="fa fa-wrench"></i> Settings</DropdownItem>
-              <DropdownItem><i className="fa fa-usd"></i> Payments<Badge color="secondary">42</Badge></DropdownItem>
-              <DropdownItem><i className="fa fa-file"></i> Projects<Badge color="primary">42</Badge></DropdownItem>
-              <DropdownItem><i className="fa fa-shield"></i> Lock Account</DropdownItem>
-              <DropdownItem onClick={e => this.props.onLogout(e)}><i className="fa fa-lock"></i> Logout</DropdownItem>
-            </DropdownMenu>
+            {this.state.menuItem}
           </UncontrolledDropdown>
         </Nav>
         <AppAsideToggler className="d-md-down-none" />

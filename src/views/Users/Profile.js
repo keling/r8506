@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import classNames from 'classnames';
-import { Row, Col, Table, Badge, Button, Label } from 'reactstrap'
+// import ReactDOM from 'react-dom';
+// import classNames from 'classnames';
+import { Row, Col, Table, Button } from 'reactstrap'
 import jwt_decode from 'jwt-decode';
 import axios from 'axios'
 import { ACCESS_TOKEN, URL_API } from '../Settings/Config';

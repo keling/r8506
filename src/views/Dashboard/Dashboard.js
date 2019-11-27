@@ -1,35 +1,35 @@
-import React, { Component, lazy, Suspense } from 'react';
-import Select from 'react-select';
+import React, { Component } from 'react';
+// import Select from 'react-select';
 // import axios from "axios";
-import { Bar, Line } from 'react-chartjs-2';
+// import { Bar, Line } from 'react-chartjs-2';
 import {
-    Badge,
-    Button,
-    ButtonDropdown,
-    ButtonGroup,
-    ButtonToolbar,
-    Card,
-    CardBody,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+    // Badge,
+    // Button,
+    // ButtonDropdown,
+    // ButtonGroup,
+    // ButtonToolbar,
+    // Card,
+    // CardBody,
+    // CardFooter,
+    // CardHeader,
+    // CardTitle,
     Col,
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle,
-    FormGroup,
-    Input,
-    Label,
-    Progress,
+    // Dropdown,
+    // DropdownItem,
+    // DropdownMenu,
+    // DropdownToggle,
+    // FormGroup,
+    // Input,
+    // Label,
+    // Progress,
     Row,
-    Table,
+    // Table,
 } from 'reactstrap';
-import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
-import DatePicker from 'react-datepicker';
-import { registerLocale, setDefaultLocale } from "react-datepicker";
-import th from 'date-fns/locale/th';
+// import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
+// import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
+// import DatePicker from 'react-datepicker';
+// import { registerLocale, setDefaultLocale } from "react-datepicker";
+// import th from 'date-fns/locale/th';
 import "react-datepicker/dist/react-datepicker.css";
 
 import axios from './AwaitableAxios'

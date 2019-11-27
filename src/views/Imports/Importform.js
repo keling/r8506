@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import classNames from 'classnames';
-import { Alert, Row, Col, FormGroup, Input, Button, Label } from 'reactstrap'
+// import ReactDOM from 'react-dom';
+// import classNames from 'classnames';
+import { Alert, Col, FormGroup, Input, Button, Label } from 'reactstrap'
 import { ACCESS_TOKEN, URL_API } from '../Settings/Config';
 import axios from 'axios';
 import SweetAlert from 'react-bootstrap-sweetalert';
@@ -10,12 +10,34 @@ class Importform extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            alert: null
+            alert: null,
+            sexs: [],
+            marietals: [],
+            races: [],
+            races1: [],
+            occupats: [],
+            diseases: []
         }
         this.onChange = this.onChange.bind(this);
+        this.getSex = this.getSex.bind(this);
+        this.getMarietal = this.getMarietal.bind(this);
+        this.getRace = this.getRace.bind(this);
+        this.getRace1 = this.getRace1.bind(this);
+        this.getOccupat = this.getOccupat.bind(this);
+        this.getDisease = this.getDisease.bind(this);
     }
+
     onChange(e) {
         this.setState({[e.target.name]: e.target.value})
+    }
+
+    componentWillMount() {
+        this.getSex();
+        this.getMarietal();
+        this.getRace();
+        this.getRace1();
+        this.getOccupat();
+        this.getDisease();
     }
 
     submit(e) {
@@ -30,9 +52,14 @@ class Importform extends Component {
                 e1: this.state.e1,
                 pe0: this.state.pe0,
                 pe1: this.state.pe1,
-                disease: 26,
+                disease: this.state.disease,
                 name: this.state.patient_name,
                 hn: this.state.hn,
+                nmepat: this.state.nmepat,
+                sex: this.state.sex,
+                agey: this.state.agey,
+                agem: this.state.agem,
+                aged: this.state.aged,
                 hserv: 41010110,
                 icd10: this.state.icd10,
                 officeid: 41010110,
@@ -79,7 +106,7 @@ class Importform extends Component {
     WarningAlert() {
         const getAlert = () => (
           <SweetAlert 
-            warning 
+            danger
             title="Warning!"
             onConfirm={() => this.hideAlert2()}
           >
@@ -95,6 +122,111 @@ class Importform extends Component {
     hideAlert2() {
         this.setState({
             alert: null
+        });
+    }
+
+    getSex() {
+        axios
+        .get(`${URL_API}/Sexes`, {
+          headers: { Authorization: ACCESS_TOKEN },
+          params: {
+            filter: {
+              limit: "10"
+            }
+          }
+        })
+        .then(res => {
+          this.setState({
+            sexs: res.data
+          });
+        })
+        .catch(error => {
+          console.log("error " + error);
+        });
+    }
+
+    getMarietal() {
+        axios
+        .get(`${URL_API}/Marietals`, {
+          headers: { Authorization: ACCESS_TOKEN }
+        })
+        .then(res => {
+          this.setState({
+            marietals: res.data
+          });
+        })
+        .catch(error => {
+          console.log("error " + error);
+        });
+    }
+
+    getRace() {
+        axios
+        .get(`${URL_API}/Races`, {
+          headers: { Authorization: ACCESS_TOKEN }
+        })
+        .then(res => {
+          this.setState({
+            races: res.data
+          });
+        })
+        .catch(error => {
+          console.log("error " + error);
+        });
+    }
+
+    getRace1() {
+        axios
+        .get(`${URL_API}/Race1s`, {
+          headers: { Authorization: ACCESS_TOKEN }
+        })
+        .then(res => {
+          this.setState({
+            races1: res.data
+          });
+        })
+        .catch(error => {
+          console.log("error " + error);
+        });
+    }
+
+    getOccupat() {
+        axios
+        .get(`${URL_API}/Occupations`, {
+          headers: { Authorization: ACCESS_TOKEN },
+          params: {
+            filter: {
+                order: "idoccupation ASC"
+            }
+          }
+        })
+        .then(res => {
+          this.setState({
+            occupats: res.data
+          });
+        })
+        .catch(error => {
+          console.log("error " + error);
+        });
+    }
+
+    getDisease() {
+        axios
+        .get(`${URL_API}/Diseases`, {
+          headers: { Authorization: ACCESS_TOKEN },
+          params: {
+            filter: {
+              limit: "10"
+            }
+          }
+        })
+        .then(res => {
+          this.setState({
+            diseases: res.data
+          });
+        })
+        .catch(error => {
+          console.log("error " + error);
         });
     }
 
@@ -144,59 +276,66 @@ class Importform extends Component {
                             </Col>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                    <Label htmlFor="pe0">ชื่อผู้ปกครอง</Label>
-                                    <Input type="text" id="pe0" placeholder="" />
+                                    <Label htmlFor="nmepat">ชื่อผู้ปกครอง</Label>
+                                    <Input type="text" name="nmepat" id="nmepat" placeholder="" onChange={e => this.onChange(e)} />
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="3">
                                 <FormGroup>
                                     <Label htmlFor="sex">เพศ</Label>
-                                    <Input type="select" name="sex" id="sex" bsSize="md">
-                                        <option value="0">กรุณาเลือก</option>
-                                        <option value="1">ชาย</option>
-                                        <option value="2">หญิง</option>
+                                    <Input type="select" name="sex" id="sex" bsSize="md" onChange={e => this.onChange(e)}>
+                                        <option value="">กรุณาเลือก</option>
+                                        {this.state.sexs.map(sex => {
+                                            return (
+                                                <option key={sex.idsex} value={sex.idsex}>{sex.name}</option>
+                                            );
+                                        })}
                                     </Input>
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                    <Label htmlFor="pe1">อายุ (ปี)</Label>
-                                    <Input type="text" id="pe1" placeholder="" />
+                                    <Label htmlFor="agey">อายุ (ปี)</Label>
+                                    <Input type="text" name="agey" id="agey" placeholder="" onChange={e => this.onChange(e)} />
                                 </FormGroup>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                    <Label htmlFor="e0">อายุ (เดือน)</Label>
-                                    <Input type="text" id="e0" placeholder="" />
+                                    <Label htmlFor="agem">อายุ (เดือน)</Label>
+                                    <Input type="text" name="agem" id="agem" placeholder="" onChange={e => this.onChange(e)} />
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                    <Label htmlFor="pe0">อายุ (วัน)</Label>
-                                    <Input type="text" id="pe0" placeholder="" />
+                                    <Label htmlFor="aged">อายุ (วัน)</Label>
+                                    <Input type="text" name="aged" id="aged" placeholder="" onChange={e => this.onChange(e)} />
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                    <Label htmlFor="sex">สภาพสมรส</Label>
-                                    <Input type="select" name="sex" id="sex" bsSize="md">
-                                        <option value="0">กรุณาเลือก</option>
-                                        <option value="1">ไม่ระบุ</option>
-                                        <option value="2">โสด</option>
-                                        <option value="2">สมรส</option>
-                                        <option value="2">อย่าร้าง</option>
-                                        <option value="2">หม้าย</option>
+                                    <Label htmlFor="marietal">สภาพสมรส</Label>
+                                    <Input type="select" name="marietal" id="marietal" bsSize="md" onChange={e => this.onChange(e)}>
+                                        <option value="">กรุณาเลือก</option>
+                                        {this.state.marietals.map(marietal => {
+                                            return (
+                                                <option key={marietal.idmarietal} value={marietal.idmarietal}>{marietal.name}</option>
+                                            );
+                                        })}
                                     </Input>
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                    <Label htmlFor="pe1">สัญชาติ</Label>
-                                    <Input type="select" name="sex" id="sex" bsSize="md">
-                                        <option value="0">กรุณาเลือก</option>
-                                        <option value="1">ไทย</option>
+                                    <Label htmlFor="race">สัญชาติ</Label>
+                                    <Input type="select" name="race" id="race" bsSize="md" onChange={e => this.onChange(e)}>
+                                        <option value="">กรุณาเลือก</option>
+                                        {this.state.races.map(race => {
+                                            return (
+                                                <option key={race.idrace} value={race.idrace}>{race.name}</option>
+                                            );
+                                        })}
                                     </Input>
                                 </FormGroup>
                             </Col>
@@ -204,21 +343,27 @@ class Importform extends Component {
                         <FormGroup row>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                    <Label htmlFor="e0">ประเภทต่างด้าว</Label>
-                                    <Input type="select" name="sex" id="sex" bsSize="md">
-                                        <option value="0">กรุณาเลือก</option>
-                                        <option value="0">ไม่ระบุ</option>
-                                        <option value="1">ไทย</option>
+                                    <Label htmlFor="race1">ประเภทต่างด้าว</Label>
+                                    <Input type="select" name="race1" id="race1" bsSize="md" onChange={e => this.onChange(e)}>
+                                        <option value="">กรุณาเลือก</option>
+                                        {this.state.races1.map(race => {
+                                            return (
+                                                <option key={race.idrace1} value={race.idrace1}>{race.name}</option>
+                                            );
+                                        })}
                                     </Input>
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                    <Label htmlFor="pe0">อาชีพ</Label>
-                                    <Input type="select" name="sex" id="sex" bsSize="md">
-                                        <option value="0">กรุณาเลือก</option>
-                                        <option value="0">ไม่ระบุ</option>
-                                        <option value="1">ไทย</option>
+                                    <Label htmlFor="occupat">อาชีพ</Label>
+                                    <Input type="select" name="occupat" id="occupat" bsSize="md" onChange={e => this.onChange(e)}>
+                                        <option value="">กรุณาเลือก</option>
+                                        {this.state.occupats.map(occupat => {
+                                            return (
+                                                <option key={occupat.idoccupation} value={occupat.idoccupation}>{occupat.name}</option>
+                                            );
+                                        })}
                                     </Input>
                                 </FormGroup>
                             </Col>
@@ -308,10 +453,13 @@ class Importform extends Component {
                             <Col xs="12" md="3">
                                 <FormGroup>
                                     <Label htmlFor="e0">ชื่อโรค</Label>
-                                    <Input type="select" name="sex" id="sex" bsSize="md">
-                                        <option value="0">กรุณาเลือก</option>
-                                        <option value="0">ไม่ระบุ</option>
-                                        <option value="1">ไทย</option>
+                                    <Input type="select" name="disease" id="disease" bsSize="md" onChange={e => this.onChange(e)}>
+                                        <option value="">กรุณาเลือก</option>
+                                        {this.state.diseases.map(disease => {
+                                            return (
+                                                <option key={disease.iddisease} value={disease.iddisease}>{disease.name}</option>
+                                            );
+                                        })}
                                     </Input>
                                 </FormGroup>
                             </Col>

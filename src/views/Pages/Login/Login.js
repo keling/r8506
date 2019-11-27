@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
+import { Button, Card, CardBody, CardGroup, Col, Container, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 import { ACCESS_TOKEN, URL_API } from '../../Settings/Config';
 import axios from 'axios'
 import md5 from 'md5'
@@ -40,7 +39,6 @@ class Login extends Component {
       }
     })
     .then(response => {
-      //console.log(response.data);
       this.setState({
         users: response.data
       });
@@ -57,8 +55,7 @@ class Login extends Component {
 
         this.props.history.push('./dashboard');
       } else {
-        //console.log("Login Fail")
-        this.WarningAlert()
+        this.DangerAlert()
       }
     })
     .catch(error => {
@@ -66,10 +63,10 @@ class Login extends Component {
     });
   }
 
-  WarningAlert() {
+  DangerAlert() {
     const getAlert = () => (
       <SweetAlert 
-        warning 
+        danger 
         title="Warning!"
         onConfirm={() => this.hideAlert()}
       >
