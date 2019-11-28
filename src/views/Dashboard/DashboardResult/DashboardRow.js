@@ -1,30 +1,30 @@
 // https://reactjs.org/docs/react-component.html#updating
-import React, { Component, lazy, Suspense } from 'react'
+import React, { Component } from 'react'
 
 // import axios from 'axios'
-import Select from 'react-select'
+// import Select from 'react-select'
 import {
-    Badge,
-    Button,
-    ButtonDropdown,
-    ButtonGroup,
-    ButtonToolbar,
+    // Badge,
+    // Button,
+    // ButtonDropdown,
+    // ButtonGroup,
+    // ButtonToolbar,
     Card,
     CardBody,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+    // CardFooter,
+    // CardHeader,
+    // CardTitle,
     Col,
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle,
-    FormGroup,
-    Input,
-    Label,
-    Progress,
+    // Dropdown,
+    // DropdownItem,
+    // DropdownMenu,
+    // DropdownToggle,
+    // FormGroup,
+    // Input,
+    // Label,
+    // Progress,
     Row,
-    Table,
+    // Table,
 
 } from 'reactstrap'
 import Moment from 'moment'

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import classNames from 'classnames';
+// import ReactDOM from 'react-dom';
+// import classNames from 'classnames';
 import { Row, Col, FormGroup, Input, Button, Label } from 'reactstrap'
 
 class Importfile extends Component {

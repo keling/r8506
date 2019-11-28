@@ -1,29 +1,29 @@
 import React, { Component } from 'react'
-import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
+import DatePicker, { registerLocale } from 'react-datepicker'
 import th from 'date-fns/locale/th'
 import Select from 'react-select'
 import {
-    Badge,
+    // Badge,
     Button,
-    ButtonDropdown,
-    ButtonGroup,
-    ButtonToolbar,
-    Card,
-    CardBody,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+    // ButtonDropdown,
+    // ButtonGroup,
+    // ButtonToolbar,
+    // Card,
+    // CardBody,
+    // CardFooter,
+    // CardHeader,
+    // CardTitle,
     Col,
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle,
+    // Dropdown,
+    // DropdownItem,
+    // DropdownMenu,
+    // DropdownToggle,
     FormGroup,
-    Input,
+    // Input,
     Label,
-    Progress,
+    // Progress,
     Row,
-    Table,
+    // Table,
 } from 'reactstrap'
 
 import 'react-datepicker/dist/react-datepicker.css'

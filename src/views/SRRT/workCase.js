@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import axios from "axios";
-import ReactDOM from "react-dom";
-import classnames from 'classnames';
+// import axios from "axios";
+// import ReactDOM from "react-dom";
+// import classnames from 'classnames';
 import {
   Row,
   Col,
-  Button,
+  // Button,
   Card,
   CardBody,
   CardHeader,
@@ -17,7 +17,7 @@ import {
   ListGroup,
   ListGroupItem,
   ListGroupItemHeading,
-  ListGroupItemText,
+  // ListGroupItemText,
 } from "reactstrap";
 
 class workCase extends Component {
