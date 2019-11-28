@@ -21,13 +21,17 @@ class Profile extends Component {
 
   componentDidMount() {
     const token = localStorage.usertoken
-    const decoded = jwt_decode(token)
-    this.setState({
-      iduser: decoded.iduser,
-      username: decoded.username,
-      name: decoded.name
-    })
-    this.getData(decoded.iduser);
+    if (token) {
+      const decoded = jwt_decode(token)
+      this.setState({
+        iduser: decoded.iduser,
+        username: decoded.username,
+        name: decoded.name
+      })
+      this.getData(decoded.iduser);
+    } else {
+      this.props.history.push('/login');
+    }
   }
 
   getData(iduser) {
@@ -62,7 +66,7 @@ class Profile extends Component {
           </div>
           <div className="card-body">
             <Row>
-              <Col xs="6">
+              <Col xs="12" md="6">
                 <Table hover bordered striped responsive size="sm">
                   <tbody>
                   <tr>

@@ -86,6 +86,10 @@ class Login extends Component {
     });
   }
 
+  guest_login(e) {
+    this.props.history.push('./dashboard');
+  }
+
   render() {
     return (
       <div className="app flex-row align-items-center">
@@ -118,7 +122,8 @@ class Login extends Component {
                           <Button color="primary" className="px-4" onClick={e => this.submit(e)}>Login</Button>
                         </Col>
                         <Col xs="6" className="text-right">
-                          <Button color="link" className="px-0">Forgot password?</Button>
+                          <Button color="success" className="px-4" onClick={e => this.guest_login(e)}>เข้าใช้งานบุคคลทั่วไป</Button>
+                          {/* <Button color="link" className="px-0">Forgot password?</Button> */}
                         </Col>
                       </Row>
                   </CardBody>

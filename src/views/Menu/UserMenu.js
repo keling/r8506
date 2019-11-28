@@ -15,7 +15,7 @@ class UserMenu extends Component {
     logout(e) {
         // e.preventDefault();
         localStorage.removeItem('usertoken')
-        this.props.history.push('/dashboard')
+        this.props.history.push('/login')
     }
 
     render() {

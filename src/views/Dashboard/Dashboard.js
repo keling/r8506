@@ -120,7 +120,7 @@ class Dashboard extends Component {
                 <Row>
                     <Col xs="12" md="12" lg="12">
                         <h2><strong>R8-506 Dashboard</strong></h2>
-                        <h4>ระบบเผ้าระวังทางระบาดวิทยา เขตสุขภาพที่ 8</h4>
+                        <h4>ระบบเฝ้าระวังทางระบาดวิทยา เขตสุขภาพที่ 8</h4>
                     </Col>
                 </Row>
                 <DashboardForm onSubmit={this.handleDashboardFormSubmit} />
