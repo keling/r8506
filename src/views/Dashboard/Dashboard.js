@@ -1,35 +1,35 @@
-import React, { Component, lazy, Suspense } from 'react';
-import Select from 'react-select';
+import React, { Component } from 'react';
+// import Select from 'react-select';
 // import axios from "axios";
-import { Bar, Line } from 'react-chartjs-2';
+// import { Bar, Line } from 'react-chartjs-2';
 import {
-    Badge,
-    Button,
-    ButtonDropdown,
-    ButtonGroup,
-    ButtonToolbar,
-    Card,
-    CardBody,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+    // Badge,
+    // Button,
+    // ButtonDropdown,
+    // ButtonGroup,
+    // ButtonToolbar,
+    // Card,
+    // CardBody,
+    // CardFooter,
+    // CardHeader,
+    // CardTitle,
     Col,
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle,
-    FormGroup,
-    Input,
-    Label,
-    Progress,
+    // Dropdown,
+    // DropdownItem,
+    // DropdownMenu,
+    // DropdownToggle,
+    // FormGroup,
+    // Input,
+    // Label,
+    // Progress,
     Row,
-    Table,
+    // Table,
 } from 'reactstrap';
-import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
-import DatePicker from 'react-datepicker';
-import { registerLocale, setDefaultLocale } from "react-datepicker";
-import th from 'date-fns/locale/th';
+// import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
+// import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
+// import DatePicker from 'react-datepicker';
+// import { registerLocale, setDefaultLocale } from "react-datepicker";
+// import th from 'date-fns/locale/th';
 import "react-datepicker/dist/react-datepicker.css";
 
 import axios from './AwaitableAxios'
@@ -120,7 +120,7 @@ class Dashboard extends Component {
                 <Row>
                     <Col xs="12" md="12" lg="12">
                         <h2><strong>R8-506 Dashboard</strong></h2>
-                        <h4>ระบบเผ้าระวังทางระบาดวิทยา เขตสุขภาพที่ 8</h4>
+                        <h4>ระบบเฝ้าระวังทางระบาดวิทยา เขตสุขภาพที่ 8</h4>
                     </Col>
                 </Row>
                 <DashboardForm onSubmit={this.handleDashboardFormSubmit} />

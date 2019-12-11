@@ -37,6 +37,7 @@ const Typography = React.lazy(() => import('./views/Theme/Typography'));
 const Widgets = React.lazy(() => import('./views/Widgets/Widgets'));
 const Users = React.lazy(() => import('./views/Users/Users'));
 const User = React.lazy(() => import('./views/Users/User'));
+const Profile = React.lazy(() => import('./views/Users/Profile'));
 
 const Importfile = React.lazy(() => import('./views/Imports/Importfile'));
 const Importform = React.lazy(() => import('./views/Imports/Importform'));
@@ -51,7 +52,6 @@ const workList = React.lazy(() => import('./views/SRRT/workList'));
 const workCase = React.lazy(() => import('./views/SRRT/workCase'));
 
 const E0 = React.lazy(() => import('./views/Report/E0/E0main'));
-
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -95,8 +95,8 @@ const routes = [
   { path: '/widgets', name: 'Widgets', component: Widgets },
   { path: '/charts', name: 'Charts', component: Charts },
   { path: '/users', exact: true, name: 'Users', component: Users },
+  { path: '/profile', exact: true, name: 'Profiles', component: Profile },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
-
 
   { path: '/imports/importfile', exact: true, name: 'นำเข้าจากไฟล์', component: Importfile },
   { path: '/imports/importform', exact: true, name: 'นำเข้าจากฟอร์ม', component: Importform },
@@ -108,12 +108,11 @@ const routes = [
   { path: '/srrt/workList', exact: true, name: 'งานที่รับมอบหมาย', component: workList },
   { path: '/srrt/workCase', exact: true, name: 'รายละเอียด Case', component: workCase },
 
-  { path: '/imports/importfile', exact: true, name: 'นำเข้าจากไฟล์', component: Importfile },
-  { path: '/imports/importform', exact: true, name: 'นำเข้าจากฟอร์ม', component: Importform },
-  { path: '/imports/importloopback', exact: true, name: 'นำเข้าจาก Loopback', component: Importloopback },
-  { path: '/case/waitCheck', exact: true, name: 'รอตรวจสอบ', component: CaseWaitCheck },
+  // { path: '/imports/importfile', exact: true, name: 'นำเข้าจากไฟล์', component: Importfile },
+  // { path: '/imports/importform', exact: true, name: 'นำเข้าจากฟอร์ม', component: Importform },
+  // { path: '/imports/importloopback', exact: true, name: 'นำเข้าจาก Loopback', component: Importloopback },
+  // { path: '/case/waitCheck', exact: true, name: 'รอตรวจสอบ', component: CaseWaitCheck },
   { path: '/report/E0/E0main', exact: true, name: 'รายงาน E0', component: E0 },
-
 ];
 
 export default routes;

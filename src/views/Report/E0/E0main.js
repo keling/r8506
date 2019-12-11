@@ -1,33 +1,33 @@
 import React, { Component } from "react";
-import Select from 'react-select';
+// import Select from 'react-select';
 import axios from "axios";
 import {
-    Badge,
-    Button,
-    ButtonDropdown,
-    ButtonGroup,
-    ButtonToolbar,
+    // Badge,
+    // Button,
+    // ButtonDropdown,
+    // ButtonGroup,
+    // ButtonToolbar,
     Card,
     CardBody,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+    // CardFooter,
+    // CardHeader,
+    // CardTitle,
     Col,
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle,
-    Progress,
+    // Dropdown,
+    // DropdownItem,
+    // DropdownMenu,
+    // DropdownToggle,
+    // Progress,
     Row,
     Table,
-    FormGroup,
-    Label,
-    Input
+    // FormGroup,
+    // Label,
+    // Input
 
 } from 'reactstrap';
-import DatePicker from 'react-datepicker';
-import { registerLocale, setDefaultLocale } from "react-datepicker";
-import th from 'date-fns/locale/th';
+// import DatePicker from 'react-datepicker';
+// import { registerLocale, setDefaultLocale } from "react-datepicker";
+// import th from 'date-fns/locale/th';
 import "react-datepicker/dist/react-datepicker.css";
 import {
     ACCESS_TOKEN,
@@ -36,11 +36,11 @@ import {
 import E0Form, { PROVINCE_OPTIONS } from './E0Form/E0Form';
 import PaginationComponent from "react-reactstrap-pagination";
 import MaterialTable from 'material-table';
-//import Icons from '@material-ui/core';
-import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
-import { tsPropertySignature } from "@babel/types";
-import E0Tables from './E0Table';
-import LoadingText from "../../Dashboard/LoadingText";
+// import Icons from '@material-ui/core';
+// import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+// import { tsPropertySignature } from "@babel/types";
+// import E0Tables from './E0Table';
+// import LoadingText from "../../Dashboard/LoadingText";
 
 export default class E0 extends Component {
     constructor(props) {

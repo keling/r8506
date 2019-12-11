@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import classNames from 'classnames';
+// import ReactDOM from 'react-dom';
+// import classNames from 'classnames';
 import { Row, Col, FormGroup, Input, Button, Label } from 'reactstrap'
 
 class Importfile extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      users: [],
+      fname: ''
+    }
+
+    //this.onresult = this.onresult.bind(this)
+  }
+
   render() {
     return (
       <div className="animated fadeIn">

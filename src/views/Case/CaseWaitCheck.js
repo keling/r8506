@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
-import ReactDOM from "react-dom";
-import classNames from "classnames";
+// import ReactDOM from "react-dom";
+// import classNames from "classnames";
 import {
   Row,
   Col,
@@ -9,10 +9,10 @@ import {
   Card,
   CardBody,
   CardHeader,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Table
+  // Pagination,
+  // PaginationItem,
+  // PaginationLink,
+  // Table
 } from "reactstrap";
 
 class CaseWaitCheck extends Component {

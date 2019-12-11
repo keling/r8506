@@ -15,7 +15,7 @@ class Importloopback extends Component {
     super();
     this.state = {
       AuthStringGet:
-        "L5IbeKHeFi9HF9kHK1wZRMwtKmY0FJpcRgV9itHEYsnjqw9nfRNnckLIJqO1ddTZ",
+        "NcIpTazU9hyXrwYhvYvrJkkQS6gpddFHhj7vIbhtdXEJd7iUrABTAJQ6NzqAg7Xy",
       patients: [],
       isLoading: true
     };
@@ -31,7 +31,8 @@ class Importloopback extends Component {
         headers: { Authorization: this.state.AuthStringGet },
         params: {
           filter: {
-            where: { datedefine: { between: ["2019-09-02", "2019-09-02"] } }
+            where: { daterecord: { between: ["2019-11-20", "2019-11-21"] } },
+            limit: "20"
           }
         }
       })
@@ -112,12 +113,12 @@ class Importloopback extends Component {
                   <tbody>
                     {!isLoading ? (
                       patients.map(patient => {
-                        const { id, hn, name, datesick, icd10 } = patient;
+                        const { id, hn, name, daterecord, icd10 } = patient;
                         return (
                           <tr key={id}>
                             <td>{hn}</td>
                             <td>{name}</td>
-                            <td>{datesick}</td>
+                            <td>{daterecord}</td>
                             <td>{icd10}</td>
                             <td>
                               <Button

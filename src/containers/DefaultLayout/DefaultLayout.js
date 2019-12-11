@@ -30,7 +30,8 @@ class DefaultLayout extends Component {
 
   signOut(e) {
     e.preventDefault()
-    this.props.history.push('/login')
+    localStorage.removeItem('usertoken')
+    this.props.history.push('/dashboard')
   }
 
   render() {
