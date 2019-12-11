@@ -33,9 +33,10 @@ import {
     ACCESS_TOKEN,
     URL_API
 } from './E0Settings';
-import E0Form, { PROVINCE_OPTIONS } from './E0Form/E0Form';
+import E0Form, { DISEASE_OPTIONS, PROVINCE_OPTIONS } from './E0Form/E0Form';
 import PaginationComponent from "react-reactstrap-pagination";
-import MaterialTable from 'material-table';
+import MaterialTable, { MTableFilterRow } from 'material-table';
+import Moment from 'moment'
 // import Icons from '@material-ui/core';
 // import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 // import { tsPropertySignature } from "@babel/types";
@@ -54,27 +55,49 @@ export default class E0 extends Component {
             datas: [],
 
             E0ResultParams: {
-                dateStart: new Date(),
-                dateEnd: new Date(),
+                dateStart: Moment().format(`YYYY-MM-DD`),
+                dateEnd: Moment().format(`YYYY-MM-DD`),
                 selectedProvince: PROVINCE_OPTIONS[0],
+                selectedDisease: DISEASE_OPTIONS[0],
                 datas: []
                 //diseases: []
             }
-        };
+        }
+
+        this.handleE0FormSubmit = this.handleE0FormSubmit.bind(this)
     }
 
     componentDidMount() {
         this.getData()
     }
 
+    // where: {
+    //     DISEASE: 1,
+    //     PROVINCE: 41,
+    //     DATEDEFINE: {
+    //         between: ['2019-08-01', '2019-12-31']
+    //     }
+    // }
+
     async getData() {
-        let getE0Result = await axios.get(`${URL_API}/Reporte0s`, {
+        this.setState({
+            isLoading: true
+        })
+
+        let getE0Result = await axios.get(`${URL_API}/Cases`, {
             headers: {
                 Authorization: ACCESS_TOKEN
             },
-            where: {
-                DATEDEFINE: {
-                    between: ['2019-08-01', '2019-12-31']
+            params: {
+                where: {
+                    DISEASE: this.state.E0ResultParams.selectedDisease,
+                    PROVINCE: this.state.E0ResultParams.selectedProvince,
+                    DATEDEFINE: {
+                        between: [
+                            Moment(this.state.E0ResultParams.dateStart).format(`YYYY-MM-DD`),
+                            Moment(this.state.E0ResultParams.dateEnd).format(`YYYY-MM-DD`)
+                        ]
+                    }
                 }
             }
         })
@@ -88,26 +111,34 @@ export default class E0 extends Component {
             return
         }
 
-        let E0ResultParams = this.state.E0ResultParams
-        E0ResultParams[`diseases`] = getE0Result.data
-        E0ResultParams[`datas`] = getE0Result.data
+        // let E0ResultParams = this.state.E0ResultParams
+        // E0ResultParams[`diseases`] = getE0Result.data
+        // E0ResultParams[`datas`] = getE0Result.data
+
+        // this.setState({
+        //     diseases: getE0Result.data,
+        //     datas: getE0Result.data,
+        //     E0ResultParams
+        // })
+        console.log(getE0Result);
 
         this.setState({
-            diseases: getE0Result.data,
-            datas: getE0Result.data,
-            E0ResultParams
+            datas: getE0Result.data
         })
-        console.log(this.state.datas.length);
     }
 
     handleE0FormSubmit(params) {
+        // console.info(params, this)
         this.setState({
             E0ResultParams: {
                 dateStart: params.dateStart,
                 dateEnd: params.dateEnd,
-                selectedProvince: params.selectedProvince
+                selectedProvince: params.selectedProvince,
+                selectedDisease: params.selectedDisease
                 //diseases: this.state.diseases
             }
+        }, _ => {
+            this.getData()
         })
     }
 
@@ -128,22 +159,27 @@ export default class E0 extends Component {
                             title="Basic Export Preview"
                             columns={
                                 [
-                                    { title: 'IDCase', field: 'ids' },
-                                    { title: 'โรค', field: 'disname' },
-                                    { title: 'ชื่อ - สกุล', field: 'casename' },
+                                    { title: 'IDCase', field: 'idCase' },
+                                    { title: 'โรค', field: 'disease' },
+                                    { title: 'ชื่อ - สกุล', field: 'name' },
                                     { title: 'ที่อยู่', field: 'address' },
                                     { title: 'รหัสพื้นที่', field: 'addrcode' },
                                     { title: 'วันเริ่มป่วย', field: 'datesick' },
                                     { title: 'วันรักษา', field: 'datedefine' },
                                     { title: 'วันรับรายงาน', field: 'datereach' },
                                     { title: 'สถานบริการ', field: 'officeid' },
-                                    { title: 'สถานที่ส่ง', field: 'idmoph' }
+                                    { title: 'สถานที่ส่ง', field: 'idMoph' }
                                 ]
                             }
                             data={
-                                []
+                                this.state.datas
                             }
-                            options={[]}
+                        // options={{
+                        //     filtering: true
+                        // }}
+                        // components={{
+                        //     FilterRow: props => { console.info(props); return <MTableFilterRow {...props} /> }
+                        // }}
                         />
                     </Col>
                 </Row>
@@ -172,7 +208,7 @@ export default class E0 extends Component {
                                 </thead>
                                 <tbody>
                                     {
-                                        this.state.isLoading ? (
+                                        1 || this.state.isLoading ? (
                                             //<Loading /> :
                                             <Col>Loading ...</Col>) : (
                                                 // <DashboardResult params={this.state.dashboardResultParams} timestamp={new Date()} />

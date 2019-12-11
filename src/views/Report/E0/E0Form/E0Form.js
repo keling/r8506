@@ -25,6 +25,7 @@ import {
     Row,
     // Table,
 } from 'reactstrap'
+import Moment from 'moment'
 
 import 'react-datepicker/dist/react-datepicker.css'
 import './CustomDatepickerWidth.css'
@@ -40,6 +41,13 @@ export const PROVINCE_OPTIONS = [
     { value: '48', label: 'นครพนม' }
 ]
 
+export const DISEASE_OPTIONS = [
+    { value: '0', label: 'ทุกโรค' },
+    { value: '1', label: 'อุจจาระร่วง' },
+    { value: '26', label: 'ไข้เลือดออก' },
+    { value: '46', label: 'พิษสุนัขบ้า' },
+]
+
 const DATEPICKER_FORMAT = `d MMMM yyyy`
 
 registerLocale('th', th);
@@ -49,15 +57,17 @@ export default class E0Form extends Component {
         super(props)
 
         this.state = {
-            dateStart: new Date(),
-            dateEnd: new Date(),
+            dateStart: Moment()._d,
+            dateEnd: Moment()._d,
             selectedProvince: PROVINCE_OPTIONS[0],
+            selectedDisease: DISEASE_OPTIONS[0],
         }
 
         this.handleStartDateChange = this.handleStartDateChange.bind(this)
         this.handleEndDateChange = this.handleEndDateChange.bind(this)
         this.handleFormSubmit = this.handleFormSubmit.bind(this)
         this.handleProvinceChange = this.handleProvinceChange.bind(this)
+        this.handleDiseaseChange = this.handleDiseaseChange.bind(this)
     }
 
     handleStartDateChange(dateStart) {
@@ -98,6 +108,12 @@ export default class E0Form extends Component {
         })
     }
 
+    handleDiseaseChange(selectedDisease) {
+        this.setState({
+            selectedDisease
+        })
+    }
+
     handleFormSubmit() {
         if (typeof this.props.onSubmit != `function`) {
             return
@@ -106,7 +122,8 @@ export default class E0Form extends Component {
         this.props.onSubmit({
             dateStart: this.state.dateStart,
             dateEnd: this.state.dateEnd,
-            selectedProvince: this.state.selectedProvince
+            selectedProvince: this.state.selectedProvince,
+            selectedDisease: this.state.selectedDisease
         })
     }
 
@@ -123,6 +140,19 @@ export default class E0Form extends Component {
                             ref="selectProvince"
                             searchable={false}
                             onChange={this.handleProvinceChange}
+                        />
+                    </FormGroup>
+                </Col>
+                <Col xs="12" md="6" lg="3">
+                    <FormGroup>
+                        <Label>โรค: </Label>
+                        <Select
+                            defaultValue={DISEASE_OPTIONS[0]}
+                            name="selectDisease"
+                            options={DISEASE_OPTIONS}
+                            ref="selectDisease"
+                            searchable={false}
+                            onChange={this.handleDiseaseChange}
                         />
                     </FormGroup>
                 </Col>
