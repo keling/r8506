@@ -34,8 +34,9 @@ import {
     URL_API
 } from './E0Settings';
 import E0Form, { PROVINCE_OPTIONS } from './E0Form/E0Form';
+import PaginationComponent from "react-reactstrap-pagination";
 import MaterialTable from 'material-table';
-import Icons from '@material-ui/core';
+//import Icons from '@material-ui/core';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import { tsPropertySignature } from "@babel/types";
 import E0Tables from './E0Table';
@@ -58,9 +59,7 @@ export default class E0 extends Component {
                 selectedProvince: PROVINCE_OPTIONS[0],
                 datas: []
                 //diseases: []
-            },
-
-            currentPage: 0
+            }
         };
     }
 
@@ -98,7 +97,7 @@ export default class E0 extends Component {
             datas: getE0Result.data,
             E0ResultParams
         })
-        console.log(this.state.datas);
+        console.log(this.state.datas.length);
     }
 
     handleE0FormSubmit(params) {
@@ -110,13 +109,6 @@ export default class E0 extends Component {
                 //diseases: this.state.diseases
             }
         })
-    }
-
-    handleClickPage(e, index) {
-        e.preventDefault();
-        this.setState({
-            currentPage: index
-        });
     }
 
     render() {
@@ -134,13 +126,24 @@ export default class E0 extends Component {
                     <Col xs="12" md="12" lg="12">
                         <MaterialTable
                             title="Basic Export Preview"
-                            columns={[]}
-                            datas={this.state.datas}
-                            options={
-                                {
-                                    exportButton: true
-                                }
+                            columns={
+                                [
+                                    { title: 'IDCase', field: 'ids' },
+                                    { title: 'โรค', field: 'disname' },
+                                    { title: 'ชื่อ - สกุล', field: 'casename' },
+                                    { title: 'ที่อยู่', field: 'address' },
+                                    { title: 'รหัสพื้นที่', field: 'addrcode' },
+                                    { title: 'วันเริ่มป่วย', field: 'datesick' },
+                                    { title: 'วันรักษา', field: 'datedefine' },
+                                    { title: 'วันรับรายงาน', field: 'datereach' },
+                                    { title: 'สถานบริการ', field: 'officeid' },
+                                    { title: 'สถานที่ส่ง', field: 'idmoph' }
+                                ]
                             }
+                            data={
+                                []
+                            }
+                            options={[]}
                         />
                     </Col>
                 </Row>
@@ -193,6 +196,13 @@ export default class E0 extends Component {
                                             )}
                                 </tbody>
                             </Table>
+                            <PaginationComponent
+                                totalItems={this.state.datas.length}
+                                pageSize={10}
+                                onSelect={this.handleSelected}
+                                maxPaginationNumbers={5}
+                                activePage={1}
+                            />
                         </CardBody>
                     </Card>
                 </Row>

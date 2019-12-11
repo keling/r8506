@@ -36,6 +36,7 @@
     "react-chartjs-2": "^2.7.6",
     "react-datepicker": "^2.9.4",
     "react-dom": "^16.8.6",
+    "react-reactstrap-pagination": "^1.0.6",
     "react-router-config": "^5.0.1",
     "react-router-dom": "^5.0.1",
     "react-select": "^3.0.4",
