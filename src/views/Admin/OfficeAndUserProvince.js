@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import classnames from 'classnames';
-import ReactDOM from "react-dom";
-import { withRouter } from 'react-router-dom';
+// import ReactDOM from "react-dom";
+// import { withRouter } from 'react-router-dom';
 import {
   Row,
   Col,

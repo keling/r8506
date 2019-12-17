@@ -5,6 +5,7 @@ import { Alert, Col, FormGroup, Input, Button, Label } from 'reactstrap'
 import { ACCESS_TOKEN, URL_API } from '../Settings/Config';
 import axios from 'axios';
 import SweetAlert from 'react-bootstrap-sweetalert';
+import Select from 'react-select'
 
 class Importform extends Component {
     constructor(props) {
@@ -16,7 +17,16 @@ class Importform extends Component {
             races: [],
             races1: [],
             occupats: [],
-            diseases: []
+            diseases: [],
+            provinces: [],
+            amphurs: [],
+            tambols: [],
+            villages: [],
+            metropols: [],
+            hospitals: [],
+            patient_types: [],
+            cstatuss: [],
+            patient_name: '', hn: '', nmepat: ''
         }
         this.onChange = this.onChange.bind(this);
         this.getSex = this.getSex.bind(this);
@@ -25,19 +35,54 @@ class Importform extends Component {
         this.getRace1 = this.getRace1.bind(this);
         this.getOccupat = this.getOccupat.bind(this);
         this.getDisease = this.getDisease.bind(this);
+        this.getProvince = this.getProvince.bind(this);
+        // this.getMetropol = this.getMetropol.bind(this);
     }
 
     onChange(e) {
         this.setState({[e.target.name]: e.target.value})
     }
 
-    componentWillMount() {
-        this.getSex();
-        this.getMarietal();
-        this.getRace();
-        this.getRace1();
-        this.getOccupat();
-        this.getDisease();
+    componentDidMount() {
+        const token = localStorage.usertoken
+        if (token) {
+            if (this.props.location.state) {
+                this.getDataEdit();
+            }
+            this.getSex();
+            this.getMarietal();
+            this.getRace();
+            this.getRace1();
+            this.getOccupat();
+            this.getDisease();
+            this.getProvince();
+            this.getMetropol();
+            this.getPatientType();
+            this.getHospital();
+            this.getCStatus();
+        } else {
+            this.props.history.push('/login');
+        }
+    }
+
+    // Get Edit
+    getDataEdit() {
+        // console.log(this.props.location.state.idcase)
+        axios
+        .get(`${URL_API}/Cases/` + this.props.location.state.idcase, {
+            headers: { Authorization: ACCESS_TOKEN }
+        })
+        .then(res => {
+            this.setState({
+                patient_name: res.data.name,
+                hn: res.data.hn,
+                nmepat: res.data.nmepat,
+                isLoading: false
+            });
+        })
+        .catch(error => {
+            console.log("error " + error);
+        });
     }
 
     submit(e) {
@@ -60,15 +105,27 @@ class Importform extends Component {
                 agey: this.state.agey,
                 agem: this.state.agem,
                 aged: this.state.aged,
+                marietal: this.state.marietal,
+                race: this.state.race,
+                race1: this.state.race1,
+                occupat: this.state.occupat,
+                address: this.state.address,
+                metropol: this.state.metropol,
+                hospital: this.state.hospital,
+                type: this.state.patient_type,
+                
                 hserv: 41010110,
+                class: this.state.classroom,
+                school: this.state.school,
+                idcard: this.state.cid,
                 icd10: this.state.icd10,
                 officeid: 41010110,
                 cstatus: 1,
                 cimportDate: new Date().toLocaleString(),
-                caddrProvince: 41,
-                caddrAmp: 1,
-                caddrTum: 1,
-                caddrVillage: 1,
+                caddrProvince: this.state.province,
+                caddrAmp: this.state.amphur,
+                caddrTum: this.state.tambol,
+                caddrVillage: this.state.village,
                 chservProvince: 41,
                 idmoph: 10671
                 }
@@ -100,7 +157,7 @@ class Importform extends Component {
         this.setState({
             alert: null
         });
-        this.props.history.push('./dashboard');
+        this.props.history.push('/caselist');
     }
 
     WarningAlert() {
@@ -110,7 +167,7 @@ class Importform extends Component {
             title="Warning!"
             onConfirm={() => this.hideAlert2()}
           >
-            กรุณากรอกข้อมูลให้ครบถ้วนตาม *
+            กรุณากรอกข้อมูลให้ครบถ้วน
           </SweetAlert>
         );
     
@@ -196,7 +253,7 @@ class Importform extends Component {
           headers: { Authorization: ACCESS_TOKEN },
           params: {
             filter: {
-                order: "idoccupation ASC"
+                order: "name ASC"
             }
           }
         })
@@ -213,12 +270,7 @@ class Importform extends Component {
     getDisease() {
         axios
         .get(`${URL_API}/Diseases`, {
-          headers: { Authorization: ACCESS_TOKEN },
-          params: {
-            filter: {
-              limit: "10"
-            }
-          }
+          headers: { Authorization: ACCESS_TOKEN }
         })
         .then(res => {
           this.setState({
@@ -227,6 +279,186 @@ class Importform extends Component {
         })
         .catch(error => {
           console.log("error " + error);
+        });
+    }
+
+    getProvince() {
+        axios
+        .get(`${URL_API}/Provinces`, {
+            headers: { Authorization: ACCESS_TOKEN },
+            params: {
+                filter: {
+                    order: "name ASC"
+                }
+            }
+        })
+        .then(res => {
+
+            this.setState({
+                provinces: res.data
+            });
+        })
+        .catch(error => {
+            console.log("error " + error);
+        });
+    }
+
+    onChangeProvince(e) {
+        this.setState({[e.target.name]: e.target.value})
+        this.getAmphur(e.target.value)
+    }
+
+    getAmphur(province_id) {
+        axios
+        .get(`${URL_API}/Amps`, {
+            headers: { Authorization: ACCESS_TOKEN },
+            params: {
+                filter: {
+                    where: {"idprovince": province_id},
+                    order: "id ASC"
+                }
+            }
+        })
+        .then(res => {
+            this.setState({
+                amphurs: res.data
+            });
+            // console.log(this.state.amphurs)
+        })
+        .catch(error => {
+            console.log("error " + error);
+        });
+    }
+
+    onChangeAmphur(e) {
+        this.setState({[e.target.name]: e.target.value})
+        this.getTambol(e.target.value)
+    }
+
+    getTambol(amphur_id) {
+        axios
+        .get(`${URL_API}/Ta`, {
+            headers: { Authorization: ACCESS_TOKEN },
+            params: {
+                filter: {
+                    where: {"idprovince": this.state.province, "idamp": amphur_id},
+                    order: "id ASC"
+                }
+            }
+        })
+        .then(res => {
+            this.setState({
+                tambols: res.data
+            });
+        })
+        .catch(error => {
+            console.log("error " + error);
+        });
+    }
+
+    onChangeTambol(e) {
+        this.setState({[e.target.name]: e.target.value})
+        this.getVillage(e.target.value)
+    }
+
+    getVillage(tambol_id) {
+        axios
+        .get(`${URL_API}/Villages`, {
+            headers: { Authorization: ACCESS_TOKEN },
+            params: {
+                filter: {
+                    where: {"idprovince": this.state.province, "idamp": this.state.amphur, "idtum": tambol_id},
+                    order: "id ASC"
+                }
+            }
+        })
+        .then(res => {
+            this.setState({
+                villages: res.data
+            });
+        })
+        .catch(error => {
+            console.log("error " + error);
+        });
+    }
+
+    getMetropol() {
+        axios
+        .get(`${URL_API}/Metropols`, {
+            headers: { Authorization: ACCESS_TOKEN },
+            params: {
+                filter: {
+                    order: "idmetropol ASC"
+                }
+            }
+        })
+        .then(res => {
+            this.setState({
+                metropols: res.data
+            });
+        })
+        .catch(error => {
+            console.log("error " + error);
+        });
+    }
+
+    getPatientType() {
+        axios
+        .get(`${URL_API}/Types`, {
+            headers: { Authorization: ACCESS_TOKEN },
+            params: {
+                filter: {
+                    order: "idtype ASC"
+                }
+            }
+        })
+        .then(res => {
+            this.setState({
+                patient_types: res.data
+            });
+        })
+        .catch(error => {
+            console.log("error " + error);
+        });
+    }
+
+    getHospital() {
+        axios
+        .get(`${URL_API}/Hospitals`, {
+            headers: { Authorization: ACCESS_TOKEN },
+            params: {
+                filter: {
+                    order: "idhospital ASC"
+                }
+            }
+        })
+        .then(res => {
+            this.setState({
+                hospitals: res.data
+            });
+        })
+        .catch(error => {
+            console.log("error " + error);
+        });
+    }
+
+    getCStatus() {
+        axios
+        .get(`${URL_API}/CaseStatuses`, {
+            headers: { Authorization: ACCESS_TOKEN },
+            params: {
+                filter: {
+                    order: "idcaseStatus ASC"
+                }
+            }
+        })
+        .then(res => {
+            this.setState({
+                cstatuss: res.data
+            });
+        })
+        .catch(error => {
+            console.log("error " + error);
         });
     }
 
@@ -271,13 +503,13 @@ class Importform extends Component {
                             <Col xs="12" md="3">
                                 <FormGroup>
                                     <Label htmlFor="patient_name">ชื่อผู้ป่วย <span className="text-danger">*</span></Label>
-                                    <Input type="text" name="patient_name" id="patient_name" placeholder="" onChange={e => this.onChange(e)} />
+                                    <Input type="text" name="patient_name" id="patient_name" placeholder="" onChange={e => this.onChange(e)} value={this.state.patient_name} />
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="3">
                                 <FormGroup>
                                     <Label htmlFor="nmepat">ชื่อผู้ปกครอง</Label>
-                                    <Input type="text" name="nmepat" id="nmepat" placeholder="" onChange={e => this.onChange(e)} />
+                                    <Input type="text" name="nmepat" id="nmepat" placeholder="" onChange={e => this.onChange(e)} value={this.state.nmepat} />
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="3">
@@ -369,49 +601,61 @@ class Importform extends Component {
                             </Col>
                             <Col xs="12" md="6">
                                 <FormGroup>
-                                    <Label htmlFor="sex">ที่อยู่</Label>
-                                    <Input type="text" id="pe0" placeholder="" />
+                                    <Label htmlFor="address">ที่อยู่</Label>
+                                    <Input type="text" name="address" id="address" placeholder="" onChange={e => this.onChange(e)} />
                                 </FormGroup>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                    <Label htmlFor="e0">หมู่บ้าน</Label>
-                                    <Input type="select" name="sex" id="sex" bsSize="md">
+                                <Label htmlFor="province">จังหวัด</Label>
+                                    <Input type="select" name="province" id="province" bsSize="md" onChange={e => this.onChangeProvince(e)}>
                                         <option value="0">กรุณาเลือก</option>
-                                        <option value="0">ไม่ระบุ</option>
-                                        <option value="1">ไทย</option>
+                                        {this.state.provinces.map(province => {
+                                            return (
+                                                <option key={province.idprovince} value={province.idprovince}>{province.name}</option>
+                                            );
+                                        })}
                                     </Input>
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                    <Label htmlFor="pe0">ตำบล</Label>
-                                    <Input type="select" name="sex" id="sex" bsSize="md">
+                                <Label htmlFor="amphur">อำเภอ</Label>
+                                    <Input type="select" name="amphur" id="amphur" bsSize="md" onChange={e => this.onChangeAmphur(e)}>
                                         <option value="0">กรุณาเลือก</option>
-                                        <option value="0">ไม่ระบุ</option>
-                                        <option value="1">ไทย</option>
+                                        {this.state.amphurs.map(amphur => {
+                                            return (
+                                                <option key={amphur.id} value={amphur.id}>{amphur.name}</option>
+                                            );
+                                        })}
                                     </Input>
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                    <Label htmlFor="sex">อำเภอ</Label>
-                                    <Input type="select" name="sex" id="sex" bsSize="md">
+                                    <Label htmlFor="tambol">ตำบล</Label>
+                                    <Input type="select" name="tambol" id="tambol" bsSize="md" onChange={e => this.onChangeTambol(e)}>
                                         <option value="0">กรุณาเลือก</option>
-                                        <option value="0">ไม่ระบุ</option>
-                                        <option value="1">ไทย</option>
+                                        {this.state.tambols.map(tambol => {
+                                            return (
+                                                <option key={tambol.id} value={tambol.id}>{tambol.name}</option>
+                                            );
+                                        })}
                                     </Input>
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                    <Label htmlFor="pe0">จังหวัด</Label>
-                                    <Input type="select" name="sex" id="sex" bsSize="md">
+                                    <Label htmlFor="village">หมู่บ้าน</Label>
+                                    <Input type="select" name="village" id="village" bsSize="md" onChange={e => this.onChange(e)}>
                                         <option value="0">กรุณาเลือก</option>
-                                        <option value="0">ไม่ระบุ</option>
-                                        <option value="1">ไทย</option>
+                                        {this.state.villages.map(village => {
+                                            return (
+                                                <option key={village.id} value={village.id}>{village.name}</option>
+                                            );
+                                        })}
                                     </Input>
                                 </FormGroup>
                             </Col>
@@ -419,30 +663,33 @@ class Importform extends Component {
                         <FormGroup row>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                    <Label htmlFor="e0">เขตเทศบาล/อบต</Label>
-                                    <Input type="select" name="sex" id="sex" bsSize="md">
-                                        <option value="0">กรุณาเลือก</option>
-                                        <option value="0">ไม่ระบุ</option>
-                                        <option value="1">ไทย</option>
+                                    <Label htmlFor="metropol">เขตเทศบาล/อบต</Label>
+                                    <Input type="select" name="metropol" id="metropol" bsSize="md" onChange={e => this.onChange(e)}>
+                                    <option value="0">กรุณาเลือก</option>
+                                        {this.state.metropols.map(metropol => {
+                                            return (
+                                                <option key={metropol.idmetropol} value={metropol.idmetropol}>{metropol.name}</option>
+                                            );
+                                        })}
                                     </Input>
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                    <Label htmlFor="pe0">ชั้นเรียน</Label>
-                                    <Input type="text" id="pe0" placeholder="" />
+                                    <Label htmlFor="classroom">ชั้นเรียน</Label>
+                                    <Input type="text" name="classroom" id="classroom" placeholder="" onChange={e => this.onChange(e)} />
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                    <Label htmlFor="sex">โรงเรียน</Label>
-                                    <Input type="text" id="pe0" placeholder="" />
+                                    <Label htmlFor="school">โรงเรียน</Label>
+                                    <Input type="text" name="school" id="school" placeholder="" onChange={e => this.onChange(e)} />
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                    <Label htmlFor="pe0">หมายเลขบัตรประชาชน</Label>
-                                    <Input type="text" id="pe0" placeholder="" />
+                                    <Label htmlFor="cid">หมายเลขบัตรประชาชน</Label>
+                                    <Input type="text" name="cid" id="cid" placeholder="" onChange={e => this.onChange(e)} />
                                 </FormGroup>
                             </Col>
                         </FormGroup>
@@ -452,7 +699,7 @@ class Importform extends Component {
                         <FormGroup row>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                    <Label htmlFor="e0">ชื่อโรค</Label>
+                                    <Label htmlFor="disease">ชื่อโรค</Label>
                                     <Input type="select" name="disease" id="disease" bsSize="md" onChange={e => this.onChange(e)}>
                                         <option value="">กรุณาเลือก</option>
                                         {this.state.diseases.map(disease => {
@@ -466,26 +713,32 @@ class Importform extends Component {
                             <Col xs="12" md="3">
                                 <FormGroup>
                                     <Label htmlFor="pe0">รหัส HN</Label>
-                                    <Input type="text" name="hn" id="hn" placeholder="" onChange={e => this.onChange(e)} />
+                                    <Input type="text" name="hn" id="hn" placeholder="" onChange={e => this.onChange(e)} value={this.state.hn} />
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                    <Label htmlFor="sex">ประเภทสถานที่รักษา</Label>
-                                    <Input type="select" name="sex" id="sex" bsSize="md">
+                                    <Label htmlFor="hospital">ประเภทสถานที่รักษา</Label>
+                                    <Input type="select" name="hospital" id="hospital" bsSize="md" onChange={e => this.onChange(e)}>
                                         <option value="0">กรุณาเลือก</option>
-                                        <option value="0">ไม่ระบุ</option>
-                                        <option value="1">ไทย</option>
+                                        {this.state.hospitals.map(hospital => {
+                                            return (
+                                                <option key={hospital.idhospital} value={hospital.idhospital}>{hospital.name}</option>
+                                            );
+                                        })}
                                     </Input>
                                 </FormGroup>
                             </Col>
                             <Col xs="12" md="3">
                                 <FormGroup>
-                                    <Label htmlFor="pe0">ประเภทผู้ป่วย</Label>
-                                    <Input type="select" name="sex" id="sex" bsSize="md">
+                                    <Label htmlFor="patient_type">ประเภทผู้ป่วย</Label>
+                                    <Input type="select" name="patient_type" id="patient_type" bsSize="md" onChange={e => this.onChange(e)}>
                                         <option value="0">กรุณาเลือก</option>
-                                        <option value="0">ไม่ระบุ</option>
-                                        <option value="1">ไทย</option>
+                                        {this.state.patient_types.map(patient_type => {
+                                            return (
+                                                <option key={patient_type.idtype} value={patient_type.idtype}>{patient_type.name}</option>
+                                            );
+                                        })}
                                     </Input>
                                 </FormGroup>
                             </Col>
@@ -645,11 +898,14 @@ class Importform extends Component {
                         <FormGroup row>
                             <Col xs="12" md="2">
                                 <FormGroup>
-                                    <Label htmlFor="e0">สถานะของเคส</Label>
-                                    <Input type="select" name="sex" id="sex" bsSize="md">
+                                    <Label htmlFor="cstatus">สถานะของเคส</Label>
+                                    <Input type="select" name="cstatus" id="cstatus" bsSize="md" onChange={e => this.onChange(e)}>
                                         <option value="0">กรุณาเลือก</option>
-                                        <option value="0">ไม่ระบุ</option>
-                                        <option value="1">ไทย</option>
+                                        {this.state.cstatuss.map(cstatus => {
+                                            return (
+                                                <option key={cstatus.idcaseStatus} value={cstatus.idcaseStatus}>{cstatus.name}</option>
+                                            );
+                                        })}
                                     </Input>
                                 </FormGroup>
                             </Col>
