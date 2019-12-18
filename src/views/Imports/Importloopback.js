@@ -21,7 +21,7 @@ class Importloopback extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getData();
   }
 
@@ -37,7 +37,7 @@ class Importloopback extends Component {
         }
       })
       .then(response => {
-        console.log(response.data);
+        // console.log(response.data);
         this.setState({
           patients: response.data,
           isLoading: false

@@ -2,6 +2,7 @@ import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import * as router from 'react-router-dom';
 import { Container } from 'reactstrap';
+import jwt_decode from 'jwt-decode';
 
 import {
   AppAside,
@@ -16,15 +17,46 @@ import {
   AppSidebarNav2 as AppSidebarNav,
 } from '@coreui/react';
 // sidebar nav config
-import navigation from '../../_nav';
+// import navigation from '../../_nav';
 // routes config
 import routes from '../../routes';
+
+import navGuest from '../../views/Menu/_navGuest';
+import navUser from '../../views/Menu/_navUser';
 
 const DefaultAside = React.lazy(() => import('./DefaultAside'));
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 
 class DefaultLayout extends Component {
+  constructor() {
+    super();
+    this.state = {
+      iduser: '',
+      nav_menu: navGuest
+    }
+  }
+
+  componentDidMount() {
+    const token = localStorage.usertoken
+    if (token) {
+      const decoded = jwt_decode(token)
+      this.setState({
+        iduser: decoded.iduser
+      })
+      this.checkAuthen(decoded.iduser);
+    } else {
+      this.checkAuthen('');
+    }
+  }
+
+  checkAuthen(id) {
+    if (id) {
+      this.setState({
+        nav_menu: navUser
+      })
+    }
+  }
 
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
@@ -47,7 +79,7 @@ class DefaultLayout extends Component {
             <AppSidebarHeader />
             <AppSidebarForm />
             <Suspense>
-            <AppSidebarNav navConfig={navigation} {...this.props} router={router}/>
+            <AppSidebarNav navConfig={this.state.nav_menu} {...this.props} router={router}/>
             </Suspense>
             <AppSidebarFooter />
             <AppSidebarMinimizer />

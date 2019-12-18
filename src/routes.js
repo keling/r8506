@@ -44,6 +44,7 @@ const Importform = React.lazy(() => import('./views/Imports/Importform'));
 const Importloopback = React.lazy(() => import('./views/Imports/Importloopback'));
 
 const CaseWaitCheck = React.lazy(() => import('./views/Case/CaseWaitCheck'));
+const CaseList = React.lazy(() => import('./views/Case/CaseList'));
 
 const OfficeAndUser = React.lazy(() => import('./views/Admin/OfficeAndUser'));
 const OfficeAndUserProvince = React.lazy(() => import('./views/Admin/OfficeAndUserProvince'));
@@ -52,6 +53,7 @@ const workList = React.lazy(() => import('./views/SRRT/workList'));
 const workCase = React.lazy(() => import('./views/SRRT/workCase'));
 
 const E0 = React.lazy(() => import('./views/Report/E0/E0main'));
+const Logout = React.lazy(() => import('./Logout'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -102,6 +104,7 @@ const routes = [
   { path: '/imports/importform', exact: true, name: 'นำเข้าจากฟอร์ม', component: Importform },
   { path: '/imports/importloopback', exact: true, name: 'นำเข้าจาก Loopback', component: Importloopback },
   { path: '/case/waitCheck', exact: true, name: 'รอตรวจสอบ', component: CaseWaitCheck },
+  { path: '/caselist', exact: true, name: 'รายการ Case', component: CaseList },
   { path: '/admin/officeUser', exact: true, name: 'ตั้งค่าหน่วยงานและผู้ใช้', component: OfficeAndUser },
   { path: '/admin/officeUserProv', exact: true, name: 'ตั้งค่าหน่วยงานและผู้ใช้', component: OfficeAndUserProvince },
   { path: '/admin/userEdit', exact: true, name: 'ตั้งค่าหน่วยงานและผู้ใช้', component: UserEdit },
@@ -113,6 +116,7 @@ const routes = [
   // { path: '/imports/importloopback', exact: true, name: 'นำเข้าจาก Loopback', component: Importloopback },
   // { path: '/case/waitCheck', exact: true, name: 'รอตรวจสอบ', component: CaseWaitCheck },
   { path: '/report/E0/E0main', exact: true, name: 'รายงาน E0', component: E0 },
+  { path: '/logout', exact: true, name: 'Logout', component: Logout },
 ];
 
 export default routes;

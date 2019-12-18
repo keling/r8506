@@ -1,4 +1,5 @@
 export default {
+  // ใช้ไฟล์ views/Menu/_navUser.js
   items: [
     {
       name: 'Dashboard',
@@ -101,8 +102,8 @@ export default {
       ],
     },
     {
-      name: 'Login',
-      url: '/login',
+      name: 'Logout',
+      url: '/logout',
       icon: 'icon-lock-open',
     },
     /*
