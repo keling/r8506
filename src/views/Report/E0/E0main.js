@@ -84,22 +84,34 @@ export default class E0 extends Component {
             isLoading: true
         })
 
-        let getE0Result = await axios.get(`${URL_API}/Cases`, {
-            headers: {
-                Authorization: ACCESS_TOKEN
-            },
-            params: {
+
+        let params = {
+            filter: {
                 where: {
-                    DISEASE: this.state.E0ResultParams.selectedDisease,
-                    PROVINCE: this.state.E0ResultParams.selectedProvince,
-                    DATEDEFINE: {
+                    datedefine: {
                         between: [
-                            Moment(this.state.E0ResultParams.dateStart).format(`YYYY-MM-DD`),
-                            Moment(this.state.E0ResultParams.dateEnd).format(`YYYY-MM-DD`)
+                            Moment(this.state.E0ResultParams.dateStart).format(),
+                            Moment(this.state.E0ResultParams.dateEnd).format()
                         ]
                     }
                 }
             }
+        }
+
+        console.info(this.state.E0ResultParams)
+        if (this.state.E0ResultParams.selectedDisease.value != 0) {
+            params.filter.where.disease = this.state.E0ResultParams.selectedDisease.value
+        }
+
+        if (this.state.E0ResultParams.selectedProvince.value != 0) {
+            params.filter.where.chservProvince = this.state.E0ResultParams.selectedProvince.value
+        }
+
+        let getE0Result = await axios.get(`${URL_API}/Cases`, {
+            headers: {
+                Authorization: ACCESS_TOKEN
+            },
+            params
         })
 
         this.setState({
@@ -155,35 +167,43 @@ export default class E0 extends Component {
                 <E0Form onSubmit={this.handleE0FormSubmit} />
                 <Row>
                     <Col xs="12" md="12" lg="12">
-                        <MaterialTable
-                            title="Basic Export Preview"
-                            columns={
-                                [
-                                    { title: 'IDCase', field: 'idCase' },
-                                    { title: 'โรค', field: 'disease' },
-                                    { title: 'ชื่อ - สกุล', field: 'name' },
-                                    { title: 'ที่อยู่', field: 'address' },
-                                    { title: 'รหัสพื้นที่', field: 'addrcode' },
-                                    { title: 'วันเริ่มป่วย', field: 'datesick' },
-                                    { title: 'วันรักษา', field: 'datedefine' },
-                                    { title: 'วันรับรายงาน', field: 'datereach' },
-                                    { title: 'สถานบริการ', field: 'officeid' },
-                                    { title: 'สถานที่ส่ง', field: 'idMoph' }
-                                ]
-                            }
-                            data={
-                                this.state.datas
-                            }
-                        // options={{
-                        //     filtering: true
-                        // }}
-                        // components={{
-                        //     FilterRow: props => { console.info(props); return <MTableFilterRow {...props} /> }
-                        // }}
-                        />
+                        {
+                            this.state.isLoading
+                                ?
+                                <>
+                                    <span>Loading</span> <i className="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                                </>
+                                :
+                                <MaterialTable
+                                    title="Basic Export Preview"
+                                    columns={
+                                        [
+                                            { title: 'IDCase', field: 'idCase' },
+                                            { title: 'โรค', field: 'disease' },
+                                            { title: 'ชื่อ - สกุล', field: 'name' },
+                                            { title: 'ที่อยู่', field: 'address' },
+                                            { title: 'รหัสพื้นที่', field: 'addrcode' },
+                                            { title: 'วันเริ่มป่วย', field: 'datesick' },
+                                            { title: 'วันรักษา', field: 'datedefine' },
+                                            { title: 'วันรับรายงาน', field: 'datereach' },
+                                            { title: 'สถานบริการ', field: 'officeid' },
+                                            { title: 'สถานที่ส่ง', field: 'idMoph' }
+                                        ]
+                                    }
+                                    data={
+                                        this.state.datas
+                                    }
+                                // options={{
+                                //     filtering: true
+                                // }}
+                                // components={{
+                                //     FilterRow: props => { console.info(props); return <MTableFilterRow {...props} /> }
+                                // }}
+                                />
+                        }
                     </Col>
                 </Row>
-                <Row>
+                {/* <Row>
                     <Col xs="12" md="12" lg="12">
                         <hr />
                     </Col>
@@ -241,7 +261,7 @@ export default class E0 extends Component {
                             />
                         </CardBody>
                     </Card>
-                </Row>
+                </Row> */}
             </div >
         );
     }
