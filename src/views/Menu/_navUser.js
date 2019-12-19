@@ -57,6 +57,11 @@ export default {
           icon: 'icon-doc',
         },
         {
+          name: 'รายงาน SRRT',
+          url: '/report/Srrt/SrrtMain',
+          icon: 'icon-doc',
+        },
+        {
           name: 'รายงานกิจกรรมอื่นๆ',
           url: '/theme/colors',
           icon: 'icon-doc',

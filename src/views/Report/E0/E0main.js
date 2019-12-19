@@ -33,7 +33,7 @@ import {
     ACCESS_TOKEN,
     URL_API
 } from './E0Settings';
-import E0Form, { DISEASE_OPTIONS, PROVINCE_OPTIONS } from './E0Form/E0Form';
+import ReportForm, { DISEASE_OPTIONS, PROVINCE_OPTIONS } from './E0Form/E0Form';
 import PaginationComponent from "react-reactstrap-pagination";
 import MaterialTable, { MTableFilterRow } from 'material-table';
 import Moment from 'moment'
@@ -55,8 +55,8 @@ export default class E0 extends Component {
             datas: [],
 
             fetchParams: {
-                dateStart: Moment().format(`YYYY-MM-DD`),
-                dateEnd: Moment().format(`YYYY-MM-DD`),
+                dateStart: Moment().format(),
+                dateEnd: Moment().format(),
                 selectedProvince: PROVINCE_OPTIONS[0],
                 selectedDisease: DISEASE_OPTIONS[0],
                 // datas: []
@@ -64,7 +64,7 @@ export default class E0 extends Component {
             }
         }
 
-        this.handleE0FormSubmit = this.handleE0FormSubmit.bind(this)
+        this.handleReportFormSubmit = this.handleReportFormSubmit.bind(this)
     }
 
     componentDidMount() {
@@ -139,7 +139,7 @@ export default class E0 extends Component {
         })
     }
 
-    handleE0FormSubmit(params) {
+    handleReportFormSubmit(params) {
         // console.info(params, this)
         this.setState({
             fetchParams: {
@@ -164,7 +164,7 @@ export default class E0 extends Component {
                         <h4>ระบบเผ้าระวังทางระบาดวิทยา เขตสุขภาพที่ 8</h4>
                     </Col>
                 </Row>
-                <E0Form onSubmit={this.handleE0FormSubmit} />
+                <ReportForm onSubmit={this.handleReportFormSubmit} />
                 <Row>
                     <Col xs="12" md="12" lg="12">
                         {

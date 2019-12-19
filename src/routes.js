@@ -54,6 +54,8 @@ const workCase = React.lazy(() => import('./views/SRRT/workCase'));
 
 const E0 = React.lazy(() => import('./views/Report/E0/E0main'));
 const Timeless = React.lazy(() => import('./views/Report/Timeless/TimelessMain'));
+const Srrt = React.lazy(() => import('./views/Report/Srrt/SrrtMain'));
+
 const Logout = React.lazy(() => import('./Logout'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
@@ -118,6 +120,7 @@ const routes = [
   // { path: '/case/waitCheck', exact: true, name: 'รอตรวจสอบ', component: CaseWaitCheck },
   { path: '/report/E0/E0main', exact: true, name: 'รายงาน E0', component: E0 },
   { path: '/report/Timeless/TimelessMain', exact: true, name: 'รายงานความทันเวลา', component: Timeless },
+  { path: '/report/Srrt/SrrtMain', exact: true, name: 'รายงาน SRRT', component: Srrt },
   { path: '/logout', exact: true, name: 'Logout', component: Logout },
 ];
 

@@ -32,8 +32,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import {
     ACCESS_TOKEN,
     URL_API
-} from './TimelessSettings';
-import E0Form, { DISEASE_OPTIONS, PROVINCE_OPTIONS } from './TimelessForm/TimelessForm';
+} from './SrrtSettings';
+import ReportForm, { DISEASE_OPTIONS, PROVINCE_OPTIONS } from './SrrtForm/SrrtForm';
 import PaginationComponent from "react-reactstrap-pagination";
 import MaterialTable, {
     MTableFilterRow,
@@ -67,7 +67,7 @@ export default class E0 extends Component {
             }
         }
 
-        this.handleE0FormSubmit = this.handleE0FormSubmit.bind(this)
+        this.handleReportFormSubmit = this.handleReportFormSubmit.bind(this)
     }
 
     componentDidMount() {
@@ -125,7 +125,7 @@ export default class E0 extends Component {
         })
     }
 
-    handleE0FormSubmit(params) {
+    handleReportFormSubmit(params) {
         // console.info(params, this)
         this.setState({
             fetchParams: {
@@ -145,11 +145,11 @@ export default class E0 extends Component {
             <div className="animated fadeIn">
                 <Row>
                     <Col xs="12" md="12" lg="12">
-                        <h3><strong>รายงานความทันเวลา</strong></h3>
+                        <h3><strong>รายงาน SRRT</strong></h3>
                         <h4>ระบบเผ้าระวังทางระบาดวิทยา เขตสุขภาพที่ 8</h4>
                     </Col>
                 </Row>
-                <E0Form onSubmit={this.handleE0FormSubmit} />
+                <ReportForm onSubmit={this.handleReportFormSubmit} />
                 <Row>
                     <Col xs="12" md="12" lg="12">
                         {
@@ -164,42 +164,18 @@ export default class E0 extends Component {
                                     title="Basic Export Preview"
                                     columns={
                                         [
-                                            { title: `จังหวัด`, field: `province` },
-                                            { title: `จำนวนบัตร`, field: `total` },
-                                            { title: `ทันเวลา - สกุล`, field: `timeless` },
-                                            { title: `ร้อยละ`, field: `percentage` },
-                                            // { title: 'รหัสพื้นที่', field: 'addrcode' },
-                                            // { title: 'วันเริ่มป่วย', field: 'datesick' },
-                                            // { title: 'วันรักษา', field: 'datedefine' },
-                                            // { title: 'วันรับรายงาน', field: 'datereach' },
-                                            // { title: 'สถานบริการ', field: 'officeid' },
-                                            // { title: 'สถานที่ส่ง', field: 'idMoph' }
-                                            // { title: `จังหวัด` }
+                                            { title: `ชื่อ - สกุล`, field: `province` },
+                                            { title: `จำนวนเคส`, field: `total` },
+                                            { title: `จำนวนรายงาน - สกุล`, field: `timeless` },
+                                            { title: `ลงพิกัดสำเร็จ`, field: `percentage` },
+                                            { title: `ลงพิกัดสำเร็จร้อยละ`, field: `percentage` },
+                                            { title: `ทัน 30 ชม`, field: `percentage` },
+                                            { title: `ทัน 30 ชม ร้อยละ`, field: `percentage` },
                                         ]
                                     }
                                     data={
                                         this.state.datas
                                     }
-                                    components={{
-                                        Header: props => {
-                                            // console.info(this.state.fetchParams)
-                                            return (
-                                                <TableHead>
-                                                    <TableRow>
-                                                        <TableCell rowSpan={2} align="center">จังหวัด</TableCell>
-                                                        <TableCell colSpan={3} align="center">
-                                                            {this.state.fetchParams.selectedDisease.label}
-                                                        </TableCell>
-                                                    </TableRow>
-                                                    <TableRow>
-                                                        <TableCell align="center">จำนวนบัตร</TableCell>
-                                                        <TableCell align="center">ทันเวลา</TableCell>
-                                                        <TableCell align="center">ร้อยละ</TableCell>
-                                                    </TableRow>
-                                                </TableHead>
-                                            )
-                                        },
-                                    }}
 
                                 // options={{
                                 //     filtering: true
