@@ -54,12 +54,12 @@ export default class E0 extends Component {
             diseases: [],
             datas: [],
 
-            E0ResultParams: {
+            fetchParams: {
                 dateStart: Moment().format(`YYYY-MM-DD`),
                 dateEnd: Moment().format(`YYYY-MM-DD`),
                 selectedProvince: PROVINCE_OPTIONS[0],
                 selectedDisease: DISEASE_OPTIONS[0],
-                datas: []
+                // datas: []
                 //diseases: []
             }
         }
@@ -90,21 +90,21 @@ export default class E0 extends Component {
                 where: {
                     datedefine: {
                         between: [
-                            Moment(this.state.E0ResultParams.dateStart).format(),
-                            Moment(this.state.E0ResultParams.dateEnd).format()
+                            Moment(this.state.fetchParams.dateStart).format(),
+                            Moment(this.state.fetchParams.dateEnd).format()
                         ]
                     }
                 }
             }
         }
 
-        console.info(this.state.E0ResultParams)
-        if (this.state.E0ResultParams.selectedDisease.value != 0) {
-            params.filter.where.disease = this.state.E0ResultParams.selectedDisease.value
+        console.info(this.state.fetchParams)
+        if (this.state.fetchParams.selectedDisease.value != 0) {
+            params.filter.where.disease = this.state.fetchParams.selectedDisease.value
         }
 
-        if (this.state.E0ResultParams.selectedProvince.value != 0) {
-            params.filter.where.chservProvince = this.state.E0ResultParams.selectedProvince.value
+        if (this.state.fetchParams.selectedProvince.value != 0) {
+            params.filter.where.chservProvince = this.state.fetchParams.selectedProvince.value
         }
 
         let getE0Result = await axios.get(`${URL_API}/Cases`, {
@@ -123,14 +123,14 @@ export default class E0 extends Component {
             return
         }
 
-        // let E0ResultParams = this.state.E0ResultParams
-        // E0ResultParams[`diseases`] = getE0Result.data
-        // E0ResultParams[`datas`] = getE0Result.data
+        // let fetchParams = this.state.fetchParams
+        // fetchParams[`diseases`] = getE0Result.data
+        // fetchParams[`datas`] = getE0Result.data
 
         // this.setState({
         //     diseases: getE0Result.data,
         //     datas: getE0Result.data,
-        //     E0ResultParams
+        //     fetchParams
         // })
         console.log(getE0Result);
 
@@ -142,7 +142,7 @@ export default class E0 extends Component {
     handleE0FormSubmit(params) {
         // console.info(params, this)
         this.setState({
-            E0ResultParams: {
+            fetchParams: {
                 dateStart: params.dateStart,
                 dateEnd: params.dateEnd,
                 selectedProvince: params.selectedProvince,
@@ -171,7 +171,8 @@ export default class E0 extends Component {
                             this.state.isLoading
                                 ?
                                 <>
-                                    <span>Loading</span> <i className="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                                    <span>Loading</span>
+                                    <i className="fa fa-spinner fa-spin fa-3x fa-fw"></i>
                                 </>
                                 :
                                 <MaterialTable
@@ -232,7 +233,7 @@ export default class E0 extends Component {
                                             //<Loading /> :
                                             <Col>Loading ...</Col>) : (
                                                 // <DashboardResult params={this.state.dashboardResultParams} timestamp={new Date()} />
-                                                // <E0Tables params={this.state.E0ResultParams.datas} />
+                                                // <E0Tables params={this.state.fetchParams.datas} />
                                                 this.state.datas.map(datax => {
                                                     return (
                                                         <tr>
