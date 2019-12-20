@@ -62,6 +62,16 @@ export default {
           icon: 'icon-doc',
         },
         {
+          name: 'รายงานคุณภาพการสอบสวนโรค',
+          url: '/report/Surveillance/SurveillanceMain',
+          icon: 'icon-doc',
+        },
+        {
+          name: 'รายงานดัชนีลูกน้ำยุงลายและการลงพื้นที่',
+          url: '/report/Ci/CiMain',
+          icon: 'icon-doc',
+        },
+        {
           name: 'รายงานกิจกรรมอื่นๆ',
           url: '/theme/colors',
           icon: 'icon-doc',

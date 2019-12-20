@@ -55,6 +55,8 @@ const workCase = React.lazy(() => import('./views/SRRT/workCase'));
 const E0 = React.lazy(() => import('./views/Report/E0/E0main'));
 const Timeless = React.lazy(() => import('./views/Report/Timeless/TimelessMain'));
 const Srrt = React.lazy(() => import('./views/Report/Srrt/SrrtMain'));
+const Surveillance = React.lazy(() => import('./views/Report/Surveillance/SurveillanceMain'));
+const Ci = React.lazy(() => import('./views/Report/Ci/CiMain'));
 
 const Logout = React.lazy(() => import('./Logout'));
 
@@ -121,6 +123,9 @@ const routes = [
   { path: '/report/E0/E0main', exact: true, name: 'รายงาน E0', component: E0 },
   { path: '/report/Timeless/TimelessMain', exact: true, name: 'รายงานความทันเวลา', component: Timeless },
   { path: '/report/Srrt/SrrtMain', exact: true, name: 'รายงาน SRRT', component: Srrt },
+  { path: '/report/Surveillance/SurveillanceMain', exact: true, name: 'รายงานคุณภาพการสอบสวนควยคุมโรค', component: Surveillance },
+  { path: '/report/Ci/CiMain', exact: true, name: 'รายงานดัชนีลูกน้ำยุงลายและการลงพื้นที่', component: Ci },
+
   { path: '/logout', exact: true, name: 'Logout', component: Logout },
 ];
 
