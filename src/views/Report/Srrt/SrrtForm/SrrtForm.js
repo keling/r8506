@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios';
 import DatePicker, { registerLocale } from 'react-datepicker'
 import th from 'date-fns/locale/th'
 import Select from 'react-select'
@@ -27,25 +28,22 @@ import {
 } from 'reactstrap'
 import Moment from 'moment'
 
+import {
+    ACCESS_TOKEN,
+    URL_API
+} from '../SrrtSettings';
 import 'react-datepicker/dist/react-datepicker.css'
 import './CustomDatepickerWidth.css'
 
 export const PROVINCE_OPTIONS = [
-    { value: '0', label: 'ทุกจังหวัด' },
-    { value: '38', label: 'บึงกาฬ' },
-    { value: '39', label: 'หนองบัวลำภู' },
-    { value: '41', label: 'อุดรธานี' },
-    { value: '42', label: 'เลย' },
-    { value: '43', label: 'หนองคาย' },
-    { value: '47', label: 'สกลนคร' },
-    { value: '48', label: 'นครพนม' }
+    { value: `0`, label: `ทุกจังหวัด` }
 ]
 
-const DISTRICT_OPTIONS = [
+export const DISTRICT_OPTIONS = [
     { value: '0', label: 'ทุกอำเภอ' },
 ]
 
-const SUBDISTRICT_OPTIONS = [
+export const SUBDISTRICT_OPTIONS = [
     { value: '0', label: 'ทุกตำบล' },
 ]
 
@@ -67,15 +65,178 @@ export default class E0Form extends Component {
         this.state = {
             dateStart: Moment()._d,
             dateEnd: Moment()._d,
+            selectedDisease: DISEASE_OPTIONS[0],
             selectedProvince: PROVINCE_OPTIONS[0],
+            selectedDistrict: DISTRICT_OPTIONS[0],
             selectedSubdistrict: SUBDISTRICT_OPTIONS[0],
+            isLoading: true,
+            provinces: Array.from(PROVINCE_OPTIONS),
+            districts: Array.from(DISTRICT_OPTIONS),
+            subdistricts: Array.from(SUBDISTRICT_OPTIONS),
         }
+
+        this.handleFormSubmit = this.handleFormSubmit.bind(this)
 
         this.handleStartDateChange = this.handleStartDateChange.bind(this)
         this.handleEndDateChange = this.handleEndDateChange.bind(this)
-        this.handleFormSubmit = this.handleFormSubmit.bind(this)
         this.handleProvinceChange = this.handleProvinceChange.bind(this)
+        this.handleDistrictChange = this.handleDistrictChange.bind(this)
         this.handleSubdistrictChange = this.handleSubdistrictChange.bind(this)
+    }
+
+    componentDidMount() {
+        this.getProvince()
+    }
+
+    async getProvince() {
+        console.info('getprovince')
+
+        this.setState({
+            isLoading: true
+        })
+
+        let params = {
+            filter: {
+                where: {
+                    idstate: 8
+                }
+            }
+        }
+
+        let fetchResult = await axios.get(`${URL_API}/Provinces`, {
+            headers: {
+                Authorization: ACCESS_TOKEN
+            },
+            params
+        })
+
+        // this.setState({
+        //     isLoading: false
+        // })
+
+        if (fetchResult.isAxiosError || fetchResult.status != 200) {
+            console.error(`API Error`, fetchResult.response)
+            this.setState({
+                isLoading: false
+            })
+            return
+        }
+
+        let provinces = PROVINCE_OPTIONS.concat(
+            fetchResult.data.map(province => {
+                return {
+                    value: province.idprovince,
+                    label: province.name
+                }
+            })
+        )
+
+        this.setState({
+            provinces,
+            isLoading: false
+        })
+        // console.info(fetchResult)
+    }
+
+    async getDistrict() {
+        console.info('getdistrict')
+
+        this.setState({
+            isLoading: true
+        })
+
+        let params = {
+            filter: {
+                where: {
+                    idprovince: this.state.selectedProvince.value
+                }
+            }
+        }
+
+        let fetchResult = await axios.get(`${URL_API}/Amps`, {
+            headers: {
+                Authorization: ACCESS_TOKEN
+            },
+            params
+        })
+
+        // this.setState({
+        //     isLoading: false
+        // })
+
+        if (fetchResult.isAxiosError || fetchResult.status != 200) {
+            console.error(`API Error`, fetchResult.response)
+            this.setState({
+                isLoading: false
+            })
+            return
+        }
+
+        let districts = DISTRICT_OPTIONS.concat(
+            fetchResult.data.map(district => {
+                return {
+                    value: district.id,
+                    label: district.name,
+                }
+            })
+        )
+
+        this.setState({
+            districts,
+            isLoading: false
+        })
+        // console.info(fetchResult)
+    }
+
+    async getSubdistrict() {
+        console.info('getsubdistrict')
+
+        this.setState({
+            isLoading: true
+        })
+
+        let params = {
+            filter: {
+                where: {
+                    idprovince: this.state.selectedProvince.value,
+                    idamp: this.state.selectedDistrict.value,
+                }
+            }
+        }
+
+        let fetchResult = await axios.get(`${URL_API}/Ta`, {
+            headers: {
+                Authorization: ACCESS_TOKEN
+            },
+            params
+        })
+
+        // this.setState({
+        //     isLoading: false
+        // })
+
+        if (fetchResult.isAxiosError || fetchResult.status != 200) {
+            console.error(`API Error`, fetchResult.response)
+            this.setState({
+                isLoading: false
+            })
+            return
+        }
+
+        let subdistricts = SUBDISTRICT_OPTIONS.concat(
+            fetchResult.data.map(subdistrict => {
+                return {
+                    value: subdistrict.id,
+                    label: subdistrict.name
+                }
+            })
+        )
+
+        this.setState({
+            subdistricts,
+            isLoading: false
+        })
+        // console.info(fetchResult)
     }
 
     handleStartDateChange(dateStart) {
@@ -110,13 +271,50 @@ export default class E0Form extends Component {
         })
     }
 
-    handleProvinceChange(selectedProvince) {
+    handleDiseaseChange(selectedDisease) {
         this.setState({
-            selectedProvince
+            selectedDisease
+        })
+    }
+
+    handleProvinceChange(selectedProvince) {
+        console.info('provincechange')
+
+        this.refs.selectDistrict.select.setValue(DISTRICT_OPTIONS[0])
+        this.refs.selectSubdistrict.select.setValue(SUBDISTRICT_OPTIONS[0])
+
+        this.setState({
+            selectedProvince,
+            districts: DISTRICT_OPTIONS,
+            subdistricts: SUBDISTRICT_OPTIONS,
+            selectedDistrict: DISTRICT_OPTIONS[0],
+            selectedSubdistrict: SUBDISTRICT_OPTIONS[0],
+        }, _ => {
+            if (selectedProvince.value != 0) {
+                this.getDistrict()
+            }
+        })
+    }
+
+    handleDistrictChange(selectedDistrict) {
+        console.info('districtchange')
+
+        this.refs.selectSubdistrict.select.setValue(SUBDISTRICT_OPTIONS[0])
+
+        this.setState({
+            selectedDistrict,
+            subdistricts: SUBDISTRICT_OPTIONS,
+            selectedSubdistrict: SUBDISTRICT_OPTIONS[0],
+        }, _ => {
+            if (selectedDistrict.value != 0) {
+                this.getSubdistrict()
+            }
         })
     }
 
     handleSubdistrictChange(selectedSubdistrict) {
+        console.info('subdistrictchange')
+
         this.setState({
             selectedSubdistrict
         })
@@ -130,8 +328,10 @@ export default class E0Form extends Component {
         this.props.onSubmit({
             dateStart: this.state.dateStart,
             dateEnd: this.state.dateEnd,
+            selectedDisease: this.state.selectedDisease,
             selectedProvince: this.state.selectedProvince,
-            selectedSubdistrict: this.state.selectedSubdistrict,
+            selectedDisease: this.state.selectedDisease,
+            selectedSubdisease: this.state.selectedSubdisease,
         })
     }
 
@@ -155,9 +355,9 @@ export default class E0Form extends Component {
                     <FormGroup>
                         <Label>จังหวัด: </Label>
                         <Select
-                            defaultValue={PROVINCE_OPTIONS[0]}
+                            defaultValue={this.state.provinces[0]}
                             name="selectProvince"
-                            options={PROVINCE_OPTIONS}
+                            options={this.state.provinces}
                             ref="selectProvince"
                             searchable={false}
                             onChange={this.handleProvinceChange}
@@ -168,9 +368,9 @@ export default class E0Form extends Component {
                     <FormGroup>
                         <Label>อำเภอ: </Label>
                         <Select
-                            defaultValue={DISTRICT_OPTIONS[0]}
+                            defaultValue={this.state.districts[0]}
                             name="selectDistrict"
-                            options={DISTRICT_OPTIONS}
+                            options={this.state.districts}
                             ref="selectDistrict"
                             searchable={false}
                             onChange={this.handleDistrictChange}
@@ -181,9 +381,9 @@ export default class E0Form extends Component {
                     <FormGroup>
                         <Label>ตำบล: </Label>
                         <Select
-                            defaultValue={SUBDISTRICT_OPTIONS[0]}
+                            defaultValue={this.state.subdistricts[0]}
                             name="selectSubdistrict"
-                            options={SUBDISTRICT_OPTIONS}
+                            options={this.state.subdistricts}
                             ref="selectSubdistrict"
                             searchable={false}
                             onChange={this.handleSubdistrictChange}
@@ -226,9 +426,15 @@ export default class E0Form extends Component {
                 </Col>
                 <Col xs="12" md="6" lg="3">
                     <FormGroup style={{ paddingTop: `1.75rem` }}>
-                        <Button className="w-100" color="success" size="md" onClick={this.handleFormSubmit}>
-                            <i className="fa fa-dot-circle-o"></i> ประมวลผล
-                            </Button>
+                        <Button className="w-100" color="success" size="md" onClick={this.handleFormSubmit} disabled={this.state.isLoading}>
+                            {
+                                this.state.isLoading
+                                    ?
+                                    <i className="fa fa-spinner fa-spin fa-fw"></i>
+                                    :
+                                    <i className="fa fa-dot-circle-o"></i>
+                            } ประมวลผล
+                        </Button>
                     </FormGroup>
                 </Col>
             </Row >

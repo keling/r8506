@@ -33,7 +33,7 @@ import {
     ACCESS_TOKEN,
     URL_API
 } from './SrrtSettings';
-import ReportForm, { DISEASE_OPTIONS, PROVINCE_OPTIONS } from './SrrtForm/SrrtForm';
+import ReportForm, { DISEASE_OPTIONS, PROVINCE_OPTIONS, DISTRICT_OPTIONS, SUBDISTRICT_OPTIONS } from './SrrtForm/SrrtForm';
 import PaginationComponent from "react-reactstrap-pagination";
 import MaterialTable, {
     MTableFilterRow,
@@ -62,8 +62,10 @@ export default class E0 extends Component {
             fetchParams: {
                 dateStart: Moment().format(),
                 dateEnd: Moment().format(),
-                selectedProvince: PROVINCE_OPTIONS[0],
                 selectedDisease: DISEASE_OPTIONS[0],
+                selectedProvince: PROVINCE_OPTIONS[0],
+                selectedDistrict: DISTRICT_OPTIONS[0],
+                selectedSubdistrict: SUBDISTRICT_OPTIONS[0],
             }
         }
 
@@ -126,13 +128,15 @@ export default class E0 extends Component {
     }
 
     handleReportFormSubmit(params) {
-        // console.info(params, this)
+        console.info(params, this)
         this.setState({
             fetchParams: {
                 dateStart: params.dateStart,
                 dateEnd: params.dateEnd,
+                selectedDisease: params.selectedDisease,
                 selectedProvince: params.selectedProvince,
-                selectedDisease: params.selectedDisease
+                selectedDistrict: params.selectedDistrict,
+                selectedSubdistrict: params.selectedSubdistrict
             }
         }, _ => {
             this.getData()
