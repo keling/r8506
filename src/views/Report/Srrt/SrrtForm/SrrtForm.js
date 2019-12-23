@@ -79,6 +79,7 @@ export default class E0Form extends Component {
 
         this.handleStartDateChange = this.handleStartDateChange.bind(this)
         this.handleEndDateChange = this.handleEndDateChange.bind(this)
+        this.handleDiseaseChange = this.handleDiseaseChange.bind(this)
         this.handleProvinceChange = this.handleProvinceChange.bind(this)
         this.handleDistrictChange = this.handleDistrictChange.bind(this)
         this.handleSubdistrictChange = this.handleSubdistrictChange.bind(this)
