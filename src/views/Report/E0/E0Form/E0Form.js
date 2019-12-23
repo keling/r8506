@@ -57,8 +57,8 @@ export default class E0Form extends Component {
         super(props)
 
         this.state = {
-            dateStart: Moment()._d,
-            dateEnd: Moment()._d,
+            dateStart: Moment().set({ h: 0, m: 0, s: 0 })._d,
+            dateEnd: Moment().set({ h: 0, m: 0, s: 0 })._d,
             selectedProvince: PROVINCE_OPTIONS[0],
             selectedDisease: DISEASE_OPTIONS[0],
         }

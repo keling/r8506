@@ -60,8 +60,8 @@ export default class E0 extends Component {
             datas: [],
 
             fetchParams: {
-                dateStart: Moment().format(),
-                dateEnd: Moment().format(),
+                dateStart: Moment().set({ h: 0, m: 0, s: 0 })._d,
+                dateEnd: Moment().set({ h: 0, m: 0, s: 0 })._d,
                 selectedProvince: PROVINCE_OPTIONS[0],
                 selectedDisease: DISEASE_OPTIONS[0],
             }
