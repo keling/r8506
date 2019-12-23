@@ -104,6 +104,14 @@ export default class E0 extends Component {
             params.filter.where.chservProvince = this.state.fetchParams.selectedProvince.value
         }
 
+        if (this.state.fetchParams.selectedDistrict.value != 0) {
+            params.filter.where.chservAmp = this.state.fetchParams.selectedDistrict.value
+        }
+
+        if (this.state.fetchParams.selectedSubdistrict.value != 0) {
+            params.filter.where.chservTum = this.state.fetchParams.selectedSubdistrict.value
+        }
+
         let fetchResult = await axios.get(`${URL_API}/Cases`, {
             headers: {
                 Authorization: ACCESS_TOKEN

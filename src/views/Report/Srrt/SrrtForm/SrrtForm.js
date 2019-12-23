@@ -330,8 +330,8 @@ export default class E0Form extends Component {
             dateEnd: this.state.dateEnd,
             selectedDisease: this.state.selectedDisease,
             selectedProvince: this.state.selectedProvince,
-            selectedDisease: this.state.selectedDisease,
-            selectedSubdisease: this.state.selectedSubdisease,
+            selectedDistrict: this.state.selectedDistrict,
+            selectedSubdistrict: this.state.selectedSubdistrict,
         })
     }
 
