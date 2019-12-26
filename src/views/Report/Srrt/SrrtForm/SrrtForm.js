@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import axios from 'axios';
+import axios from 'axios'
 import DatePicker, { registerLocale } from 'react-datepicker'
 import th from 'date-fns/locale/th'
 import Select from 'react-select'
