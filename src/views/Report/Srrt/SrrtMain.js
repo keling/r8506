@@ -32,7 +32,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import {
     ACCESS_TOKEN,
     URL_API
-} from './SrrtSettings';
+} from '../ReportSettings'
 import ReportForm, { DISEASE_OPTIONS, PROVINCE_OPTIONS, DISTRICT_OPTIONS, SUBDISTRICT_OPTIONS } from './SrrtForm/SrrtForm';
 import PaginationComponent from "react-reactstrap-pagination";
 import MaterialTable, {

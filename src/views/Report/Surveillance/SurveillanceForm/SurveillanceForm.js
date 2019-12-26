@@ -27,6 +27,11 @@ import {
 } from 'reactstrap'
 import Moment from 'moment'
 
+import {
+    ACCESS_TOKEN,
+    URL_API
+} from '../../ReportSettings'
+
 import 'react-datepicker/dist/react-datepicker.css'
 import './CustomDatepickerWidth.css'
 

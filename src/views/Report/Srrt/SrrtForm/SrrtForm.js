@@ -31,7 +31,7 @@ import Moment from 'moment'
 import {
     ACCESS_TOKEN,
     URL_API
-} from '../SrrtSettings';
+} from '../../ReportSettings'
 import 'react-datepicker/dist/react-datepicker.css'
 import './CustomDatepickerWidth.css'
 
@@ -49,9 +49,6 @@ export const SUBDISTRICT_OPTIONS = [
 
 export const DISEASE_OPTIONS = [
     { value: '0', label: 'ทุกโรค' },
-    { value: '1', label: 'อุจจาระร่วง' },
-    { value: '26', label: 'ไข้เลือดออก' },
-    { value: '46', label: 'พิษสุนัขบ้า' },
 ]
 
 const DATEPICKER_FORMAT = `d MMMM yyyy`
@@ -70,6 +67,7 @@ export default class E0Form extends Component {
             selectedDistrict: DISTRICT_OPTIONS[0],
             selectedSubdistrict: SUBDISTRICT_OPTIONS[0],
             isLoading: true,
+            diseases: Array.from(DISEASE_OPTIONS),
             provinces: Array.from(PROVINCE_OPTIONS),
             districts: Array.from(DISTRICT_OPTIONS),
             subdistricts: Array.from(SUBDISTRICT_OPTIONS),
@@ -86,7 +84,59 @@ export default class E0Form extends Component {
     }
 
     componentDidMount() {
+        this.getDisease()
         this.getProvince()
+    }
+
+    async getDisease() {
+        this.setState({
+            isLoading: true
+        })
+
+        let params = {
+            filter: {
+                // where: {
+                //     iddisease: {
+                //         in: [3, 26, 27, 66, 9]
+                //     }
+                // },
+                order: [`name ASC`]
+            },
+        }
+
+        let fetchResult = await axios.get(`${URL_API}/Diseases`, {
+            headers: {
+                Authorization: ACCESS_TOKEN
+            },
+            params
+        })
+
+        // this.setState({
+        //     isLoading: false
+        // })
+
+        if (fetchResult.isAxiosError || fetchResult.status != 200) {
+            console.error(`API Error`, fetchResult.response)
+            this.setState({
+                isLoading: false
+            })
+            return
+        }
+
+        let diseases = DISEASE_OPTIONS.concat(
+            fetchResult.data.map(disease => {
+                return {
+                    value: disease.iddisease,
+                    label: disease.name
+                }
+            })
+        )
+
+        this.setState({
+            diseases,
+            isLoading: false
+        })
+        // console.info(fetchResult)
     }
 
     async getProvince() {
@@ -343,9 +393,9 @@ export default class E0Form extends Component {
                     <FormGroup>
                         <Label>โรค: </Label>
                         <Select
-                            defaultValue={DISEASE_OPTIONS[0]}
+                            defaultValue={this.state.diseases[0]}
                             name="selectDisease"
-                            options={DISEASE_OPTIONS}
+                            options={this.state.diseases}
                             ref="selectDisease"
                             searchable={false}
                             onChange={this.handleDiseaseChange}

@@ -32,7 +32,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import {
     ACCESS_TOKEN,
     URL_API
-} from './E0Settings';
+} from '../ReportSettings'
 import ReportForm, { DISEASE_OPTIONS, PROVINCE_OPTIONS } from './E0Form/E0Form';
 import PaginationComponent from "react-reactstrap-pagination";
 import MaterialTable, { MTableFilterRow } from 'material-table';

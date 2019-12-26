@@ -32,7 +32,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import {
     ACCESS_TOKEN,
     URL_API
-} from './TimelessSettings';
+} from '../ReportSettings'
 import E0Form, { DISEASE_OPTIONS, PROVINCE_OPTIONS } from './TimelessForm/TimelessForm';
 import PaginationComponent from "react-reactstrap-pagination";
 import MaterialTable, {
