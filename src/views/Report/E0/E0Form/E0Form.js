@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 import DatePicker, { registerLocale } from 'react-datepicker'
 import th from 'date-fns/locale/th'
 import Select from 'react-select'
@@ -36,20 +37,10 @@ import './CustomDatepickerWidth.css'
 
 export const PROVINCE_OPTIONS = [
     { value: '0', label: 'ทุกจังหวัด' },
-    { value: '38', label: 'บึงกาฬ' },
-    { value: '39', label: 'หนองบัวลำภู' },
-    { value: '41', label: 'อุดรธานี' },
-    { value: '42', label: 'เลย' },
-    { value: '43', label: 'หนองคาย' },
-    { value: '47', label: 'สกลนคร' },
-    { value: '48', label: 'นครพนม' }
 ]
 
 export const DISEASE_OPTIONS = [
     { value: '0', label: 'ทุกโรค' },
-    { value: '1', label: 'อุจจาระร่วง' },
-    { value: '26', label: 'ไข้เลือดออก' },
-    { value: '46', label: 'พิษสุนัขบ้า' },
 ]
 
 const DATEPICKER_FORMAT = `d MMMM yyyy`
@@ -65,6 +56,9 @@ export default class E0Form extends Component {
             dateEnd: Moment().set({ h: 0, m: 0, s: 0 })._d,
             selectedProvince: PROVINCE_OPTIONS[0],
             selectedDisease: DISEASE_OPTIONS[0],
+            isLoading: true,
+            diseases: Array.from(DISEASE_OPTIONS),
+            provinces: Array.from(PROVINCE_OPTIONS),
         }
 
         this.handleStartDateChange = this.handleStartDateChange.bind(this)
@@ -72,6 +66,112 @@ export default class E0Form extends Component {
         this.handleFormSubmit = this.handleFormSubmit.bind(this)
         this.handleProvinceChange = this.handleProvinceChange.bind(this)
         this.handleDiseaseChange = this.handleDiseaseChange.bind(this)
+    }
+
+    componentDidMount() {
+        this.getDisease()
+        this.getProvince()
+    }
+
+    async getDisease() {
+        this.setState({
+            isLoading: true
+        })
+
+        let params = {
+            filter: {
+                // where: {
+                //     iddisease: {
+                //         in: [3, 26, 27, 66, 9]
+                //     }
+                // },
+                order: [`name ASC`]
+            },
+        }
+
+        let fetchResult = await axios.get(`${URL_API}/Diseases`, {
+            headers: {
+                Authorization: ACCESS_TOKEN
+            },
+            params
+        })
+
+        // this.setState({
+        //     isLoading: false
+        // })
+
+        if (fetchResult.isAxiosError || fetchResult.status != 200) {
+            console.error(`API Error`, fetchResult.response)
+            this.setState({
+                isLoading: false
+            })
+            return
+        }
+
+        let diseases = DISEASE_OPTIONS.concat(
+            fetchResult.data.map(disease => {
+                return {
+                    value: disease.iddisease,
+                    label: disease.name
+                }
+            })
+        )
+
+        this.setState({
+            diseases,
+            isLoading: false
+        })
+        // console.info(fetchResult)
+    }
+
+    async getProvince() {
+        // console.info('getprovince')
+
+        this.setState({
+            isLoading: true
+        })
+
+        let params = {
+            filter: {
+                where: {
+                    idstate: 8
+                }
+            }
+        }
+
+        let fetchResult = await axios.get(`${URL_API}/Provinces`, {
+            headers: {
+                Authorization: ACCESS_TOKEN
+            },
+            params
+        })
+
+        // this.setState({
+        //     isLoading: false
+        // })
+
+        if (fetchResult.isAxiosError || fetchResult.status != 200) {
+            console.error(`API Error`, fetchResult.response)
+            this.setState({
+                isLoading: false
+            })
+            return
+        }
+
+        let provinces = PROVINCE_OPTIONS.concat(
+            fetchResult.data.map(province => {
+                return {
+                    value: province.idprovince,
+                    label: province.name
+                }
+            })
+        )
+
+        this.setState({
+            provinces,
+            isLoading: false
+        })
+        // console.info(fetchResult)
     }
 
     handleStartDateChange(dateStart) {
@@ -136,27 +236,27 @@ export default class E0Form extends Component {
             <Row>
                 <Col xs="12" md="6" lg="3">
                     <FormGroup>
-                        <Label>จังหวัด: </Label>
+                        <Label>โรค: </Label>
                         <Select
-                            defaultValue={PROVINCE_OPTIONS[0]}
-                            name="selectProvince"
-                            options={PROVINCE_OPTIONS}
-                            ref="selectProvince"
+                            defaultValue={this.state.diseases[0]}
+                            name="selectDisease"
+                            options={this.state.diseases}
+                            ref="selectDisease"
                             searchable={false}
-                            onChange={this.handleProvinceChange}
+                            onChange={this.handleDiseaseChange}
                         />
                     </FormGroup>
                 </Col>
                 <Col xs="12" md="6" lg="3">
                     <FormGroup>
-                        <Label>โรค: </Label>
+                        <Label>จังหวัด: </Label>
                         <Select
-                            defaultValue={DISEASE_OPTIONS[0]}
-                            name="selectDisease"
-                            options={DISEASE_OPTIONS}
-                            ref="selectDisease"
+                            defaultValue={this.state.provinces[0]}
+                            name="selectProvince"
+                            options={this.state.provinces}
+                            ref="selectProvince"
                             searchable={false}
-                            onChange={this.handleDiseaseChange}
+                            onChange={this.handleProvinceChange}
                         />
                     </FormGroup>
                 </Col>

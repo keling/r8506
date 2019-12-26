@@ -64,6 +64,7 @@ export default class E0Form extends Component {
             dateEnd: Moment().set({ h: 0, m: 0, s: 0 })._d,
             selectedDisease: DISEASE_OPTIONS[0],
             selectedProvince: PROVINCE_OPTIONS[0],
+            isLoading: true,
             diseases: Array.from(DISEASE_OPTIONS),
             provinces: Array.from(PROVINCE_OPTIONS),
         }
