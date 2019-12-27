@@ -33,6 +33,7 @@ import {
     ACCESS_TOKEN,
     URL_API
 } from '../ReportSettings'
+import '../ReportStyle.css'
 import E0Form, { DISEASE_OPTIONS, PROVINCE_OPTIONS } from './TimelessForm/TimelessForm';
 import PaginationComponent from "react-reactstrap-pagination";
 import MaterialTable, {

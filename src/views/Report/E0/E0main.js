@@ -33,6 +33,7 @@ import {
     ACCESS_TOKEN,
     URL_API
 } from '../ReportSettings'
+import '../ReportStyle.css'
 import ReportForm, { DISEASE_OPTIONS, PROVINCE_OPTIONS } from './E0Form/E0Form';
 import PaginationComponent from "react-reactstrap-pagination";
 import MaterialTable, { MTableFilterRow } from 'material-table';

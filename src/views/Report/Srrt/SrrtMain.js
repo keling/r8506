@@ -33,6 +33,7 @@ import {
     ACCESS_TOKEN,
     URL_API
 } from '../ReportSettings'
+import '../ReportStyle.css'
 import ReportForm, { DISEASE_OPTIONS, PROVINCE_OPTIONS, DISTRICT_OPTIONS, SUBDISTRICT_OPTIONS } from './SrrtForm/SrrtForm';
 import PaginationComponent from "react-reactstrap-pagination";
 import MaterialTable, {
